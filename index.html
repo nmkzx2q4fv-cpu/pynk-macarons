@@ -15,20 +15,20 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero__bg">
+    <div class="hero__bg" data-parallax="0.3">
       <video autoplay muted loop playsinline preload="metadata" poster="img/box-bears.jpg">
         <source src="video/hero.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="wrap hero__inner">
-      <p class="eyebrow hero__eyebrow">Handmade in Hamburg</p>
-      <h1 class="display">Macarons, die man<br><em>verschenken</em> möchte.</h1>
-      <p class="lead hero__lead">Zarte Schale, cremiger Kern, ein Lächeln inklusive. Über 20 Sorten, handgefüllt und von Hand verziert – frisch aus unserer Hamburger Manufaktur.</p>
-      <div class="hero__cta">
-        <a href="shop.html" class="btn btn--primary btn--lg">Jetzt bestellen</a>
-        <a href="shop.html#box" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)">Eigene Box bauen</a>
+      <p class="eyebrow hero__eyebrow" data-anim>Handmade in Hamburg</p>
+      <h1 class="display" data-anim>Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em></h1>
+      <p class="lead hero__lead" data-anim>Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
+      <div class="hero__cta" data-anim>
+        <a href="shop.html" class="btn btn--primary btn--lg">Jetzt genießen</a>
+        <a href="#builder" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)">Box selbst füllen</a>
       </div>
-      <div class="hero__trust">
+      <div class="hero__trust" data-anim>
         <span class="stars" aria-hidden="true">
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
@@ -36,8 +36,9 @@
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
         </span>
-        <span>4,9 · über 1.200 glückliche Bestellungen</span>
+        <span><strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen</span>
       </div>
+      <p class="hero__scarcity" data-anim><span class="pulse-dot" aria-hidden="true"></span>Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.</p>
     </div>
     <div class="hero__scroll" aria-hidden="true">Entdecken<span></span></div>
   </section>
@@ -70,34 +71,59 @@
     </div>
   </section>
 
-  <!-- BESTSELLER -->
+  <!-- BESTSELLER (dynamisch – bei jedem Laden neu) -->
   <section class="section section--cream2">
     <div class="wrap">
       <div class="section__head reveal">
         <p class="eyebrow">Beliebt diese Woche</p>
-        <h2 class="h2">Die Lieblinge unserer Kund:innen</h2>
-        <p class="lead">Jeden Morgen frisch gebacken, mit echten Früchten und ohne künstliche Farben.</p>
+        <h2 class="h2">Heute frisch aus dem Ofen</h2>
+        <p class="lead">Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?</p>
       </div>
-      <div class="grid">
-        <a class="pcard reveal" href="shop.html#macarons">
-          <div class="pcard__media"><img src="img/mac-pistazie.jpg" width="384" height="384" loading="lazy" alt="Pistazien-Macaron" /></div>
-          <div class="pcard__body"><h3 class="pcard__name"><span class="pcard__dot" style="background:#A9C77A"></span>Pistazie</h3><p class="pcard__desc">Geröstete Pistazie, nussig & cremig.</p><div class="pcard__foot"><span class="pcard__price">2,90 € <small>/ Stück</small></span><span class="btn btn--ghost" style="min-height:42px;padding:9px 18px">Ansehen</span></div></div>
-        </a>
-        <a class="pcard reveal" href="shop.html#macarons">
-          <div class="pcard__media"><img src="img/mac-erdbeere.jpg" width="384" height="384" loading="lazy" alt="Erdbeere-Rose-Macaron" /></div>
-          <div class="pcard__body"><h3 class="pcard__name"><span class="pcard__dot" style="background:#EF7DA0"></span>Erdbeere-Rose</h3><p class="pcard__desc">Fruchtige Erdbeere mit einem Hauch Rose.</p><div class="pcard__foot"><span class="pcard__price">2,90 € <small>/ Stück</small></span><span class="btn btn--ghost" style="min-height:42px;padding:9px 18px">Ansehen</span></div></div>
-        </a>
-        <a class="pcard reveal" href="shop.html#baer">
-          <div class="pcard__media"><img src="img/bear-pink.jpg" width="384" height="384" loading="lazy" alt="Erdbeer-Bärchen-Macaron" /></div>
-          <div class="pcard__body"><h3 class="pcard__name"><span class="pcard__dot" style="background:#EF7DA0"></span>Erdbeer-Bärchen</h3><p class="pcard__desc">Handbemaltes Bärchen mit Erdbeercreme.</p><div class="pcard__foot"><span class="pcard__price">3,90 €</span><span class="btn btn--ghost" style="min-height:42px;padding:9px 18px">Ansehen</span></div></div>
-        </a>
-        <a class="pcard reveal" href="shop.html#macarons">
-          <div class="pcard__media"><img src="img/mac-salzkaramell.jpg" width="384" height="384" loading="lazy" alt="Salzkaramell-Macaron" /></div>
-          <div class="pcard__body"><h3 class="pcard__name"><span class="pcard__dot" style="background:#D8A86A"></span>Salzkaramell</h3><p class="pcard__desc">Karamell mit Fleur de Sel.</p><div class="pcard__foot"><span class="pcard__price">2,90 € <small>/ Stück</small></span><span class="btn btn--ghost" style="min-height:42px;padding:9px 18px">Ansehen</span></div></div>
-        </a>
+      <div class="grid" id="featuredGrid" aria-live="polite">
+        <!-- von interactive.js mit 4 zufälligen Sorten befüllt -->
       </div>
-      <div style="text-align:center;margin-top:var(--s7)" class="reveal">
+      <div class="featured__foot reveal">
+        <button class="reroll" id="featuredReroll" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+          Andere zeigen
+        </button>
         <a href="shop.html" class="btn btn--primary">Alle Sorten ansehen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOX BUILDER (Gamification – Schwerkraft) -->
+  <section class="section section--blush" id="builder">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Füll deine Probier-Box</p>
+        <h2 class="h2">Sechs Macarons, deine Wahl</h2>
+        <p class="lead">Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.</p>
+      </div>
+
+      <div class="gbuilder reveal">
+        <!-- Palette -->
+        <div class="gbuilder__palette" id="gravPalette" aria-label="Sorten antippen"></div>
+
+        <!-- Box -->
+        <div class="gbuilder__stage">
+          <div class="gbox" id="gravBox" aria-label="Deine Probier-Box, 6 Plätze">
+            <div class="gbox__lidback"></div>
+            <div class="gbox__cells" id="gravCells"></div>
+            <div class="gbox__front"><span>Probier-Box · <span id="gravCount">0</span>/6</span></div>
+          </div>
+          <div class="gbuilder__controls">
+            <button class="btn btn--gold" id="gravSurprise" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
+              Überrasch mich!
+            </button>
+            <button class="btn btn--ghost" id="gravReroll" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+              Neu mischen
+            </button>
+            <button class="btn btn--primary" id="gravAdd" type="button" disabled>Box in den Warenkorb · 18&nbsp;€</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -182,7 +208,23 @@
   <!-- SOCIAL PROOF -->
   <section class="section section--cream2">
     <div class="wrap">
-      <div class="section__head reveal">
+      <div class="trustbar reveal">
+        <div class="trustbar__item">
+          <span class="stars" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          </span>
+          <strong data-count="4.9" data-decimals="1">4,9</strong><span>von 5 Sternen</span>
+        </div>
+        <div class="trustbar__sep" aria-hidden="true"></div>
+        <div class="trustbar__item"><strong data-count="1200" data-suffix="+">1.200+</strong><span>glückliche Bestellungen</span></div>
+        <div class="trustbar__sep" aria-hidden="true"></div>
+        <div class="trustbar__item"><strong data-count="100" data-suffix="%">100 %</strong><span>handgemacht in Hamburg</span></div>
+      </div>
+      <div class="section__head reveal" style="margin-top:var(--s9)">
         <p class="eyebrow">Vertraut von</p>
         <h2 class="h2">Schon für diese Marken gebacken</h2>
       </div>
@@ -234,5 +276,10 @@
   </section>
 
   <script src="app.js"></script>
+  <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="interactive.js" defer></script>
 </body>
 </html>
