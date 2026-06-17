@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Macaron Pynk · Handgemachte Bärchen-Macarons</title>
+  <meta name="description" content="Macaron Pynk – handgemachte Bärchen-Macarons mit zarter Schale und cremigem Kern. Stell dir deine eigene pinke Box zusammen, hol sie ab oder lass sie dir liefern." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Skip link -->
+  <a class="skip-link" href="#sortiment">Zum Sortiment springen</a>
+
+  <!-- Announcement bar -->
+  <div class="topbar" role="note">
+    <div class="wrap topbar__inner">
+      <span class="topbar__item">Kostenlose Lieferung ab&nbsp;35&nbsp;€</span>
+      <span class="topbar__dot" aria-hidden="true"></span>
+      <span class="topbar__item">Abholung am nächsten Tag</span>
+      <span class="topbar__dot" aria-hidden="true"></span>
+      <span class="topbar__item">Täglich frisch von Hand gemacht</span>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="nav" id="top">
+    <div class="wrap nav__inner">
+      <a href="#top" class="brand" aria-label="Macaron Pynk – Startseite">
+        <span class="brand__rose" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21c0-4 0-6 0-9a4 4 0 1 1 4 4c-2 0-4 1-4 5Z"/>
+            <path d="M12 12a4 4 0 1 1-4-4c2 0 4 1 4 5"/>
+            <path d="M12 12c0-2 .9-3.5 2.5-4.2"/>
+          </svg>
+        </span>
+        <span class="brand__text">Macaron <em>Pynk</em></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Hauptnavigation">
+        <a href="#sortiment">Sortiment</a>
+        <a href="#box">Box bauen</a>
+        <a href="#liefern">Abholung &amp; Lieferung</a>
+        <a href="#ueber">Über uns</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+
+      <button class="cart-btn" id="cartBtn" aria-label="Warenkorb öffnen" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-btn__badge" id="cartBadge" hidden>0</span>
+      </button>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="start">
+      <div class="hero__glowA" aria-hidden="true"></div>
+      <div class="hero__glowB" aria-hidden="true"></div>
+
+      <div class="wrap hero__grid">
+        <div class="hero__copy reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Handgemacht · Täglich frisch</p>
+          <h1 class="hero__title">Macarons, die<br><span class="hero__title-accent">zurücklächeln.</span></h1>
+          <p class="hero__lead">Unsere Bärchen-Macarons werden von Hand gefüllt und verziert – zarte Schale, cremiger Kern, ein Lächeln inklusive. Stell dir deine eigene pinke Box zusammen und hol sie ab oder lass sie dir bringen.</p>
+          <div class="hero__cta">
+            <a href="#box" class="btn btn--primary">Box zusammenstellen</a>
+            <a href="#sortiment" class="btn btn--ghost">Sortiment ansehen</a>
+          </div>
+          <div class="hero__trust">
+            <div class="stars" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            </div>
+            <p><strong>4,9</strong> von 5 · über <strong>1.200</strong> glückliche Bestellungen</p>
+          </div>
+        </div>
+
+        <div class="hero__stage" aria-hidden="false">
+          <div class="hero__frame">
+            <img class="hero__photo" src="img/box-bears.jpg" width="455" height="607" alt="Pinke Geschenkbox von Macaron Pynk, gefüllt mit bunten Bärchen-Macarons, umgeben von Blumen." fetchpriority="high" />
+          </div>
+          <img class="float float--a" src="img/bear-green.png" width="220" height="220" alt="" />
+          <img class="float float--b" src="img/macaron-pink.png" width="220" height="220" alt="" />
+          <div class="hero__pill hero__pill--a">100 % handgemacht</div>
+          <div class="hero__pill hero__pill--b">12 Sorten</div>
+        </div>
+      </div>
+
+      <!-- flavour marquee -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Erdbeere</span><span class="marquee__dot"></span>
+          <span>Pistazie</span><span class="marquee__dot"></span>
+          <span>Heidelbeere</span><span class="marquee__dot"></span>
+          <span>Vanille</span><span class="marquee__dot"></span>
+          <span>Salzkaramell</span><span class="marquee__dot"></span>
+          <span>Minze</span><span class="marquee__dot"></span>
+          <span>Himbeere</span><span class="marquee__dot"></span>
+          <span>Schokolade</span><span class="marquee__dot"></span>
+          <span>Lavendel</span><span class="marquee__dot"></span>
+          <span>Zitrone</span><span class="marquee__dot"></span>
+          <span>Erdbeere</span><span class="marquee__dot"></span>
+          <span>Pistazie</span><span class="marquee__dot"></span>
+          <span>Heidelbeere</span><span class="marquee__dot"></span>
+          <span>Vanille</span><span class="marquee__dot"></span>
+          <span>Salzkaramell</span><span class="marquee__dot"></span>
+          <span>Minze</span><span class="marquee__dot"></span>
+          <span>Himbeere</span><span class="marquee__dot"></span>
+          <span>Schokolade</span><span class="marquee__dot"></span>
+          <span>Lavendel</span><span class="marquee__dot"></span>
+          <span>Zitrone</span><span class="marquee__dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SORTIMENT -->
+    <section class="section" id="sortiment">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--center"><span class="eyebrow__line" aria-hidden="true"></span>Unser Sortiment<span class="eyebrow__line" aria-hidden="true"></span></p>
+          <h2 class="section__title">Such dir deine Lieblinge aus</h2>
+          <p class="section__sub">Jeder Macaron wird am Morgen frisch gebacken. Die Bärchen bekommen ihr Gesicht von Hand – kein Stück gleicht dem anderen.</p>
+        </header>
+
+        <div class="filters" role="tablist" aria-label="Sortiment filtern">
+          <button class="filter is-active" role="tab" aria-selected="true" data-filter="all">Alle</button>
+          <button class="filter" role="tab" aria-selected="false" data-filter="baer">Bärchen</button>
+          <button class="filter" role="tab" aria-selected="false" data-filter="klassisch">Klassisch</button>
+        </div>
+
+        <div class="grid" id="productGrid">
+          <!-- product cards injected by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- BOX BUILDER (signature) -->
+    <section class="section section--box" id="box">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--center eyebrow--light"><span class="eyebrow__line" aria-hidden="true"></span>Dein Lieblingsstück<span class="eyebrow__line" aria-hidden="true"></span></p>
+          <h2 class="section__title">Bau deine eigene Box</h2>
+          <p class="section__sub">Wähle eine Größe und füll deine Box mit jeder Sorte, die du magst. Perfekt zum Verschenken – oder einfach für dich.</p>
+        </header>
+
+        <div class="builder">
+          <div class="builder__panel reveal">
+            <div class="builder__sizes" role="radiogroup" aria-label="Boxgröße wählen">
+              <button class="size is-active" role="radio" aria-checked="true" data-size="6" data-price="16">
+                <span class="size__count">6er</span><span class="size__price">16 €</span>
+              </button>
+              <button class="size" role="radio" aria-checked="false" data-size="12" data-price="29">
+                <span class="size__count">12er</span><span class="size__price">29 €</span>
+              </button>
+              <button class="size" role="radio" aria-checked="false" data-size="16" data-price="38">
+                <span class="size__count">16er</span><span class="size__price">38 €</span>
+              </button>
+            </div>
+
+            <p class="builder__hint">Tippe eine Sorte an, um sie in die Box zu legen. Zum Entfernen tippe auf den Macaron in der Box.</p>
+
+            <div class="palette" id="palette" aria-label="Sorten zum Hinzufügen">
+              <!-- flavour chips injected by app.js -->
+            </div>
+          </div>
+
+          <div class="builder__boxside reveal">
+            <div class="pinkbox" id="pinkbox" aria-label="Deine Box">
+              <div class="pinkbox__lid">
+                <span class="pinkbox__brand">Macaron <em>Pynk</em></span>
+              </div>
+              <div class="pinkbox__slots" id="boxSlots" role="status" aria-live="polite">
+                <!-- slots injected by app.js -->
+              </div>
+            </div>
+            <div class="builder__foot">
+              <p class="builder__counter"><span id="boxCount">0</span> / <span id="boxMax">6</span> gefüllt</p>
+              <button class="btn btn--primary" id="addBoxBtn" disabled>Box in den Warenkorb</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABHOLUNG & LIEFERUNG -->
+    <section class="section" id="liefern">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--center"><span class="eyebrow__line" aria-hidden="true"></span>So kommst du ran<span class="eyebrow__line" aria-hidden="true"></span></p>
+          <h2 class="section__title">Abholen oder liefern lassen</h2>
+        </header>
+
+        <div class="ways">
+          <article class="way reveal">
+            <span class="way__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7h18l-1.5 9.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5Z"/>
+                <path d="M8 7V5a4 4 0 0 1 8 0v2"/>
+              </svg>
+            </span>
+            <h3 class="way__title">Abholung</h3>
+            <p class="way__text">Bestell heute, hol morgen ab. Deine Box steht frisch verpackt für dich bereit – ganz ohne Liefergebühr.</p>
+            <ul class="way__list">
+              <li>Fertig ab dem nächsten Tag, 10–18 Uhr</li>
+              <li>Bezahlung vor Ort oder vorab</li>
+              <li>Pynkstraße 7, 23552 Lübeck</li>
+            </ul>
+          </article>
+
+          <article class="way way--accent reveal">
+            <span class="way__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4h13v11H1z"/>
+                <path d="M14 8h4l3 3v4h-7z"/>
+                <circle cx="6" cy="18" r="2"/>
+                <circle cx="17.5" cy="18" r="2"/>
+              </svg>
+            </span>
+            <h3 class="way__title">Lieferung</h3>
+            <p class="way__text">Wir bringen deine Macarons gekühlt und sicher verpackt zu dir nach Hause. Im Umkreis von 15&nbsp;km.</p>
+            <ul class="way__list">
+              <li>Liefergebühr 3,90 € – ab 35 € kostenlos</li>
+              <li>Wunschtag bei der Bestellung wählbar</li>
+              <li>Lübeck &amp; Umgebung</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÜBER UNS -->
+    <section class="section section--story" id="ueber">
+      <div class="wrap story">
+        <div class="story__media reveal">
+          <div class="hero__frame hero__frame--sm">
+            <img src="img/box-open.jpg" width="600" height="450" loading="lazy" alt="Geöffnete pinke Box mit rosa und grünen Macarons, festlich dekoriert." />
+          </div>
+        </div>
+        <div class="story__copy reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Über Macaron Pynk</p>
+          <h2 class="section__title section__title--left">Aus einer kleinen Küche, mit ziemlich viel Liebe</h2>
+          <p>Angefangen hat alles mit einem Backblech und der Idee, dass Macarons nicht nur schmecken, sondern auch zum Schmunzeln bringen sollen. Heute verzieren wir jeden Tag hunderte Bärchen von Hand – mit französischer Technik und einer ordentlichen Portion Pink.</p>
+          <p>Wir backen in kleinen Mengen, verwenden echte Früchte und keine künstlichen Farben, die man später bereut. Was übrig bleibt? Eine Box, die fast zu schade zum Aufmachen ist.</p>
+          <div class="story__stats">
+            <div><strong>2019</strong><span>gegründet</span></div>
+            <div><strong>12</strong><span>Sorten</span></div>
+            <div><strong>0</strong><span>künstl. Farben</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEWERTUNGEN -->
+    <section class="section" id="bewertungen">
+      <div class="wrap">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--center"><span class="eyebrow__line" aria-hidden="true"></span>Was andere sagen<span class="eyebrow__line" aria-hidden="true"></span></p>
+          <h2 class="section__title">Geliebt in ganz Lübeck</h2>
+        </header>
+        <div class="reviews">
+          <figure class="review reveal">
+            <div class="stars stars--sm" aria-label="5 von 5 Sternen">
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            </div>
+            <blockquote>„Die Bärchen waren fast zu süß zum Essen – aber nur fast. Erdbeere schmeckt wie frisch gepflückt.“</blockquote>
+            <figcaption>Lena M.</figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars stars--sm" aria-label="5 von 5 Sternen">
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            </div>
+            <blockquote>„Als Geburtstagsgeschenk bestellt, pünktlich geliefert und alle waren begeistert. Die pinke Box macht richtig was her.“</blockquote>
+            <figcaption>Tobias R.</figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars stars--sm" aria-label="5 von 5 Sternen">
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            </div>
+            <blockquote>„Ich hol jede Woche eine 6er-Box ab. Pistazie ist mein Favorit – cremig, nicht zu süß. Suchtgefahr!“</blockquote>
+            <figcaption>Amira K.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAKT / BESTELLUNG -->
+    <section class="section section--contact" id="kontakt">
+      <div class="wrap contact">
+        <div class="contact__copy reveal">
+          <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Bestellen</p>
+          <h2 class="section__title section__title--left">Fast geschafft</h2>
+          <p>Leg deine Macarons in den Warenkorb und schick uns deine Bestellung per WhatsApp oder E-Mail. Wir bestätigen Wunschtag und Abholung oder Lieferung kurz persönlich.</p>
+          <ul class="contact__details">
+            <li>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Pynkstraße 7, 23552 Lübeck
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Di–Sa, 10–18 Uhr
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.5a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>
+              +49 451 000000
+            </li>
+          </ul>
+        </div>
+
+        <form class="orderform reveal" id="orderForm" novalidate>
+          <h3 class="orderform__title">Deine Angaben</h3>
+
+          <div class="field">
+            <label for="ofName">Name <span class="req" aria-hidden="true">*</span></label>
+            <input id="ofName" name="name" type="text" autocomplete="name" required />
+            <p class="field__error" data-for="ofName" hidden>Bitte gib deinen Namen an.</p>
+          </div>
+
+          <div class="field">
+            <label for="ofPhone">Telefon <span class="req" aria-hidden="true">*</span></label>
+            <input id="ofPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+            <p class="field__error" data-for="ofPhone" hidden>Bitte gib eine Telefonnummer an, damit wir bestätigen können.</p>
+          </div>
+
+          <fieldset class="field field--group">
+            <legend>Abholung oder Lieferung?</legend>
+            <div class="segmented" role="radiogroup" aria-label="Abholung oder Lieferung">
+              <label class="seg is-active"><input type="radio" name="fulfil" value="Abholung" checked /> Abholung</label>
+              <label class="seg"><input type="radio" name="fulfil" value="Lieferung" /> Lieferung</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="ofDate">Wunschtag</label>
+            <input id="ofDate" name="date" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="ofNote">Nachricht (optional)</label>
+            <textarea id="ofNote" name="note" rows="2" placeholder="Allergien, Anlass, Lieferadresse …"></textarea>
+          </div>
+
+          <div class="orderform__summary" id="formSummary" aria-live="polite">
+            <p class="orderform__empty">Dein Warenkorb ist noch leer. Leg ein paar Macarons hinein.</p>
+          </div>
+
+          <div class="orderform__actions">
+            <button type="submit" class="btn btn--primary btn--wa" id="sendWa">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7 0-1.3.7-1.9.9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.8.9.8 1.7 1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.4.1.8-.1 1.5Z"/></svg>
+              Per WhatsApp senden
+            </button>
+            <button type="button" class="btn btn--ghost" id="sendMail">Per E-Mail senden</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div>
+        <a href="#top" class="brand brand--footer">
+          <span class="brand__text">Macaron <em>Pynk</em></span>
+        </a>
+        <p class="footer__tag">Handgemachte Bärchen-Macarons aus Lübeck. Zum Verschenken, Mitnehmen und Verlieben.</p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h4>Entdecken</h4>
+        <a href="#sortiment">Sortiment</a>
+        <a href="#box">Box bauen</a>
+        <a href="#liefern">Abholung &amp; Lieferung</a>
+        <a href="#ueber">Über uns</a>
+      </nav>
+      <div class="footer__col">
+        <h4>Kontakt</h4>
+        <p>Pynkstraße 7<br>23552 Lübeck</p>
+        <p>+49 451 000000<br>hallo@macaron-pynk.de</p>
+      </div>
+      <div class="footer__col">
+        <h4>Folg uns</h4>
+        <div class="socials">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M15 4c.5 2.5 2 4 4.5 4.3v3C17.7 11.2 16 10.6 15 9.8V15a5.5 5.5 0 1 1-5.5-5.5c.4 0 .8 0 1.1.1v3.1a2.5 2.5 0 1 0 1.9 2.4V4Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap footer__base">
+      <p>© <span id="year"></span> Macaron Pynk · Mit Liebe gebacken</p>
+      <p class="footer__legal"><a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="#">AGB</a></p>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer__scrim" id="drawerScrim"></div>
+    <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Warenkorb" aria-labelledby="drawerTitle">
+      <div class="drawer__head">
+        <h2 id="drawerTitle">Dein Warenkorb</h2>
+        <button class="drawer__close" id="drawerClose" aria-label="Warenkorb schließen">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="drawer__body" id="cartItems">
+        <!-- cart items injected by app.js -->
+      </div>
+      <div class="drawer__foot">
+        <div class="drawer__total">
+          <span>Zwischensumme</span>
+          <strong id="cartTotal">0,00 €</strong>
+        </div>
+        <p class="drawer__note">Lieferung ab 35 € kostenlos · Abholung immer gratis</p>
+        <button class="btn btn--primary btn--block" id="toCheckout">Zur Bestellung</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- fly-to-cart layer -->
+  <div id="flyLayer" aria-hidden="true"></div>
+
+  <!-- toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
