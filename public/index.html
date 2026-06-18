@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Macarons by Pynk · Handgemachte Macarons aus Hamburg</title>
+  <meta name="description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css?v=20260618a" />
+</head>
+<body data-page="home" data-hero>
+  <a class="skip-link" href="#kategorien">Zum Inhalt springen</a>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" data-parallax="0.3">
+      <video autoplay muted loop playsinline preload="metadata" poster="img/box-bears.jpg">
+        <source src="video/hero.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="wrap hero__inner">
+      <p class="eyebrow hero__eyebrow" data-anim>Handmade in Hamburg</p>
+      <h1 class="display" data-anim>Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em></h1>
+      <p class="lead hero__lead" data-anim>Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
+      <div class="hero__cta" data-anim>
+        <a href="shop.html" class="btn btn--primary btn--lg">Jetzt genießen</a>
+        <a href="atelier.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)">Box-Atelier öffnen</a>
+      </div>
+      <div class="hero__trust" data-anim>
+        <span class="stars" aria-hidden="true">
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+        </span>
+        <span><strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen</span>
+      </div>
+      <p class="hero__scarcity" data-anim><span class="pulse-dot" aria-hidden="true"></span>Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.</p>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">Entdecken<span></span></div>
+  </section>
+
+  <!-- KATEGORIEN -->
+  <section class="section" id="kategorien">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Unsere Welt</p>
+        <h2 class="h2">Wonach ist dir heute?</h2>
+      </div>
+      <div class="catgrid">
+        <a class="catcard reveal" href="shop.html#macarons">
+          <img src="img/mac-erdbeere.jpg" width="320" height="427" alt="Rosa Macaron Nahaufnahme" loading="lazy" />
+          <div class="catcard__label"><h3>Macarons</h3><span>20+ Sorten</span></div>
+        </a>
+        <a class="catcard reveal" href="shop.html#baer">
+          <img src="img/bear-hero.jpg" width="320" height="427" alt="Pinkes Bärchen-Macaron mit Blütenkrone" loading="lazy" />
+          <div class="catcard__label"><h3>Bärchen</h3><span>Täglich frisch</span></div>
+        </a>
+        <a class="catcard reveal" href="shop.html#cupcake">
+          <img src="img/dessert-mint.jpg" width="320" height="427" alt="Macaron-Törtchen mit Minze und Brombeere" loading="lazy" />
+          <div class="catcard__label"><h3>Törtchen</h3><span>Klein & festlich</span></div>
+        </a>
+        <a class="catcard reveal" href="spezial.html">
+          <img src="img/hero-tower.jpg" width="320" height="427" alt="Macaron-Tower mit Blüten" loading="lazy" />
+          <div class="catcard__label"><h3>Tower & Giant</h3><span>Für große Momente</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BESTSELLER (dynamisch – bei jedem Laden neu) -->
+  <section class="section section--cream2">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Beliebt diese Woche</p>
+        <h2 class="h2">Heute frisch aus dem Ofen</h2>
+        <p class="lead">Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?</p>
+      </div>
+      <div class="grid" id="featuredGrid" aria-live="polite">
+        <!-- von interactive.js mit 4 zufälligen Sorten befüllt -->
+      </div>
+      <div class="featured__foot reveal">
+        <button class="reroll" id="featuredReroll" type="button">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+          Andere zeigen
+        </button>
+        <a href="shop.html" class="btn btn--primary">Alle Sorten ansehen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOX BUILDER (Gamification – Schwerkraft) -->
+  <section class="section section--blush" id="builder">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Füll deine Probier-Box</p>
+        <h2 class="h2">Sechs Macarons, deine Wahl</h2>
+        <p class="lead">Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.</p>
+      </div>
+
+      <div class="gbuilder reveal">
+        <!-- Palette -->
+        <div class="gbuilder__palette" id="gravPalette" aria-label="Sorten antippen"></div>
+
+        <!-- Box -->
+        <div class="gbuilder__stage">
+          <div class="gbox" id="gravBox" aria-label="Deine Probier-Box, 6 Plätze">
+            <div class="gbox__lidback"></div>
+            <div class="gbox__cells" id="gravCells"></div>
+            <div class="gbox__front"><span>Probier-Box · <span id="gravCount">0</span>/6</span></div>
+          </div>
+          <div class="gbuilder__controls">
+            <button class="btn btn--gold" id="gravSurprise" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
+              Überrasch mich!
+            </button>
+            <button class="btn btn--ghost" id="gravReroll" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+              Neu mischen
+            </button>
+            <button class="btn btn--primary" id="gravAdd" type="button" disabled>Box in den Warenkorb · 18&nbsp;€</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section">
+    <div class="wrap split">
+      <div class="split__media reveal">
+        <div class="framed framed--tall"><img src="img/giant-rose.jpg" width="600" height="750" loading="lazy" alt="Giant Macaron mit Rosen und Brombeeren auf einer Etagere" /></div>
+      </div>
+      <div class="split__copy reveal">
+        <p class="eyebrow">Unsere Manufaktur</p>
+        <h2 class="h2">Aus einer kleinen Küche,<br>mit ziemlich viel Liebe</h2>
+        <p>Angefangen hat alles mit einem Backblech und der Idee, dass Macarons nicht nur schmecken, sondern zum Schmunzeln bringen sollen. Heute verzieren wir jeden Tag hunderte Stücke von Hand – mit französischer Technik und einer ordentlichen Portion Pink.</p>
+        <p>Wir backen in kleinen Mengen, verwenden echte Früchte und keine künstlichen Farben, die man später bereut.</p>
+        <div class="stats">
+          <div><strong>20+</strong><span>Sorten</span></div>
+          <div><strong>4,5 cm</strong><span>Durchmesser</span></div>
+          <div><strong>0</strong><span>künstl. Farben</span></div>
+        </div>
+        <div style="margin-top:var(--s6)"><a href="ueber.html" class="btn btn--ghost">Unsere Geschichte</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEZIAL -->
+  <section class="section section--blush">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Für große Momente</p>
+        <h2 class="h2">Wenn's etwas Besonderes sein darf</h2>
+        <p class="lead">Macaron-Tower für die Hochzeit, ein Giant Macaron als Überraschung oder eure Logos essbar gedruckt.</p>
+      </div>
+      <div class="catgrid">
+        <a class="catcard reveal" href="spezial.html#tower">
+          <img src="img/tower-rainbow.jpg" width="320" height="427" alt="Bunter Macaron-Tower" loading="lazy" />
+          <div class="catcard__label"><h3>Macaron-Tower</h3><span>50 oder 120 Stück</span></div>
+        </a>
+        <a class="catcard reveal" href="spezial.html#giant">
+          <img src="img/giant-pistazie.jpg" width="320" height="427" alt="Giant Pistazien-Macaron" loading="lazy" />
+          <div class="catcard__label"><h3>Giant Macaron</h3><span>~18 cm Torte</span></div>
+        </a>
+        <a class="catcard reveal" href="firmenkunden.html">
+          <img src="img/b2b-meta.jpg" width="320" height="427" alt="Macarons mit aufgedrucktem Logo" loading="lazy" />
+          <div class="catcard__label"><h3>Logo-Macarons</h3><span>Lebensmitteldruck</span></div>
+        </a>
+        <a class="catcard reveal" href="spezial.html#anfrage">
+          <img src="img/showpiece-dress.jpg" width="320" height="427" alt="Kleid komplett aus Macarons" loading="lazy" />
+          <div class="catcard__label"><h3>Dein Sonderwunsch</h3><span>Lass uns reden</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANLÄSSE -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Der perfekte Anlass</p>
+        <h2 class="h2">Ein Geschenk, das man nicht vergisst</h2>
+      </div>
+      <div class="tiles">
+        <article class="tile reveal">
+          <span class="tile__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c1.5-3 6-2 6 1 0 2-3 4-6 6-3-2-6-4-6-6 0-3 4.5-4 6-1Z"/></svg></span>
+          <h3>Geburtstage</h3>
+          <p>Eine pinke Box mit den Lieblingssorten – oder ein Giant Macaron mit Namen drauf.</p>
+        </article>
+        <article class="tile reveal">
+          <span class="tile__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8c0-2 2-3 7-3s7 1 7 3M5 8c0 6 3 9 7 9s7-3 7-9"/></svg></span>
+          <h3>Hochzeiten</h3>
+          <p>Macaron-Tower als süßer Mittelpunkt – Farben und Sorten frei abgestimmt.</p>
+        </article>
+        <article class="tile reveal">
+          <span class="tile__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+          <h3>Firmen-Events</h3>
+          <p>Euer Logo essbar gedruckt – ein Branding, das wirklich in Erinnerung bleibt.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="section section--cream2">
+    <div class="wrap">
+      <div class="trustbar reveal">
+        <div class="trustbar__item">
+          <span class="stars" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+          </span>
+          <strong data-count="4.9" data-decimals="1">4,9</strong><span>von 5 Sternen</span>
+        </div>
+        <div class="trustbar__sep" aria-hidden="true"></div>
+        <div class="trustbar__item"><strong data-count="1200" data-suffix="+">1.200+</strong><span>glückliche Bestellungen</span></div>
+        <div class="trustbar__sep" aria-hidden="true"></div>
+        <div class="trustbar__item"><strong data-count="100" data-suffix="%">100 %</strong><span>handgemacht in Hamburg</span></div>
+      </div>
+      <div class="section__head reveal" style="margin-top:var(--s9)">
+        <p class="eyebrow">Vertraut von</p>
+        <h2 class="h2">Schon für diese Marken gebacken</h2>
+      </div>
+      <div class="logos reveal" style="margin-bottom:var(--s8)">
+        <span>Meta</span><span>NIVEA</span><span>SHEGLAM</span><span>Privia</span>
+      </div>
+      <div class="reviews">
+        <figure class="review reveal">
+          <span class="stars"><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg></span>
+          <blockquote>„Die Bärchen waren fast zu süß zum Essen – aber nur fast. Erdbeere schmeckt wie frisch gepflückt.“</blockquote>
+          <figcaption>Lena M.</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <span class="stars"><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg></span>
+          <blockquote>„Macaron-Tower zur Hochzeit – pünktlich, wunderschön, alle Gäste begeistert. Danke!“</blockquote>
+          <figcaption>Tobias R.</figcaption>
+        </figure>
+        <figure class="review reveal">
+          <span class="stars"><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg><svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg></span>
+          <blockquote>„Wir haben Macarons mit unserem Logo bestellt – ein Hingucker auf jedem Event. Top Qualität.“</blockquote>
+          <figcaption>Amira K. · Eventagentur</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERSAND & ABHOLUNG -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">So kommst du ran</p>
+        <h2 class="h2">Abholen in Hamburg oder liefern lassen</h2>
+      </div>
+      <div class="split" style="gap:var(--s5)">
+        <article class="tile reveal" style="padding:var(--s7)">
+          <span class="tile__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18l-1.5 9.5a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg></span>
+          <h3>Abholung</h3>
+          <p>Bestell heute, hol morgen ab – frisch verpackt und ohne Gebühr.</p>
+          <ul class="tile__list"><li>Fertig am nächsten Tag</li><li>Bezahlung vor Ort oder vorab</li><li>Mitten in Hamburg</li></ul>
+        </article>
+        <article class="tile reveal" style="padding:var(--s7)">
+          <span class="tile__icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v11H1z"/><path d="M14 8h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg></span>
+          <h3>Versand</h3>
+          <p>Gekühlt und sicher verpackt – deutschlandweit zu dir nach Hause.</p>
+          <ul class="tile__list"><li>Versand ab 35 € kostenlos</li><li>Sichere Kühlverpackung</li><li>Wunschtag wählbar</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.js?v=20260618a"></script>
+  <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/interactive.js?v=20260618a" defer></script>
+</body>
+</html>

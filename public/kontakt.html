@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kontakt &amp; Bestellung · Pynk Macarons</title>
+  <meta name="description" content="Pynk Macarons in Hamburg – Adresse, Öffnungszeiten und Bestellung. Abholung oder deutschlandweiter Versand." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css?v=20260618a" />
+</head>
+<body data-page="kontakt">
+  <a class="skip-link" href="#bestellen">Zur Bestellung springen</a>
+
+  <header class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Fast geschafft</p>
+      <h1 class="h2">Kontakt &amp; Bestellung</h1>
+      <p class="lead">Leg deine Macarons in den Warenkorb und schick uns die Bestellung – wir bestätigen Abholung oder Versand kurz persönlich.</p>
+    </div>
+  </header>
+
+  <section class="section" id="bestellen">
+    <div class="wrap split">
+      <div class="split__copy reveal">
+        <p class="eyebrow">Besuch uns</p>
+        <h2 class="h2">Mitten in Hamburg</h2>
+        <ul class="tile__list" style="margin-top:var(--s5)">
+          <li>Musterstraße 1, 20095 Hamburg</li>
+          <li>Di–Sa, 11–19 Uhr</li>
+          <li>+49 40 57283432</li>
+          <li>pynk.coffee.hamburg@gmail.com</li>
+        </ul>
+        <div class="framed" style="margin-top:var(--s6);aspect-ratio:16/10;display:grid;place-items:center;background:var(--pynk-tint)">
+          <div style="text-align:center;color:var(--bordeaux-2)">
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--pynk)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 8px"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <strong>Hamburg</strong><br>Karte folgt – Adresse oben
+          </div>
+        </div>
+        <p style="margin-top:var(--s5)">Lieber telefonisch? Ruf uns an oder schreib auf
+          <a href="https://wa.me/494057283432" style="color:var(--pynk-deep);font-weight:800" target="_blank" rel="noopener">WhatsApp</a> –
+          wir helfen gern bei Sorten, Mengen und Wunschterminen.</p>
+      </div>
+
+      <form class="formcard reveal" id="orderForm" novalidate>
+        <h3 class="h3" style="margin-bottom:var(--s5)">Deine Bestellung</h3>
+        <div class="field">
+          <label for="ofName">Name <span class="req">*</span></label>
+          <input id="ofName" type="text" autocomplete="name" required />
+          <p class="field__error" data-for="ofName" hidden>Bitte gib deinen Namen an.</p>
+        </div>
+        <div class="field">
+          <label for="ofPhone">Telefon <span class="req">*</span></label>
+          <input id="ofPhone" type="tel" inputmode="tel" autocomplete="tel" required />
+          <p class="field__error" data-for="ofPhone" hidden>Bitte gib eine Telefonnummer an.</p>
+        </div>
+        <fieldset class="field field--group">
+          <legend>Abholung oder Versand?</legend>
+          <div class="segmented" role="radiogroup" aria-label="Abholung oder Versand">
+            <label class="seg is-active"><input type="radio" name="fulfil" value="Abholung" checked /> Abholung</label>
+            <label class="seg"><input type="radio" name="fulfil" value="Versand" /> Versand</label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="ofDate">Wunschtag</label><input id="ofDate" type="date" /></div>
+        <div class="field"><label for="ofNote">Nachricht (optional)</label><textarea id="ofNote" rows="2" placeholder="Allergien, Anlass, Lieferadresse …"></textarea></div>
+
+        <div class="orderform__summary" id="formSummary" style="background:var(--pynk-tint);border-radius:var(--r-md);padding:var(--s4);margin:var(--s5) 0" aria-live="polite"></div>
+
+        <div class="segmented" style="grid-template-columns:1.3fr 1fr;gap:var(--s3)">
+          <button type="submit" class="btn btn--wa">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7 0-1.3.7-1.9.9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.8.9.8 1.7 1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.4.1.8-.1 1.5Z"/></svg>
+            Per WhatsApp senden
+          </button>
+          <button type="button" class="btn btn--ghost" id="sendMail">Per E-Mail</button>
+        </div>
+        <p class="hint" style="margin-top:var(--s4)">Die Bestellung wird als fertige Nachricht geöffnet – du schickst sie nur noch ab. Keine Online-Zahlung nötig.</p>
+      </form>
+    </div>
+  </section>
+
+  <script src="js/main.js?v=20260618a"></script>
+</body>
+</html>
