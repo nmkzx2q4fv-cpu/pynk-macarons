@@ -5,9 +5,9 @@
 /* ---- CONFIG: echte Shop-Daten hier eintragen ---- */
 const CONFIG = {
   brand: "Macarons by Pynk",
-  whatsapp: "494057283432",                 // WhatsApp-Nummer, nur Ziffern inkl. Ländercode
+  whatsapp: "+49 15 228283124",                 // WhatsApp-Nummer, nur Ziffern inkl. Ländercode
   email: "pynk.coffee.hamburg@gmail.com",
-  phone: "+49 40 57283432",
+  phone: "+49 15 228283124",
   address: "Musterstraße 1, 20095 Hamburg",  // bitte echte Adresse eintragen
   hours: "Di–Sa, 11–19 Uhr",
   instagram: "https://instagram.com/pynk_hamburg"
@@ -76,6 +76,7 @@ const macaronHTML = c => `<span class="macaron" style="--mc:${c}" aria-hidden="t
 const NAVLINKS = [
   {href:"index.html", label:"Start", key:"home"},
   {href:"shop.html", label:"Shop", key:"shop"},
+  {href:"atelier.html", label:"Box-Atelier", key:"atelier"},
   {href:"spezial.html", label:"Spezial & Anfrage", key:"spezial"},
   {href:"firmenkunden.html", label:"Firmenkunden", key:"b2b"},
   {href:"ueber.html", label:"Über uns", key:"ueber"},
@@ -117,7 +118,7 @@ function injectChrome(){
   footer.innerHTML = `
     <div class="wrap footer__grid">
       <div>
-        <a href="index.html" class="brand">Pynk <em>Macaron</em></a>
+        <a href="index.html" class="brand">Macaron <em>by Pynk</em></a>
         <p class="footer__tag">Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.</p>
       </div>
       <nav class="footer__col" aria-label="Entdecken">
