@@ -149,7 +149,15 @@ function injectChrome(){
     </div>
     <div class="wrap footer__base">
       <p>© <span id="year"></span> ${CONFIG.brand} · Mit Liebe gebacken in Hamburg</p>
-      <p><a href="#">Impressum</a> · <a href="#">Datenschutz</a> · <a href="#">AGB</a></p>
+      <nav class="footer__legal" aria-label="Rechtliches">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+        <a href="widerruf.html">Widerruf</a>
+        <a href="versand-zahlung.html">Versand &amp; Zahlung</a>
+        <a href="kontakt.html">Kontakt</a>
+        <button type="button" id="ccReopen" class="footer__legal-btn">Cookie-Einstellungen</button>
+      </nav>
     </div>`;
   document.body.appendChild(footer);
 
@@ -166,18 +174,61 @@ function injectChrome(){
         <div class="drawer__body" id="cartItems"></div>
         <div class="drawer__foot">
           <div class="drawer__total"><span>Zwischensumme</span><strong id="cartTotal">0,00 €</strong></div>
-          <p class="drawer__note">Versand ab 35 € kostenlos · Abholung immer gratis</p>
-          <a class="btn btn--primary btn--block" id="toCheckout" href="kontakt.html#bestellen">Zur Bestellung</a>
+          <p class="drawer__note">Alle Preise inkl. MwSt. · Versand ab 35 € kostenlos · Abholung gratis</p>
+          <a class="btn btn--primary btn--block" id="toCheckout" href="checkout.html">Zur Kasse</a>
         </div>
       </aside>
     </div>
     <div id="flyLayer" aria-hidden="true"></div>
-    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>`;
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <div class="cc" id="cookieBanner" role="dialog" aria-modal="false" aria-label="Cookie-Einwilligung" aria-describedby="ccText" hidden>
+      <div class="cc__panel">
+        <h2 class="cc__title">Wir respektieren deine Privatsphäre</h2>
+        <p class="cc__text" id="ccText">Wir setzen Cookies ein. Notwendige Cookies halten den Shop am Laufen (z. B. Warenkorb). Statistik- und Marketing-Cookies nur mit deiner Einwilligung – freiwillig und jederzeit über „Cookie-Einstellungen" im Footer widerrufbar. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+        <div class="cc__cats" id="ccCats" hidden>
+          <label class="cc__cat"><span><strong>Notwendig</strong><small>Warenkorb, Sicherheit – immer aktiv</small></span><input type="checkbox" checked disabled aria-label="Notwendige Cookies, immer aktiv"></label>
+          <label class="cc__cat"><span><strong>Statistik</strong><small>Anonyme Reichweitenmessung</small></span><input type="checkbox" id="ccStats"></label>
+          <label class="cc__cat"><span><strong>Marketing</strong><small>Personalisierte Inhalte</small></span><input type="checkbox" id="ccMark"></label>
+        </div>
+        <div class="cc__actions">
+          <button class="cc__btn cc__btn--reject" id="ccReject" type="button">Alle ablehnen</button>
+          <button class="cc__btn cc__btn--accept" id="ccAccept" type="button">Alle akzeptieren</button>
+        </div>
+        <div class="cc__sub">
+          <button class="cc__link" id="ccSettings" type="button" aria-expanded="false" aria-controls="ccCats">Einstellungen</button>
+          <button class="cc__link" id="ccSave" type="button" hidden>Auswahl speichern</button>
+        </div>
+      </div>
+    </div>`;
   document.body.appendChild(extra);
 
   const y=$("#year"); if(y) y.textContent=new Date().getFullYear();
   wireNav(hasHero);
   wireDrawer();
+  wireConsent();
+}
+
+/* ============================================================
+   COOKIE CONSENT (DSGVO) — echtes Opt-In, gleichwertige Buttons
+   ============================================================ */
+function applyConsent(c){
+  window.__consent = c;
+  // HOOK: Statistik-/Marketing-Skripte NUR hier laden, wenn erlaubt:
+  // if (c.stats)  { /* load analytics */ }
+  // if (c.marketing) { /* load marketing pixels */ }
+}
+function wireConsent(){
+  const banner=$("#cookieBanner"); if(!banner) return;
+  const reopen=$("#ccReopen"); if(reopen) reopen.addEventListener("click",()=>{ banner.hidden=false; $("#ccReject")?.focus(); });
+  let saved=null; try{ saved=JSON.parse(localStorage.getItem("pynk_consent")||"null"); }catch(e){}
+  if(saved){ applyConsent(saved); return; }
+  banner.hidden=false;
+  const cats=$("#ccCats"), settingsBtn=$("#ccSettings"), saveBtn=$("#ccSave");
+  const store=c=>{ localStorage.setItem("pynk_consent",JSON.stringify(c)); applyConsent(c); banner.hidden=true; if(typeof toast==="function") toast("Cookie-Einstellungen gespeichert"); };
+  $("#ccAccept").addEventListener("click",()=>store({necessary:true,stats:true,marketing:true,ts:Date.now()}));
+  $("#ccReject").addEventListener("click",()=>store({necessary:true,stats:false,marketing:false,ts:Date.now()}));
+  settingsBtn.addEventListener("click",()=>{ const open=cats.hidden; cats.hidden=!open; saveBtn.hidden=!open; settingsBtn.setAttribute("aria-expanded",String(open)); });
+  saveBtn.addEventListener("click",()=>store({necessary:true,stats:$("#ccStats").checked,marketing:$("#ccMark").checked,ts:Date.now()}));
 }
 
 function wireNav(hasHero){
@@ -236,6 +287,7 @@ function updateCart(){
   const tot=$("#cartTotal"); if(tot) tot.textContent=EUR(cartTotal());
   const co=$("#toCheckout"); if(co){ co.classList.toggle("is-disabled",!cart.length); }
   const fs=$("#formSummary"); if(fs) renderFormSummary();
+  if($("#coItems")) renderCheckout();
 }
 
 function wireDrawer(){
@@ -272,24 +324,48 @@ function flyToCart(src){
    ============================================================ */
 function thumbFor(p){ return p.img ? `<img src="${p.img}" alt="">` : macaronHTML(FC[p.flavour]); }
 
+/* ---- PAngV / LMIV helpers (Grundpreis, Allergene, Zutaten) ---- */
+const WEIGHT_G = { macaron:12, baer:15, cupcake:45, box:0 };
+const BASE_ALLERG = ["Hühnerei","Mandeln (Schalenfrüchte)","Milch"];
+const EXTRA_ALLERG = {
+  pistazie:["Pistazien (Schalenfrüchte)"], schokolade:["Soja"], latte:["Soja"],
+  cookies:["Glutenhaltiges Getreide (Weizen)","Soja"], cheesecake:["Glutenhaltiges Getreide (Weizen)"]
+};
+function allergensFor(p){ return [...new Set([...BASE_ALLERG, ...(EXTRA_ALLERG[p.flavour]||[])])]; }
+function grundpreisStr(p){ const w=WEIGHT_G[p.cat]||0; return w ? `${EUR(p.price/w*100)} / 100 g` : ""; }
+function ingredientsFor(p){ return `Mandeln, Puderzucker, Eiweiß (Hühnerei), Zucker, Butter, ${p.name}-Zubereitung, Lebensmittelfarbe.`; }
+
 function renderProducts(filter="all"){
   const grid=$("#productGrid"); if(!grid)return;
   const tagFor={macaron:"",baer:"Bärchen",cupcake:"Törtchen",box:"Geschenk"};
-  grid.innerHTML=PRODUCTS.filter(p=>filter==="all"||p.cat===filter).map(p=>`
+  grid.innerHTML=PRODUCTS.filter(p=>filter==="all"||p.cat===filter).map(p=>{
+    const gp=grundpreisStr(p);
+    return `
     <article class="pcard reveal" data-id="${p.id}">
       <div class="pcard__media">
         ${tagFor[p.cat]?`<span class="pcard__tag">${tagFor[p.cat]}</span>`:""}
-        <img src="${p.img}" width="384" height="384" loading="lazy" alt="${p.name} Macaron von Pynk Macarons">
+        <img src="${p.img}" width="384" height="384" loading="lazy" alt="${p.name} – ${p.desc}">
       </div>
       <div class="pcard__body">
         <h3 class="pcard__name"><span class="pcard__dot" style="background:${FC[p.flavour]}"></span>${p.name}</h3>
         <p class="pcard__desc">${p.desc}</p>
+        <p class="pcard__delivery"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Frisch gebacken · versandfertig in 1–2 Werktagen</p>
+        <details class="allergens">
+          <summary>Zutaten &amp; Allergene</summary>
+          <div class="allergens__body">
+            <p><strong>Zutaten:</strong> ${ingredientsFor(p)}</p>
+            <p><strong>Allergene:</strong> ${allergensFor(p).join(", ")}. Kann Spuren weiterer Schalenfrüchte enthalten.</p>
+          </div>
+        </details>
         <div class="pcard__foot">
-          <span class="pcard__price">${EUR(p.price)}${p.cat==="macaron"?' <small>/ Stück</small>':''}</span>
-          <button class="pcard__add" data-add="${p.id}" aria-label="${p.name} in den Warenkorb"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <span class="pcard__price-wrap">
+            <span class="pcard__price">${EUR(p.price)}</span>
+            <span class="pcard__vat">inkl. MwSt.${gp?` · ${gp}`:""} · <a href="versand-zahlung.html">zzgl. Versand</a></span>
+          </span>
+          <button class="pcard__add" data-add="${p.id}" aria-label="${p.name} in den Warenkorb legen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
       </div>
-    </article>`).join("");
+    </article>`;}).join("");
   observeReveals();
 }
 function wireGrid(){
@@ -375,7 +451,7 @@ function wireOrderForm(){
     cart.forEach(i=>t+=`• ${i.qty}× ${i.name}${i.meta?" ("+i.meta+")":""} – ${EUR(i.price*i.qty)}\n`);
     t+=`\nSumme: ${EUR(cartTotal())}\n\nName: ${name}\nTelefon: ${phone}\nAbwicklung: ${fulfil}\n`;
     if(date)t+=`Wunschtag: ${date}\n`; if(note)t+=`Nachricht: ${note}\n`;
-    if(channel==="wa") window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`,"_blank","noopener");
+    if(channel==="wa") window.open(`https://wa.me/${waNumber()}?text=${encodeURIComponent(t)}`,"_blank","noopener");
     else window.location.href=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Bestellung – "+CONFIG.brand)}&body=${encodeURIComponent(t)}`;
     toast("Bestellung wird geöffnet …");
   };
@@ -398,7 +474,7 @@ function wireAnfrageForm(){
     t+=`\nName: ${name}\nE-Mail: ${email}\n`; if(phone)t+=`Telefon: ${phone}\n`;
     if(msg)t+=`\nNachricht: ${msg}\n`;
     if(file)t+=`\nLogo/Datei: ${file} (bitte in der Antwort anhängen)\n`;
-    if(channel==="wa") window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`,"_blank","noopener");
+    if(channel==="wa") window.open(`https://wa.me/${waNumber()}?text=${encodeURIComponent(t)}`,"_blank","noopener");
     else window.location.href=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Anfrage "+typ+" – "+CONFIG.brand)}&body=${encodeURIComponent(t)}`;
     toast("Anfrage wird geöffnet …");
   };
@@ -427,6 +503,79 @@ let toastT;
 function toast(msg){ const el=$("#toast"); if(!el)return; el.textContent=msg; el.hidden=false; requestAnimationFrame(()=>el.classList.add("show")); clearTimeout(toastT); toastT=setTimeout(()=>{el.classList.remove("show");setTimeout(()=>el.hidden=true,300);},2600); }
 
 /* ============================================================
+   CHECKOUT (PAngV/BGB-konform) — Preisaufschlüsselung,
+   Express-Pay, Button-Lösung. Zahlung: Provider noch anzubinden.
+   ============================================================ */
+const VAT_RATE = 0.07;        // Lebensmittel-Regelsatz (Annahme – steuerlich prüfen)
+const SHIP_COST = 3.90, FREE_FROM = 35;
+const waNumber = () => CONFIG.whatsapp.replace(/\D/g, "");   // wa.me braucht reine Ziffern
+
+function coFulfil(){ const r=document.querySelector('input[name="coFulfil"]:checked'); return r?r.value:"Abholung"; }
+function coPricing(){
+  const sub=cartTotal();
+  const ship=(coFulfil()==="Versand" && sub>0 && sub<FREE_FROM)?SHIP_COST:0;
+  const total=sub+ship;
+  return { sub, ship, total, vat: total - total/(1+VAT_RATE) };
+}
+function renderCheckout(){
+  const list=$("#coItems"); if(!list) return;
+  if(!cart.length){
+    list.innerHTML=`<p class="co-empty">Dein Warenkorb ist leer. <a href="shop.html">Zum Shop →</a></p>`;
+  } else {
+    list.innerHTML=cart.map(i=>`<div class="co-line"><span class="co-line__name">${i.qty}× ${i.name}${i.meta?`<small>${i.meta}</small>`:""}</span><span class="co-line__price">${EUR(i.price*i.qty)}</span></div>`).join("");
+  }
+  const p=coPricing(), set=(id,v)=>{const e=$("#"+id); if(e)e.textContent=v;};
+  set("coSubtotal",EUR(p.sub));
+  set("coShip", p.ship>0 ? EUR(p.ship) : (coFulfil()==="Versand"?"Kostenlos":"— (Abholung)"));
+  set("coVat",EUR(p.vat));
+  set("coTotal",EUR(p.total));
+  updateCheckoutSubmit();
+}
+function updateCheckoutSubmit(){
+  const btn=$("#coSubmit"); if(!btn)return;
+  btn.disabled = !(cart.length && $("#coAgb")?.checked && $("#coWiderruf")?.checked);
+}
+function initCheckout(){
+  if(!$("#coItems")) return;
+  const addr=$("#coAddress");
+  const toggleAddr=()=>{ if(addr) addr.hidden = coFulfil()!=="Versand"; };
+  renderCheckout(); toggleAddr();
+
+  $$(".co-seg").forEach(seg=>seg.addEventListener("click",()=>{
+    $$(".co-seg").forEach(s=>{s.classList.remove("is-active");s.querySelector("input").checked=false;});
+    seg.classList.add("is-active"); seg.querySelector("input").checked=true; toggleAddr(); renderCheckout();
+  }));
+  ["coAgb","coWiderruf"].forEach(id=>$("#"+id)?.addEventListener("change",updateCheckoutSubmit));
+
+  const demo=name=>toast(`Demo: ${name} würde hier starten – Zahlungsanbieter wird noch angebunden.`);
+  $("#payPaypal")?.addEventListener("click",()=>demo("PayPal"));
+  $("#payApple")?.addEventListener("click",()=>demo("Apple Pay"));
+  $("#payGoogle")?.addEventListener("click",()=>demo("Google Pay"));
+  $("#payWhatsapp")?.addEventListener("click",()=>submitOrder(true));
+  $("#checkoutForm")?.addEventListener("submit",e=>{e.preventDefault();submitOrder(false);});
+  ["coName","coEmail","coPhone","coStreet","coZip","coCity"].forEach(id=>$("#"+id)?.addEventListener("input",()=>{ const i=$("#"+id); if(i.value.trim()){i.removeAttribute("aria-invalid");const e=$(`.field__error[data-for="${id}"]`);if(e)e.hidden=true;} }));
+
+  function submitOrder(express){
+    if(!cart.length){ toast("Dein Warenkorb ist leer"); return; }
+    if(!express){
+      const req=["coName","coEmail","coPhone"].concat(coFulfil()==="Versand"?["coStreet","coZip","coCity"]:[]);
+      if(!validate(req)){ const f=$("#checkoutForm").querySelector('[aria-invalid="true"]'); if(f)f.focus(); return; }
+      if(!$("#coAgb").checked || !$("#coWiderruf").checked){ toast("Bitte AGB und Widerruf bestätigen"); return; }
+    }
+    const p=coPricing();
+    let t=`Verbindliche Bestellung – ${CONFIG.brand}:\n\n`;
+    cart.forEach(i=>t+=`• ${i.qty}× ${i.name}${i.meta?" ("+i.meta+")":""} – ${EUR(i.price*i.qty)}\n`);
+    t+=`\nZwischensumme: ${EUR(p.sub)}\nVersand: ${p.ship>0?EUR(p.ship):"kostenlos / Abholung"}\nGesamt: ${EUR(p.total)} (inkl. ${EUR(p.vat)} MwSt.)\n`;
+    if(!express){
+      t+=`\nName: ${$("#coName").value.trim()}\nE-Mail: ${$("#coEmail").value.trim()}\nTelefon: ${$("#coPhone").value.trim()}\nAbwicklung: ${coFulfil()}\n`;
+      if(coFulfil()==="Versand") t+=`Lieferadresse: ${$("#coStreet").value.trim()}, ${$("#coZip").value.trim()} ${$("#coCity").value.trim()}\n`;
+    }
+    window.open(`https://wa.me/${waNumber()}?text=${encodeURIComponent(t)}`,"_blank","noopener");
+    toast("Bestellung wird übermittelt …");
+  }
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -439,5 +588,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireOrderForm();
   wireAnfrageForm();
   wireNewsletter();
+  initCheckout();
   observeReveals();
 });
