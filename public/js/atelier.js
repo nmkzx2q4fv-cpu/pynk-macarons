@@ -353,6 +353,10 @@
     renderSlots();
     applyOccasion(state.occasion);
 
+    // deep-link: atelier.html?occ=hochzeit → direkt in den Anlass starten (Overlay überspringen)
+    const occParam = new URLSearchParams(location.search).get("occ");
+    if (occParam && OCCASIONS[occParam]) openExperience(occParam);
+
     // optional smooth scroll
     if (!RM && window.Lenis) {
       const lenis = new window.Lenis({ lerp: .1 });

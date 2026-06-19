@@ -638,3 +638,21 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 .cc:not([hidden]) ~ .fab{ display:none; }
 @media (max-width:600px){ .fab{ right:14px; bottom:14px; gap:10px; } .fab__btn{ width:52px; height:52px; } }
 @media (prefers-reduced-motion: reduce){ .fab__btn--call::after{ animation:none; } }
+
+/* ============================================================
+   HOMEPAGE BOX-ATELIER: occasion tiles
+   ============================================================ */
+.occ-tiles{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--s3); margin-bottom:var(--s6); }
+.occ-tile{ position:relative; display:block; aspect-ratio:4/5; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-sm); border:1px solid rgba(201,162,75,.22); transition:transform var(--t2) var(--ease), box-shadow var(--t2); }
+.occ-tile img{ width:100%; height:100%; object-fit:cover; transition:transform var(--t3) var(--ease); }
+.occ-tile::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 38%, rgba(74,21,48,.82)); }
+.occ-tile:hover{ transform:translateY(-4px); box-shadow:var(--sh-lg); }
+.occ-tile:hover img{ transform:scale(1.08); }
+.occ-tile:focus-visible{ outline:3px solid var(--pynk); outline-offset:2px; }
+.occ-tile__label{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:var(--s4) var(--s2); color:#fff; font-family:var(--display); font-weight:600; font-size:1.06rem; text-align:center; letter-spacing:.01em; }
+.occ-tile__label::after{ content:"→"; display:block; font-family:var(--body); font-size:.78rem; font-weight:800; opacity:.8; margin-top:2px; transition:transform var(--t1); }
+.occ-tile:hover .occ-tile__label::after{ transform:translateX(4px); }
+.builder__or{ text-align:center; color:var(--bordeaux-2); font-weight:700; font-size:.95rem; margin:0 0 var(--s5); position:relative; }
+.builder__cta{ text-align:center; margin-top:var(--s6); }
+@media (max-width:860px){ .occ-tiles{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:560px){ .occ-tiles{ grid-template-columns:repeat(2,1fr); gap:var(--s2); } .occ-tile__label{ font-size:.95rem; padding:var(--s3) var(--s2); } }

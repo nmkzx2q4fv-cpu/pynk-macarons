@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260618b" />
+  <link rel="stylesheet" href="styles/main.css?v=20260618c" />
 </head>
 <body data-page="home" data-hero>
   <a class="skip-link" href="#kategorien">Zum Inhalt springen</a>
@@ -41,6 +41,72 @@
       <p class="hero__scarcity" data-anim><span class="pulse-dot" aria-hidden="true"></span><span data-i18n="hero.scarcity">Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.</span></p>
     </div>
     <div class="hero__scroll" aria-hidden="true">Entdecken<span></span></div>
+  </section>
+
+  <!-- BOX-ATELIER (interaktiv, direkt unter dem Hero) -->
+  <section class="section section--blush" id="builder">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="builder.eyebrow">Dein Box-Atelier</p>
+        <h2 class="h2" data-i18n="builder.h2">Stell dir deine Box zusammen</h2>
+        <p class="lead" data-i18n="builder.lead">Wähle deinen Anlass – oder leg direkt los: Sorte antippen und zusehen, wie sie in die Schachtel fällt.</p>
+      </div>
+
+      <!-- Anlass-Kacheln → führen ins volle Atelier mit vorgewähltem Anlass -->
+      <div class="occ-tiles reveal" aria-label="Anlass wählen">
+        <a class="occ-tile" href="atelier.html?occ=hochzeit">
+          <img src="img/hero-tower.jpg" alt="" width="260" height="320" loading="lazy" />
+          <span class="occ-tile__label" data-i18n="occ.hochzeit">Hochzeit</span>
+        </a>
+        <a class="occ-tile" href="atelier.html?occ=babyparty">
+          <img src="img/bear-hero.jpg" alt="" width="260" height="320" loading="lazy" />
+          <span class="occ-tile__label" data-i18n="occ.babyparty">Babyparty</span>
+        </a>
+        <a class="occ-tile" href="atelier.html?occ=geschenk">
+          <img src="img/gift-luxe.jpg" alt="" width="260" height="320" loading="lazy" />
+          <span class="occ-tile__label" data-i18n="occ.geschenk">Geschenk</span>
+        </a>
+        <a class="occ-tile" href="atelier.html?occ=firma">
+          <img src="img/b2b-meta.jpg" alt="" width="260" height="320" loading="lazy" />
+          <span class="occ-tile__label" data-i18n="occ.firma">Firmen-Event</span>
+        </a>
+        <a class="occ-tile" href="atelier.html?occ=self">
+          <img src="img/dessert-berry.jpg" alt="" width="260" height="320" loading="lazy" />
+          <span class="occ-tile__label" data-i18n="occ.self">Einfach so</span>
+        </a>
+      </div>
+
+      <p class="builder__or reveal" data-i18n="builder.or">Oder bau direkt hier deine Probier-Box:</p>
+
+      <div class="gbuilder reveal">
+        <!-- Palette -->
+        <div class="gbuilder__palette" id="gravPalette" aria-label="Sorten antippen"></div>
+
+        <!-- Box -->
+        <div class="gbuilder__stage">
+          <div class="gbox" id="gravBox" aria-label="Deine Probier-Box, 6 Plätze">
+            <div class="gbox__lidback"></div>
+            <div class="gbox__cells" id="gravCells"></div>
+            <div class="gbox__front"><span>Probier-Box · <span id="gravCount">0</span>/6</span></div>
+          </div>
+          <div class="gbuilder__controls">
+            <button class="btn btn--gold" id="gravSurprise" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
+              Überrasch mich!
+            </button>
+            <button class="btn btn--ghost" id="gravReroll" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+              Neu mischen
+            </button>
+            <button class="btn btn--primary" id="gravAdd" type="button" disabled>Box in den Warenkorb · 18&nbsp;€</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="builder__cta reveal">
+        <a href="atelier.html" class="btn btn--ghost" data-i18n="builder.full">Zum vollen Box-Atelier →</a>
+      </div>
+    </div>
   </section>
 
   <!-- KATEGORIEN -->
@@ -88,42 +154,6 @@
           Andere zeigen
         </button>
         <a href="shop.html" class="btn btn--primary">Alle Sorten ansehen</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- BOX BUILDER (Gamification – Schwerkraft) -->
-  <section class="section section--blush" id="builder">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <p class="eyebrow" data-i18n="builder.eyebrow">Füll deine Probier-Box</p>
-        <h2 class="h2" data-i18n="builder.h2">Sechs Macarons, deine Wahl</h2>
-        <p class="lead" data-i18n="builder.lead">Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.</p>
-      </div>
-
-      <div class="gbuilder reveal">
-        <!-- Palette -->
-        <div class="gbuilder__palette" id="gravPalette" aria-label="Sorten antippen"></div>
-
-        <!-- Box -->
-        <div class="gbuilder__stage">
-          <div class="gbox" id="gravBox" aria-label="Deine Probier-Box, 6 Plätze">
-            <div class="gbox__lidback"></div>
-            <div class="gbox__cells" id="gravCells"></div>
-            <div class="gbox__front"><span>Probier-Box · <span id="gravCount">0</span>/6</span></div>
-          </div>
-          <div class="gbuilder__controls">
-            <button class="btn btn--gold" id="gravSurprise" type="button">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
-              Überrasch mich!
-            </button>
-            <button class="btn btn--ghost" id="gravReroll" type="button">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
-              Neu mischen
-            </button>
-            <button class="btn btn--primary" id="gravAdd" type="button" disabled>Box in den Warenkorb · 18&nbsp;€</button>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -275,11 +305,11 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260618b"></script>
+  <script src="js/main.js?v=20260618c"></script>
   <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="js/interactive.js?v=20260618b" defer></script>
+  <script src="js/interactive.js?v=20260618c" defer></script>
 </body>
 </html>
