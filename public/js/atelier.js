@@ -149,8 +149,8 @@
     img.addEventListener("click", () => removeFromBox(+slot.dataset.idx));
   }
 
-  // Visual-only WAA parabola flight of a real PNG; calls onLand() on arrival.
-  // Placement does NOT depend on this (see placeInSlot) — flight is pure flourish.
+  // 7-keyframe WAA parabola: launch-decel → apex-float → gravity-accel → impact-squash → bounce → settle → rest.
+  // Placement is synchronous (see placeInSlot); flight is pure decorative flourish.
   function flightTo(srcRect, slot, macId, onLand) {
     const m = byId(macId);
     const t = slot.getBoundingClientRect();
@@ -159,10 +159,12 @@
     const sy = srcRect.top + srcRect.height / 2 - size / 2;
     const ex = t.left + t.width / 2 - size / 2;
     const ey = t.top + t.height / 2 - size / 2;
-    const apexX = (sx + ex) / 2;
-    const apexY = Math.min(sy, ey) - Math.max(90, Math.abs(ey - sy) * 0.45);
-    const ratio = srcRect.width / size;
-    const rot = (Math.random() * 50 - 25).toFixed(1);
+    const dx = ex - sx;
+    const apexX = sx + dx * 0.45 + (Math.random() * 30 - 15);
+    const apexY = Math.min(sy, ey) - Math.max(120, Math.abs(ey - sy) * 0.55);
+    const ratio = Math.min(srcRect.width / size, 1.5);
+    const spin = +(Math.random() * 40 - 20).toFixed(1);
+    const tilt = +(Math.random() * 6 - 3).toFixed(1);
 
     const clone = document.createElement("img");
     clone.className = "flight"; clone.src = m.img; clone.alt = "";
@@ -170,15 +172,30 @@
     qs("#flightLayer").appendChild(clone);
 
     let settled = false;
-    const finish = () => { if (settled) return; settled = true; clone.remove(); if (onLand) onLand(); };
+    const dur = 820 + (Math.random() * 100 | 0);
+    const finish = () => {
+      if (settled) return; settled = true; clone.remove();
+      slot.classList.add("is-impacted");
+      setTimeout(() => slot.classList.remove("is-impacted"), 420);
+      if (onLand) onLand();
+    };
     clone.animate([
-      { transform: `translate(${sx}px,${sy}px) scale(${ratio}) rotate(0deg)`, offset: 0, easing: "cubic-bezier(.25,.7,.4,1)" },     // launch → apex (decelerate)
-      { transform: `translate(${apexX}px,${apexY}px) scale(1) rotate(${rot / 2}deg)`, offset: .45, easing: "cubic-bezier(.5,0,.85,.45)" }, // apex → slot (gravity accel)
-      { transform: `translate(${ex}px,${ey}px) scale(1.06) rotate(${rot}deg)`, offset: .85, easing: "ease-out" },                    // impact
-      { transform: `translate(${ex}px,${ey}px) scale(.95) rotate(${rot}deg)`, offset: .93 },                                          // squash
-      { transform: `translate(${ex}px,${ey}px) scale(1) rotate(${rot}deg)`, offset: 1 }
-    ], { duration: 720, fill: "both" }).onfinish = finish;
-    setTimeout(finish, 800);   // fallback: hidden/throttled tabs freeze WAA + onfinish
+      { transform: `translate(${sx}px,${sy}px) scale(${ratio}) rotate(0deg)`,
+        offset: 0, easing: "cubic-bezier(.18,.89,.32,1)" },
+      { transform: `translate(${apexX}px,${apexY}px) scale(1) rotate(${spin * 0.5}deg)`,
+        offset: 0.36, easing: "cubic-bezier(.55,.055,.675,.19)" },
+      { transform: `translate(${ex}px,${ey - 6}px) scale(1.01) rotate(${spin}deg)`,
+        offset: 0.72, easing: "linear" },
+      { transform: `translate(${ex}px,${ey + 2}px) scaleX(1.12) scaleY(0.88) rotate(${tilt}deg)`,
+        offset: 0.79 },
+      { transform: `translate(${ex}px,${ey - 4}px) scaleX(0.97) scaleY(1.04) rotate(${tilt * 0.4}deg)`,
+        offset: 0.88, easing: "cubic-bezier(.25,.46,.45,.94)" },
+      { transform: `translate(${ex}px,${ey + 1}px) scaleX(1.02) scaleY(0.98) rotate(${tilt * 0.15}deg)`,
+        offset: 0.94 },
+      { transform: `translate(${ex}px,${ey}px) scale(1) rotate(0deg)`,
+        offset: 1.0 }
+    ], { duration: dur, fill: "both" }).onfinish = finish;
+    setTimeout(finish, dur + 80);
   }
 
   // Render the macaron into its (already reserved) slot instantly, then fly a
@@ -205,26 +222,27 @@
     if (macId == null) return;
     const img = slot && slot.querySelector(".pslot__mac");
     state.slots[idx] = null;
-    // decorative drop-out (visible only); state/DOM clear is synchronous + bulletproof
     if (!RM && img && !document.hidden) {
       const r = img.getBoundingClientRect();
+      const drift = (Math.random() * 60 - 30).toFixed(1);
+      const spin = (Math.random() * 90 - 45).toFixed(1);
       const c = document.createElement("img");
       c.className = "flight"; c.src = byId(macId).img; c.alt = "";
       c.style.width = r.width + "px"; c.style.left = "0"; c.style.top = "0";
       qs("#flightLayer").appendChild(c);
       let s = false; const fin = () => { if (s) return; s = true; c.remove(); };
       c.animate([
-        { transform: `translate(${r.left}px,${r.top}px) rotate(0)`, opacity: 1 },
-        { transform: `translate(${r.left}px,${r.top + 140}px) rotate(22deg)`, opacity: 0 }
-      ], { duration: 340, easing: "cubic-bezier(.5,0,.9,.5)", fill: "both" }).onfinish = fin;
-      setTimeout(fin, 420);
+        { transform: `translate(${r.left}px,${r.top}px) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
+        { transform: `translate(${r.left}px,${r.top - 12}px) scaleX(0.94) scaleY(1.08) rotate(0deg)`, opacity: 1, offset: 0.15 },
+        { transform: `translate(${r.left + +drift}px,${r.top + 200}px) scale(0.7) rotate(${spin}deg)`, opacity: 0, offset: 1 }
+      ], { duration: 420, easing: "cubic-bezier(.4,.0,.9,.4)", fill: "both" }).onfinish = fin;
+      setTimeout(fin, 500);
     }
     if (slot) slot.innerHTML = "";
     afterChange();
   }
 
   function magicFill() {
-    // pool: occasion-matching sorts (fallback: all)
     let pool = MACARONS.filter(m => m.occasions.includes(state.occasion)).map(m => m.id);
     if (!pool.length) pool = MACARONS.map(m => m.id);
     const ordered = shuffle(pool);
@@ -232,23 +250,35 @@
     const boxRect = qs("#pbox").getBoundingClientRect();
     empties.forEach((slotIdx, k) => {
       const macId = ordered[k % ordered.length];
-      state.slots[slotIdx] = macId;            // reserve + render instantly (robust even if timers frozen)
+      state.slots[slotIdx] = macId;
       const slot = qs(`.pslot[data-idx="${slotIdx}"]`);
       if (slot) renderSlotImg(slot, macId, true);
       if (!RM && !document.hidden) {
+        const delay = k * 105 + (Math.random() * 45 | 0);
         setTimeout(() => {
-          // decorative "rain": random x across the box, from above the viewport
-          const rainRect = { left: boxRect.left + Math.random() * boxRect.width - 30, top: -130, width: 64, height: 64 };
+          const spread = boxRect.width * 1.2;
+          const rainRect = {
+            left: boxRect.left - spread * 0.1 + Math.random() * spread,
+            top: -90 - (Math.random() * 120 | 0),
+            width: 60, height: 60
+          };
           flightTo(rainRect, slot, macId);
-        }, k * 130);
+        }, delay);
       }
     });
     afterChange();
   }
 
+  function reroll() {
+    const filled = state.slots.map((v, i) => v !== null ? i : -1).filter(i => i !== -1);
+    if (!filled.length) { magicFill(); return; }
+    filled.forEach((idx, k) => setTimeout(() => removeFromBox(idx), k * 65));
+    setTimeout(magicFill, filled.length * 65 + 280);
+  }
+
   function clearBox() {
-    // synchronous clear (each removeFromBox clears state+DOM instantly, fall-out is decorative)
-    state.slots.map((v, i) => v !== null ? i : -1).filter(i => i !== -1).forEach(idx => removeFromBox(idx));
+    const filled = state.slots.map((v, i) => v !== null ? i : -1).filter(i => i !== -1);
+    filled.forEach((idx, k) => setTimeout(() => removeFromBox(idx), k * 55));
   }
 
   /* counter + reward */
@@ -277,9 +307,10 @@
         : full ? `Zur Kasse · ${EUR(BOX_PRICE[state.size])}`
         : `Weiter mit ${filled} Macaron${filled === 1 ? "" : "s"}`;
     }
-    if (full && !RM) {
-      pbox.classList.add("is-closing");           // reward: box seals…
-      setTimeout(() => pbox.classList.remove("is-closing"), 900); // …then reopens for edits
+    const magicLabel = qs("#magicLabel");
+    if (magicLabel) {
+      if (full) magicLabel.textContent = "Neu Mischen ↻";
+      else magicLabel.textContent = (OCCASIONS[state.occasion] || OCCASIONS.self).magic;
     }
   }
 
@@ -345,7 +376,9 @@
       setSize(+b.dataset.size);
     }));
 
-    qs("#magicFill").addEventListener("click", magicFill);
+    qs("#magicFill").addEventListener("click", () => {
+      state.slots.filter(Boolean).length === state.size ? reroll() : magicFill();
+    });
     qs("#boxClear").addEventListener("click", clearBox);
     qs("#boxCheckout").addEventListener("click", checkout);
 
