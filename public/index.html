@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260618a" />
+  <link rel="stylesheet" href="styles/main.css?v=20260618b" />
 </head>
 <body data-page="home" data-hero>
   <a class="skip-link" href="#kategorien">Zum Inhalt springen</a>
@@ -21,12 +21,12 @@
       </video>
     </div>
     <div class="wrap hero__inner">
-      <p class="eyebrow hero__eyebrow" data-anim>Handmade in Hamburg</p>
-      <h1 class="display" data-anim>Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em></h1>
-      <p class="lead hero__lead" data-anim>Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
+      <p class="eyebrow hero__eyebrow" data-anim data-i18n="hero.eyebrow">Handmade in Hamburg</p>
+      <h1 class="display" data-anim data-i18n="hero.h1">Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em></h1>
+      <p class="lead hero__lead" data-anim data-i18n="hero.lead">Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
       <div class="hero__cta" data-anim>
-        <a href="shop.html" class="btn btn--primary btn--lg">Jetzt genießen</a>
-        <a href="atelier.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)">Box-Atelier öffnen</a>
+        <a href="shop.html" class="btn btn--primary btn--lg" data-i18n="hero.cta1">Jetzt genießen</a>
+        <a href="atelier.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" data-i18n="hero.cta2">Box-Atelier öffnen</a>
       </div>
       <div class="hero__trust" data-anim>
         <span class="stars" aria-hidden="true">
@@ -36,9 +36,9 @@
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
           <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
         </span>
-        <span><strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen</span>
+        <span data-i18n="hero.trust"><strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen</span>
       </div>
-      <p class="hero__scarcity" data-anim><span class="pulse-dot" aria-hidden="true"></span>Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.</p>
+      <p class="hero__scarcity" data-anim><span class="pulse-dot" aria-hidden="true"></span><span data-i18n="hero.scarcity">Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.</span></p>
     </div>
     <div class="hero__scroll" aria-hidden="true">Entdecken<span></span></div>
   </section>
@@ -47,8 +47,8 @@
   <section class="section" id="kategorien">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Unsere Welt</p>
-        <h2 class="h2">Wonach ist dir heute?</h2>
+        <p class="eyebrow" data-i18n="cat.eyebrow">Unsere Welt</p>
+        <h2 class="h2" data-i18n="cat.h2">Wonach ist dir heute?</h2>
       </div>
       <div class="catgrid">
         <a class="catcard reveal" href="shop.html#macarons">
@@ -75,9 +75,9 @@
   <section class="section section--cream2">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Beliebt diese Woche</p>
-        <h2 class="h2">Heute frisch aus dem Ofen</h2>
-        <p class="lead">Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?</p>
+        <p class="eyebrow" data-i18n="best.eyebrow">Beliebt diese Woche</p>
+        <h2 class="h2" data-i18n="best.h2">Heute frisch aus dem Ofen</h2>
+        <p class="lead" data-i18n="best.lead">Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?</p>
       </div>
       <div class="grid" id="featuredGrid" aria-live="polite">
         <!-- von interactive.js mit 4 zufälligen Sorten befüllt -->
@@ -96,9 +96,9 @@
   <section class="section section--blush" id="builder">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Füll deine Probier-Box</p>
-        <h2 class="h2">Sechs Macarons, deine Wahl</h2>
-        <p class="lead">Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.</p>
+        <p class="eyebrow" data-i18n="builder.eyebrow">Füll deine Probier-Box</p>
+        <h2 class="h2" data-i18n="builder.h2">Sechs Macarons, deine Wahl</h2>
+        <p class="lead" data-i18n="builder.lead">Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.</p>
       </div>
 
       <div class="gbuilder reveal">
@@ -153,8 +153,8 @@
   <section class="section section--blush">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Für große Momente</p>
-        <h2 class="h2">Wenn's etwas Besonderes sein darf</h2>
+        <p class="eyebrow" data-i18n="spezial.eyebrow">Für große Momente</p>
+        <h2 class="h2" data-i18n="spezial.h2">Wenn's etwas Besonderes sein darf</h2>
         <p class="lead">Macaron-Tower für die Hochzeit, ein Giant Macaron als Überraschung oder eure Logos essbar gedruckt.</p>
       </div>
       <div class="catgrid">
@@ -182,8 +182,8 @@
   <section class="section">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Der perfekte Anlass</p>
-        <h2 class="h2">Ein Geschenk, das man nicht vergisst</h2>
+        <p class="eyebrow" data-i18n="anlass.eyebrow">Der perfekte Anlass</p>
+        <h2 class="h2" data-i18n="anlass.h2">Ein Geschenk, das man nicht vergisst</h2>
       </div>
       <div class="tiles">
         <article class="tile reveal">
@@ -225,8 +225,8 @@
         <div class="trustbar__item"><strong data-count="100" data-suffix="%">100 %</strong><span>handgemacht in Hamburg</span></div>
       </div>
       <div class="section__head reveal" style="margin-top:var(--s9)">
-        <p class="eyebrow">Vertraut von</p>
-        <h2 class="h2">Schon für diese Marken gebacken</h2>
+        <p class="eyebrow" data-i18n="proof.eyebrow">Vertraut von</p>
+        <h2 class="h2" data-i18n="proof.h2">Schon für diese Marken gebacken</h2>
       </div>
       <div class="logos reveal" style="margin-bottom:var(--s8)">
         <span>Meta</span><span>NIVEA</span><span>SHEGLAM</span><span>Privia</span>
@@ -255,8 +255,8 @@
   <section class="section">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">So kommst du ran</p>
-        <h2 class="h2">Abholen in Hamburg oder liefern lassen</h2>
+        <p class="eyebrow" data-i18n="versand.eyebrow">So kommst du ran</p>
+        <h2 class="h2" data-i18n="versand.h2">Abholen in Hamburg oder liefern lassen</h2>
       </div>
       <div class="split" style="gap:var(--s5)">
         <article class="tile reveal" style="padding:var(--s7)">
@@ -275,11 +275,11 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260618a"></script>
+  <script src="js/main.js?v=20260618b"></script>
   <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="js/interactive.js?v=20260618a" defer></script>
+  <script src="js/interactive.js?v=20260618b" defer></script>
 </body>
 </html>

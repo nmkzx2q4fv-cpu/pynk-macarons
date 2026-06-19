@@ -13,6 +13,92 @@ const CONFIG = {
   instagram: "https://instagram.com/pynk_hamburg"
 };
 
+/* ============================================================
+   i18n — DE/EN
+   Mechanik: Markup trägt data-i18n="key" (Textinhalt),
+   data-i18n-aria="key" (aria-label) oder data-i18n-ph="key"
+   (placeholder). applyI18n() füllt sie aus I18N[LANG].
+   → Neue Sprache: weiteres Sprach-Objekt ergänzen.
+   → Neuer String: Schlüssel hier + data-i18n im HTML.
+   ============================================================ */
+const I18N = {
+  de: {
+    "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
+    "a11y.cart":"Warenkorb öffnen","a11y.call":"Jetzt anrufen","a11y.wa":"Auf WhatsApp schreiben","a11y.lang":"Sprache wählen",
+    "footer.tag":"Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.",
+    "footer.discover":"Entdecken","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Firmenkunden","footer.about":"Über uns",
+    "footer.visit":"Besuch uns","footer.news":"Süße Post","footer.newsText":"Neue Sorten & Aktionen – eine Mail pro Monat, versprochen.","news.ph":"deine@mail.de",
+    "footer.cookie":"Cookie-Einstellungen","footer.copy":"Mit Liebe gebacken in Hamburg",
+    "cart.title":"Dein Warenkorb","cart.subtotal":"Zwischensumme","cart.note":"Alle Preise inkl. MwSt. · Versand ab 35 € kostenlos · Abholung gratis","cart.checkout":"Zur Kasse",
+    "cart.empty":"Dein Warenkorb ist noch leer.<br>Zeit für ein paar Macarons.","cart.remove":"entfernen",
+    "cookie.title":"Wir respektieren deine Privatsphäre",
+    "cookie.text":"Wir setzen Cookies ein. Notwendige Cookies halten den Shop am Laufen (z. B. Warenkorb). Statistik- und Marketing-Cookies nur mit deiner Einwilligung – jederzeit über „Cookie-Einstellungen“ im Footer widerrufbar. Details in der <a href=\"datenschutz.html\">Datenschutzerklärung</a>.",
+    "cookie.necessary":"Notwendig","cookie.necessaryDesc":"Warenkorb, Sicherheit – immer aktiv","cookie.stats":"Statistik","cookie.statsDesc":"Anonyme Reichweitenmessung","cookie.marketing":"Marketing","cookie.marketingDesc":"Personalisierte Inhalte",
+    "cookie.reject":"Alle ablehnen","cookie.accept":"Alle akzeptieren","cookie.settings":"Einstellungen","cookie.save":"Auswahl speichern",
+    "fab.help":"Hilfe & Kontakt",
+    "hero.eyebrow":"Handmade in Hamburg",
+    "hero.h1":"Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em>",
+    "hero.lead":"Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.",
+    "hero.cta1":"Jetzt genießen","hero.cta2":"Box selbst füllen",
+    "hero.trust":"<strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen",
+    "hero.scarcity":"Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.",
+    "cat.eyebrow":"Unsere Welt","cat.h2":"Wonach ist dir heute?",
+    "best.eyebrow":"Beliebt diese Woche","best.h2":"Heute frisch aus dem Ofen","best.lead":"Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?",
+    "builder.eyebrow":"Füll deine Probier-Box","builder.h2":"Sechs Macarons, deine Wahl","builder.lead":"Tipp eine Sorte an – und sieh zu, wie sie in die Schachtel fällt. Keine Idee? Lass dich überraschen.",
+    "spezial.eyebrow":"Für große Momente","spezial.h2":"Wenn's etwas Besonderes sein darf","spezial.lead":"Macaron-Tower für die Hochzeit, ein Giant Macaron als Überraschung oder eure Logos essbar gedruckt.",
+    "anlass.eyebrow":"Der perfekte Anlass","anlass.h2":"Ein Geschenk, das man nicht vergisst",
+    "proof.eyebrow":"Vertraut von","proof.h2":"Schon für diese Marken gebacken",
+    "versand.eyebrow":"So kommst du ran","versand.h2":"Abholen in Hamburg oder liefern lassen"
+  },
+  en: {
+    "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.ueber":"About","nav.kontakt":"Contact",
+    "a11y.cart":"Open cart","a11y.call":"Call now","a11y.wa":"Message on WhatsApp","a11y.lang":"Choose language",
+    "footer.tag":"Handmade macarons from Hamburg. French technique, a playful soul – to gift, to take away, to fall in love with.",
+    "footer.discover":"Discover","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Business","footer.about":"About",
+    "footer.visit":"Visit us","footer.news":"Sweet mail","footer.newsText":"New flavours & offers – one email a month, promised.","news.ph":"you@mail.com",
+    "footer.cookie":"Cookie settings","footer.copy":"Baked with love in Hamburg",
+    "cart.title":"Your cart","cart.subtotal":"Subtotal","cart.note":"All prices incl. VAT · Free shipping from €35 · Pickup always free","cart.checkout":"Checkout",
+    "cart.empty":"Your cart is still empty.<br>Time for a few macarons.","cart.remove":"remove",
+    "cookie.title":"We respect your privacy",
+    "cookie.text":"We use cookies. Necessary cookies keep the shop running (e.g. the cart). Statistics and marketing cookies only with your consent – revocable anytime via “Cookie settings” in the footer. Details in our <a href=\"datenschutz.html\">privacy policy</a>.",
+    "cookie.necessary":"Necessary","cookie.necessaryDesc":"Cart, security – always on","cookie.stats":"Statistics","cookie.statsDesc":"Anonymous reach measurement","cookie.marketing":"Marketing","cookie.marketingDesc":"Personalised content",
+    "cookie.reject":"Reject all","cookie.accept":"Accept all","cookie.settings":"Settings","cookie.save":"Save selection",
+    "fab.help":"Help & contact",
+    "hero.eyebrow":"Handmade in Hamburg",
+    "hero.h1":"Melt-in-the-mouth.<br>Hand-painted.<br><em>Beautiful to gift.</em>",
+    "hero.lead":"A crisp shell, silky ganache, a centre that melts on your tongue. Over 20 flavours – each one filled and hand-painted, fresh from our Hamburg atelier.",
+    "hero.cta1":"Order now","hero.cta2":"Build your box",
+    "hero.trust":"<strong>4.9</strong>/5 · over <strong>1,200</strong> happy orders",
+    "hero.scarcity":"Baked daily in small batches only – while stocks last.",
+    "cat.eyebrow":"Our world","cat.h2":"What are you craving today?",
+    "best.eyebrow":"Popular this week","best.h2":"Fresh from the oven today","best.lead":"A hand-picked selection – reshuffled on every visit. Which one tempts you today?",
+    "builder.eyebrow":"Fill your tasting box","builder.h2":"Six macarons, your choice","builder.lead":"Tap a flavour – and watch it drop into the box. No idea? Let us surprise you.",
+    "spezial.eyebrow":"For the big moments","spezial.h2":"When it should be something special","spezial.lead":"A macaron tower for the wedding, a giant macaron as a surprise, or your logo printed edibly.",
+    "anlass.eyebrow":"The perfect occasion","anlass.h2":"A gift no one forgets",
+    "proof.eyebrow":"Trusted by","proof.h2":"Already baked for these brands",
+    "versand.eyebrow":"How to get them","versand.h2":"Pick up in Hamburg or have them delivered"
+  }
+};
+let LANG = (()=>{ try { return localStorage.getItem("pynk_lang") || "de"; } catch(e){ return "de"; } })();
+function tr(key){ return (I18N[LANG] && I18N[LANG][key] != null ? I18N[LANG][key] : (I18N.de[key] != null ? I18N.de[key] : key)); }
+function applyI18n(root){
+  root = root || document;
+  root.querySelectorAll("[data-i18n]").forEach(el=>{ el.innerHTML = tr(el.dataset.i18n); });
+  root.querySelectorAll("[data-i18n-aria]").forEach(el=>{ el.setAttribute("aria-label", tr(el.dataset.i18nAria)); });
+  root.querySelectorAll("[data-i18n-ph]").forEach(el=>{ el.setAttribute("placeholder", tr(el.dataset.i18nPh)); });
+}
+function setLang(lang){
+  if(!I18N[lang]) return;
+  LANG = lang;
+  try { localStorage.setItem("pynk_lang", lang); } catch(e){}
+  document.documentElement.lang = lang;
+  applyI18n(document);
+  $$(".lang-toggle__btn").forEach(b=>{ const on=b.dataset.lang===lang; b.classList.toggle("is-active",on); b.setAttribute("aria-pressed",String(on)); });
+  if (typeof updateCart === "function") updateCart();
+}
+function wireLang(){ $$(".lang-toggle__btn").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang))); }
+window.PynkLang = { set:setLang, get:()=>LANG, t: tr };
+
 const EUR = n => n.toLocaleString("de-DE",{style:"currency",currency:"EUR"});
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $  = (s,r=document)=>r.querySelector(s);
@@ -100,10 +186,14 @@ function injectChrome(){
         <span>Macaron <em>by pynk</em></span>
       </a>
       <nav class="nav__links" id="navLinks" aria-label="Hauptnavigation">
-        ${NAVLINKS.map(l=>`<a href="${l.href}"${l.key===page?' aria-current="page"':''}>${l.label}</a>`).join("")}
+        ${NAVLINKS.map(l=>`<a href="${l.href}"${l.key===page?' aria-current="page"':''} data-i18n="nav.${l.key}">${l.label}</a>`).join("")}
       </nav>
       <div class="nav__actions">
-        <button class="nav__icon" id="cartBtn" aria-label="Warenkorb öffnen" aria-haspopup="dialog">
+        <div class="lang-toggle" role="group" data-i18n-aria="a11y.lang" aria-label="Sprache wählen">
+          <button class="lang-toggle__btn" data-lang="de" type="button" aria-pressed="true">DE</button>
+          <button class="lang-toggle__btn" data-lang="en" type="button" aria-pressed="false">EN</button>
+        </div>
+        <button class="nav__icon" id="cartBtn" data-i18n-aria="a11y.cart" aria-label="Warenkorb öffnen" aria-haspopup="dialog">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span class="cart-badge" id="cartBadge" hidden>0</span>
         </button>
@@ -119,26 +209,26 @@ function injectChrome(){
     <div class="wrap footer__grid">
       <div>
         <a href="index.html" class="brand">Macaron <em>by Pynk</em></a>
-        <p class="footer__tag">Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.</p>
+        <p class="footer__tag" data-i18n="footer.tag">Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.</p>
       </div>
       <nav class="footer__col" aria-label="Entdecken">
-        <h4>Entdecken</h4>
-        <a href="shop.html">Shop</a>
-        <a href="spezial.html">Tower & Giant</a>
-        <a href="firmenkunden.html">Firmenkunden</a>
-        <a href="ueber.html">Über uns</a>
+        <h4 data-i18n="footer.discover">Entdecken</h4>
+        <a href="shop.html" data-i18n="footer.shop">Shop</a>
+        <a href="spezial.html" data-i18n="footer.tower">Tower & Giant</a>
+        <a href="firmenkunden.html" data-i18n="footer.b2b">Firmenkunden</a>
+        <a href="ueber.html" data-i18n="footer.about">Über uns</a>
       </nav>
       <div class="footer__col">
-        <h4>Besuch uns</h4>
+        <h4 data-i18n="footer.visit">Besuch uns</h4>
         <p>${CONFIG.address}</p>
         <p>${CONFIG.hours}</p>
         <p>${CONFIG.phone}<br>${CONFIG.email}</p>
       </div>
       <div class="footer__col footer__col--news">
-        <h4>Süße Post</h4>
-        <p>Neue Sorten & Aktionen – ein Mail pro Monat, versprochen.</p>
+        <h4 data-i18n="footer.news">Süße Post</h4>
+        <p data-i18n="footer.newsText">Neue Sorten & Aktionen – ein Mail pro Monat, versprochen.</p>
         <form class="newsletter" id="newsletter">
-          <input type="email" placeholder="deine@mail.de" aria-label="E-Mail für Newsletter" required>
+          <input type="email" placeholder="deine@mail.de" data-i18n-ph="news.ph" aria-label="E-Mail für Newsletter" required>
           <button type="submit" aria-label="Abonnieren"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </form>
         <div class="socials">
@@ -148,7 +238,7 @@ function injectChrome(){
       </div>
     </div>
     <div class="wrap footer__base">
-      <p>© <span id="year"></span> ${CONFIG.brand} · Mit Liebe gebacken in Hamburg</p>
+      <p>© <span id="year"></span> ${CONFIG.brand} · <span data-i18n="footer.copy">Mit Liebe gebacken in Hamburg</span></p>
       <nav class="footer__legal" aria-label="Rechtliches">
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutz</a>
@@ -156,7 +246,7 @@ function injectChrome(){
         <a href="widerruf.html">Widerruf</a>
         <a href="versand-zahlung.html">Versand &amp; Zahlung</a>
         <a href="kontakt.html">Kontakt</a>
-        <button type="button" id="ccReopen" class="footer__legal-btn">Cookie-Einstellungen</button>
+        <button type="button" id="ccReopen" class="footer__legal-btn" data-i18n="footer.cookie">Cookie-Einstellungen</button>
       </nav>
     </div>`;
   document.body.appendChild(footer);
@@ -168,14 +258,14 @@ function injectChrome(){
       <div class="drawer__scrim" id="drawerScrim"></div>
       <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Warenkorb">
         <div class="drawer__head">
-          <h2>Dein Warenkorb</h2>
+          <h2 data-i18n="cart.title">Dein Warenkorb</h2>
           <button class="drawer__close" id="drawerClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </div>
         <div class="drawer__body" id="cartItems"></div>
         <div class="drawer__foot">
-          <div class="drawer__total"><span>Zwischensumme</span><strong id="cartTotal">0,00 €</strong></div>
-          <p class="drawer__note">Alle Preise inkl. MwSt. · Versand ab 35 € kostenlos · Abholung gratis</p>
-          <a class="btn btn--primary btn--block" id="toCheckout" href="checkout.html">Zur Kasse</a>
+          <div class="drawer__total"><span data-i18n="cart.subtotal">Zwischensumme</span><strong id="cartTotal">0,00 €</strong></div>
+          <p class="drawer__note" data-i18n="cart.note">Alle Preise inkl. MwSt. · Versand ab 35 € kostenlos · Abholung gratis</p>
+          <a class="btn btn--primary btn--block" id="toCheckout" href="checkout.html" data-i18n="cart.checkout">Zur Kasse</a>
         </div>
       </aside>
     </div>
@@ -183,22 +273,30 @@ function injectChrome(){
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <div class="cc" id="cookieBanner" role="dialog" aria-modal="false" aria-label="Cookie-Einwilligung" aria-describedby="ccText" hidden>
       <div class="cc__panel">
-        <h2 class="cc__title">Wir respektieren deine Privatsphäre</h2>
-        <p class="cc__text" id="ccText">Wir setzen Cookies ein. Notwendige Cookies halten den Shop am Laufen (z. B. Warenkorb). Statistik- und Marketing-Cookies nur mit deiner Einwilligung – freiwillig und jederzeit über „Cookie-Einstellungen" im Footer widerrufbar. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+        <h2 class="cc__title" data-i18n="cookie.title">Wir respektieren deine Privatsphäre</h2>
+        <p class="cc__text" id="ccText" data-i18n="cookie.text">Wir setzen Cookies ein. Notwendige Cookies halten den Shop am Laufen (z. B. Warenkorb). Statistik- und Marketing-Cookies nur mit deiner Einwilligung – freiwillig und jederzeit über „Cookie-Einstellungen" im Footer widerrufbar. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
         <div class="cc__cats" id="ccCats" hidden>
-          <label class="cc__cat"><span><strong>Notwendig</strong><small>Warenkorb, Sicherheit – immer aktiv</small></span><input type="checkbox" checked disabled aria-label="Notwendige Cookies, immer aktiv"></label>
-          <label class="cc__cat"><span><strong>Statistik</strong><small>Anonyme Reichweitenmessung</small></span><input type="checkbox" id="ccStats"></label>
-          <label class="cc__cat"><span><strong>Marketing</strong><small>Personalisierte Inhalte</small></span><input type="checkbox" id="ccMark"></label>
+          <label class="cc__cat"><span><strong data-i18n="cookie.necessary">Notwendig</strong><small data-i18n="cookie.necessaryDesc">Warenkorb, Sicherheit – immer aktiv</small></span><input type="checkbox" checked disabled aria-label="Notwendige Cookies, immer aktiv"></label>
+          <label class="cc__cat"><span><strong data-i18n="cookie.stats">Statistik</strong><small data-i18n="cookie.statsDesc">Anonyme Reichweitenmessung</small></span><input type="checkbox" id="ccStats"></label>
+          <label class="cc__cat"><span><strong data-i18n="cookie.marketing">Marketing</strong><small data-i18n="cookie.marketingDesc">Personalisierte Inhalte</small></span><input type="checkbox" id="ccMark"></label>
         </div>
         <div class="cc__actions">
-          <button class="cc__btn cc__btn--reject" id="ccReject" type="button">Alle ablehnen</button>
-          <button class="cc__btn cc__btn--accept" id="ccAccept" type="button">Alle akzeptieren</button>
+          <button class="cc__btn cc__btn--reject" id="ccReject" type="button" data-i18n="cookie.reject">Alle ablehnen</button>
+          <button class="cc__btn cc__btn--accept" id="ccAccept" type="button" data-i18n="cookie.accept">Alle akzeptieren</button>
         </div>
         <div class="cc__sub">
-          <button class="cc__link" id="ccSettings" type="button" aria-expanded="false" aria-controls="ccCats">Einstellungen</button>
-          <button class="cc__link" id="ccSave" type="button" hidden>Auswahl speichern</button>
+          <button class="cc__link" id="ccSettings" type="button" aria-expanded="false" aria-controls="ccCats" data-i18n="cookie.settings">Einstellungen</button>
+          <button class="cc__link" id="ccSave" type="button" hidden data-i18n="cookie.save">Auswahl speichern</button>
         </div>
       </div>
+    </div>
+    <div class="fab" id="fab">
+      <a class="fab__btn fab__btn--call" href="tel:${CONFIG.phone.replace(/[^\d+]/g,"")}" data-i18n-aria="a11y.call" aria-label="Jetzt anrufen">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+      </a>
+      <a class="fab__btn fab__btn--wa" href="https://wa.me/${waNumber()}" target="_blank" rel="noopener" data-i18n-aria="a11y.wa" aria-label="Auf WhatsApp schreiben">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7 0-1.3.7-1.9.9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.8.9.8 1.7 1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.4.1.8-.1 1.5Z"/></svg>
+      </a>
     </div>`;
   document.body.appendChild(extra);
 
@@ -206,6 +304,8 @@ function injectChrome(){
   wireNav(hasHero);
   wireDrawer();
   wireConsent();
+  wireLang();
+  setLang(LANG);   // applies translations to chrome + page, marks active toggle
 }
 
 /* ============================================================
@@ -269,7 +369,7 @@ function updateCart(){
   const items=$("#cartItems");
   if(items){
     if(!cart.length){
-      items.innerHTML=`<div class="drawer__empty"><svg viewBox="0 0 24 24" width="54" height="54" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>Dein Warenkorb ist noch leer.<br>Zeit für ein paar Macarons.</p></div>`;
+      items.innerHTML=`<div class="drawer__empty"><svg viewBox="0 0 24 24" width="54" height="54" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>${tr("cart.empty")}</p></div>`;
     } else {
       items.innerHTML=cart.map(i=>`
         <div class="citem">
@@ -278,7 +378,7 @@ function updateCart(){
             <div class="citem__name">${i.name}</div>
             ${i.meta?`<div class="citem__meta">${i.meta}</div>`:""}
             <div class="qty"><button data-dec="${i.key}" aria-label="Weniger">−</button><span>${i.qty}</span><button data-inc="${i.key}" aria-label="Mehr">+</button></div>
-            <button class="citem__remove" data-rm="${i.key}">entfernen</button>
+            <button class="citem__remove" data-rm="${i.key}">${tr("cart.remove")}</button>
           </div>
           <div class="citem__price">${EUR(i.price*i.qty)}</div>
         </div>`).join("");

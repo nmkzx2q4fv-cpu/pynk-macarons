@@ -613,3 +613,28 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 .legal a{ color:var(--pynk-deep); text-decoration:underline; }
 .legal__note{ background:var(--pynk-tint); border-left:3px solid var(--pynk); border-radius:var(--r-sm); padding:var(--s4); font-size:.9rem; margin-bottom:var(--s6); }
 .legal__updated{ font-size:.85rem; color:var(--bordeaux-2); margin-top:var(--s6); }
+
+/* ============================================================
+   LANGUAGE TOGGLE (DE/EN) + CLICK-TO-CALL FAB
+   ============================================================ */
+.lang-toggle{ display:inline-flex; align-items:center; gap:2px; background:rgba(74,21,48,.07); border-radius:var(--r-pill); padding:3px; }
+.nav.on-hero:not(.solid) .lang-toggle{ background:rgba(255,255,255,.16); }
+.lang-toggle__btn{ font-weight:800; font-size:.78rem; letter-spacing:.02em; padding:6px 11px; border-radius:var(--r-pill); color:var(--bordeaux-2); min-width:38px; min-height:34px; transition:background var(--t1), color var(--t1); }
+.nav.on-hero:not(.solid) .lang-toggle__btn{ color:rgba(255,255,255,.82); }
+.lang-toggle__btn:hover{ color:var(--pynk-deep); }
+.lang-toggle__btn.is-active{ background:var(--pynk); color:#fff; }
+.nav.on-hero:not(.solid) .lang-toggle__btn.is-active{ background:#fff; color:var(--pynk-deep); }
+
+/* floating click-to-call / WhatsApp */
+.fab{ position:fixed; right:18px; bottom:18px; z-index:1200; display:flex; flex-direction:column; gap:12px; }
+.fab__btn{ position:relative; width:56px; height:56px; border-radius:50%; display:grid; place-items:center; color:#fff; box-shadow:var(--sh-lg); transition:transform var(--t1) var(--spring), box-shadow var(--t1); }
+.fab__btn:hover{ transform:translateY(-3px) scale(1.06); }
+.fab__btn:active{ transform:scale(.95); }
+.fab__btn--call{ background:var(--pynk); }
+.fab__btn--call::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow:0 0 0 0 rgba(216,18,119,.45); animation:fabPulse 2.4s var(--ease) infinite; }
+.fab__btn--wa{ background:#117A65; }
+@keyframes fabPulse{ 0%{box-shadow:0 0 0 0 rgba(216,18,119,.45)} 70%{box-shadow:0 0 0 14px rgba(216,18,119,0)} 100%{box-shadow:0 0 0 0 rgba(216,18,119,0)} }
+/* hide the FAB while the cookie banner is open so they never collide */
+.cc:not([hidden]) ~ .fab{ display:none; }
+@media (max-width:600px){ .fab{ right:14px; bottom:14px; gap:10px; } .fab__btn{ width:52px; height:52px; } }
+@media (prefers-reduced-motion: reduce){ .fab__btn--call::after{ animation:none; } }
