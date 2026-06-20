@@ -551,6 +551,7 @@ let _pdpProduct=null, _pdpQty=1;
 function openPDP(productId){
   const p=PRODUCTS.find(x=>x.id===productId);
   if(!p) return;
+  if(p.cat!=="macaron" && p.cat!=="baer" && p.cat!=="cupcake") return;
   _pdpProduct=p; _pdpQty=1;
   const modal=$("#pdp"); if(!modal) return;
   $("#pdpImg").src=p.img; $("#pdpImg").alt=p.name;
