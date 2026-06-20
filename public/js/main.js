@@ -286,6 +286,21 @@ function injectChrome(){
       </aside>
     </div>
     <div id="flyLayer" aria-hidden="true"></div>
+    <div class="pdp" id="pdp" hidden>
+      <div class="pdp__scrim" id="pdpScrim"></div>
+      <div class="pdp__panel">
+        <button class="pdp__close" id="pdpClose" type="button" aria-label="Schließen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        <div class="pdp__media"><img id="pdpImg" alt="" /></div>
+        <div class="pdp__body">
+          <h2 class="pdp__name" id="pdpName"></h2>
+          <p class="pdp__desc" id="pdpDesc"></p>
+          <div class="pdp__bundles" id="pdpBundles" role="radiogroup" aria-label="Menge wählen"></div>
+          <div class="pdp__total"><span class="pdp__total-price" id="pdpPrice"></span><span class="pdp__total-vat">inkl. MwSt. · <a href="versand-zahlung.html">zzgl. Versand</a></span></div>
+          <button class="btn btn--primary btn--block pdp__add" id="pdpAdd" type="button">In den Warenkorb</button>
+          <p class="pdp__trust">Perfekt als Geschenk verpackt in der edlen Pynk-Magnetbox. Versand ab 35 € kostenlos.</p>
+        </div>
+      </div>
+    </div>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <div class="cc" id="cookieBanner" role="dialog" aria-modal="false" aria-label="Cookie-Einwilligung" aria-describedby="ccText" hidden>
       <div class="cc__panel">
@@ -492,11 +507,118 @@ function wireGrid(){
     renderProducts(b.dataset.filter);
   }));
   grid.addEventListener("click",e=>{
-    const btn=e.target.closest("[data-add]"); if(!btn)return;
-    const p=PRODUCTS.find(x=>x.id===btn.dataset.add);
-    flyToCart(btn.closest(".pcard").querySelector(".pcard__media"));
-    addToCart({key:"p-"+p.id,name:p.name,meta:({macaron:"Macaron",baer:"Bärchen-Macaron",cupcake:"Macaron-Törtchen",box:"Geschenkbox",set:"Macaron-Set",addon:"Add-on"})[p.cat],price:p.price,thumb:`<img src="${p.img}" alt="">`});
-    toast(`${p.name} hinzugefügt`);
+    const btn=e.target.closest("[data-add]");
+    const card=e.target.closest(".pcard");
+    if(btn){
+      e.stopPropagation();
+      const p=PRODUCTS.find(x=>x.id===btn.dataset.add);
+      flyToCart(btn.closest(".pcard").querySelector(".pcard__media"));
+      addToCart({key:"p-"+p.id,name:p.name,meta:({macaron:"Macaron",baer:"Bärchen-Macaron",cupcake:"Macaron-Törtchen",box:"Geschenkbox",set:"Macaron-Set",addon:"Add-on"})[p.cat],price:p.price,thumb:`<img src="${p.img}" alt="">`});
+      toast(`${p.name} hinzugefügt`);
+      return;
+    }
+    if(card && card.dataset.id) openPDP(card.dataset.id);
+  });
+}
+
+/* ============================================================
+   PRODUCT DETAIL MODAL (Single-Flavor Bundles)
+   ============================================================ */
+const BUNDLE_NAMES={
+  pistazie:{s6:"Pistachio Dreams",s12:"The Green Obsession"},
+  matcha:{s6:"Matcha Ritual",s12:"Zen Garden Collection"},
+  erdbeere:{s6:"Strawberry Bliss",s12:"Berry Romance"},
+  himbeere:{s6:"Raspberry Rush",s12:"Crimson Crush"},
+  schokolade:{s6:"Cocoa Affair",s12:"Dark Temptation"},
+  kokos:{s6:"Coconut Escape",s12:"Tropical Paradise"},
+  wildberry:{s6:"Berry Fever",s12:"The Wild Collection"},
+  vanille:{s6:"Vanilla Cloud",s12:"Ivory Indulgence"},
+  karamell:{s6:"Caramel Kiss",s12:"Golden Indulgence"},
+  latte:{s6:"Espresso Escape",s12:"Latte Lovers Box"},
+  cheesecake:{s6:"Cheesecake Bliss",s12:"New York Dreams"},
+  lavendel:{s6:"Lavender Haze",s12:"Provence Collection"},
+  zitrone:{s6:"Lemon Squeeze",s12:"Sunshine Box"},
+  limette:{s6:"Mojito Vibes",s12:"Fresh Breeze Box"},
+  mango:{s6:"Mango Tango",s12:"Tropical Heat"},
+  orange:{s6:"Orange Blossom",s12:"Citrus Collection"},
+  cookies:{s6:"Cookie Monster",s12:"Cookies Galore"},
+  minze:{s6:"Cool Mint",s12:"Arctic Collection"},
+  heidelbeere:{s6:"Blueberry Hill",s12:"Midnight Berries"},
+  _default:{s6:"Pynk Selection",s12:"Pynk Signature Box"}
+};
+let _pdpProduct=null, _pdpQty=1;
+
+function openPDP(productId){
+  const p=PRODUCTS.find(x=>x.id===productId);
+  if(!p) return;
+  _pdpProduct=p; _pdpQty=1;
+  const modal=$("#pdp"); if(!modal) return;
+  $("#pdpImg").src=p.img; $("#pdpImg").alt=p.name;
+  $("#pdpName").textContent=p.name;
+  $("#pdpDesc").textContent=p.desc;
+
+  const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
+  const p6=+(p.price*6*0.90).toFixed(2);
+  const p12=+(p.price*12*0.85).toFixed(2);
+
+  $("#pdpBundles").innerHTML=`
+    <label class="bundle-card is-active"><input type="radio" name="pdpBundle" value="1" checked />
+      <span class="bundle-card__top"><span class="bundle-card__label">Zum Probieren</span><span class="bundle-card__sub">Einzelstück</span></span>
+      <span class="bundle-card__price">${EUR(p.price)}</span></label>
+    <label class="bundle-card"><input type="radio" name="pdpBundle" value="6" />
+      <span class="bundle-card__top"><span class="bundle-card__label">${bn.s6}</span><span class="bundle-card__sub">6er Box · Spare 10 %</span></span>
+      <span class="bundle-card__price">${EUR(p6)}</span></label>
+    <label class="bundle-card"><span class="bundle-card__badge">Bestseller</span><input type="radio" name="pdpBundle" value="12" />
+      <span class="bundle-card__top"><span class="bundle-card__label">${bn.s12}</span><span class="bundle-card__sub">12er Box · Spare 15 %</span></span>
+      <span class="bundle-card__price">${EUR(p12)}</span></label>`;
+
+  $("#pdpPrice").textContent=EUR(p.price);
+  modal.hidden=false;
+  document.body.style.overflow="hidden";
+}
+
+function updatePDPPrice(price){
+  const el=$("#pdpPrice");
+  if(!el) return;
+  el.classList.add("is-changing");
+  setTimeout(()=>{el.textContent=EUR(price);el.classList.remove("is-changing");},150);
+}
+
+function closePDP(){
+  const modal=$("#pdp"); if(!modal) return;
+  modal.hidden=true;
+  document.body.style.overflow="";
+  _pdpProduct=null;
+}
+
+function wirePDP(){
+  if(!$("#pdp")) return;
+  $("#pdpClose")?.addEventListener("click",closePDP);
+  $("#pdpScrim")?.addEventListener("click",closePDP);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pdp").hidden)closePDP();});
+
+  $("#pdpBundles")?.addEventListener("change",e=>{
+    const v=+e.target.value;
+    _pdpQty=v;
+    $$(".bundle-card").forEach(c=>c.classList.remove("is-active"));
+    e.target.closest(".bundle-card").classList.add("is-active");
+    if(!_pdpProduct) return;
+    const p=_pdpProduct.price;
+    const total=v===1?p:v===6?+(p*6*0.90).toFixed(2):+(p*12*0.85).toFixed(2);
+    updatePDPPrice(total);
+  });
+
+  $("#pdpAdd")?.addEventListener("click",()=>{
+    if(!_pdpProduct) return;
+    const p=_pdpProduct, q=_pdpQty;
+    const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
+    const price=q===1?p.price:q===6?+(p.price*6*0.90).toFixed(2):+(p.price*12*0.85).toFixed(2);
+    const name=q===1?p.name:q===6?`${bn.s6} (6× ${p.name})`: `${bn.s12} (12× ${p.name})`;
+    const meta=q===1?"Einzelstück":q===6?"6er Box · 10 % Vorteil":"12er Box · 15 % Vorteil";
+    addToCart({key:`bundle-${p.id}-${q}`,name,meta,price,thumb:`<img src="${p.img}" alt="">`});
+    toast(name+" hinzugefügt");
+    closePDP();
+    if(typeof openDrawer==="function") openDrawer();
   });
 }
 
@@ -757,6 +879,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireAnfrageForm();
   wireNewsletter();
   initCheckout();
+  wirePDP();
   wireUpsell();
   wireMystery();
   wireCheckoutExtras();

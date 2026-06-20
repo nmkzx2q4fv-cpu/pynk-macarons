@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260620b" />
+  <link rel="stylesheet" href="styles/main.css?v=20260620c" />
 </head>
 <body data-page="anlaesse">
   <a class="skip-link" href="#anlass-grid">Zum Anlass-Auswahl springen</a>
@@ -72,6 +72,23 @@
         <p class="lead" id="detailLead"></p>
       </div>
 
+      <!-- Gender choice (babyparty only) -->
+      <div class="gender-choice" id="genderChoice" hidden>
+        <h3 class="h3" style="text-align:center;margin-bottom:var(--s5)">Wird es ein Junge oder ein Mädchen?</h3>
+        <div class="gender-cards">
+          <button class="gender-card gender-card--girl" data-gender="girl" type="button">
+            <span class="gender-card__emoji">🎀</span>
+            <strong>Mädchen</strong>
+            <p>Rosa Macarons & Bärchen in Pastell-Pink</p>
+          </button>
+          <button class="gender-card gender-card--boy" data-gender="boy" type="button">
+            <span class="gender-card__emoji">🧸</span>
+            <strong>Junge</strong>
+            <p>Blaue Macarons & Bärchen in Himmelblau</p>
+          </button>
+        </div>
+      </div>
+
       <div class="tier-grid" id="tierGrid">
         <!-- tier cards injected by JS -->
       </div>
@@ -83,7 +100,7 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260620b"></script>
+  <script src="js/main.js?v=20260620c"></script>
   <script>
   (function(){
     "use strict";
@@ -130,17 +147,46 @@
       }
     };
 
-    function renderTiers(key) {
+    let _currentAnlass = null;
+
+    function renderTiers(key, genderFilter) {
       const occ = OCCASIONS[key];
       if (!occ) return;
+      _currentAnlass = key;
 
       $("#detailEyebrow").textContent = occ.eyebrow;
       $("#detailTitle").textContent = occ.title;
       $("#detailLead").textContent = occ.lead;
 
+      const gc = $("#genderChoice");
       const grid = $("#tierGrid");
-      const standards = occ.variants.filter(v => v.tier === "standard");
-      const premiums  = occ.variants.filter(v => v.tier === "premium");
+
+      if (key === "babyparty" && !genderFilter) {
+        gc.hidden = false;
+        grid.innerHTML = "";
+        $("#detailTitle").textContent = "Verratet ihr es?";
+        $("#detailLead").textContent = "Wählt zuerst – wir zeigen euch dann die passenden Pakete in der richtigen Farbe.";
+        $("#anlass-grid").hidden = true;
+        $("#anlassDetail").hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      gc.hidden = true;
+      let variants = occ.variants;
+      if (genderFilter) {
+        variants = variants.filter(v => v.id.includes(genderFilter));
+        if (genderFilter === "girl") {
+          $("#detailTitle").textContent = "It's a Girl! 🎀";
+          $("#detailLead").textContent = "Wunderschöne rosa Macarons und handbemalte Bärchen – zart, süß und voller Liebe.";
+        } else {
+          $("#detailTitle").textContent = "It's a Boy! 🧸";
+          $("#detailLead").textContent = "Himmelblaue Macarons und handbemalte Bärchen – mutig, frisch und zum Verlieben.";
+        }
+      }
+
+      const standards = variants.filter(v => v.tier === "standard");
+      const premiums  = variants.filter(v => v.tier === "premium");
 
       grid.innerHTML = `
         <div class="tier-section">
@@ -188,10 +234,23 @@
       renderTiers(btn.dataset.anlass);
     }));
 
-    // Back to grid
+    // Gender choice click (babyparty)
+    $$("[data-gender]").forEach(btn => btn.addEventListener("click", () => {
+      renderTiers("babyparty", btn.dataset.gender);
+    }));
+
+    // Back to grid (or back to gender choice for babyparty)
     $("#anlassBackToGrid")?.addEventListener("click", () => {
+      const gc = $("#genderChoice");
+      if (_currentAnlass === "babyparty" && gc && gc.hidden && $("#tierGrid").innerHTML) {
+        renderTiers("babyparty");
+        return;
+      }
       $("#anlass-grid").hidden = false;
       $("#anlassDetail").hidden = true;
+      $("#genderChoice").hidden = true;
+      $("#tierGrid").innerHTML = "";
+      _currentAnlass = null;
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 

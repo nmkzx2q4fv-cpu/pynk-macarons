@@ -818,6 +818,80 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 @media(max-width:860px){ .mystery-grid{ grid-template-columns:1fr; max-width:400px; margin-inline:auto; } }
 
 /* ============================================================
+   PRODUCT DETAIL MODAL (PDP)
+   ============================================================ */
+.pdp{ position:fixed; inset:0; z-index:1500; display:grid; place-items:center; padding:var(--s4); }
+.pdp[hidden]{ display:none; }
+.pdp__scrim{ position:absolute; inset:0; background:rgba(74,21,48,.45); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+.pdp__panel{
+  position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:0;
+  background:var(--paper); border-radius:var(--r-xl); box-shadow:var(--sh-lg);
+  max-width:760px; width:100%; max-height:90vh; overflow-y:auto;
+  animation:pdpIn .35s var(--ease);
+}
+@keyframes pdpIn{ from{opacity:0;transform:translateY(20px) scale(.97)} to{opacity:1;transform:none} }
+.pdp__close{
+  position:absolute; top:16px; right:16px; z-index:5; width:40px; height:40px;
+  border-radius:50%; background:var(--paper); box-shadow:var(--sh-sm);
+  display:grid; place-items:center; color:var(--bordeaux); transition:transform var(--t1), background var(--t1);
+}
+.pdp__close:hover{ transform:scale(1.1); background:var(--pynk-soft); }
+.pdp__media{ border-radius:var(--r-xl) 0 0 var(--r-xl); overflow:hidden; }
+.pdp__media img{ width:100%; height:100%; object-fit:cover; }
+.pdp__body{ padding:var(--s6); display:flex; flex-direction:column; gap:var(--s4); }
+.pdp__name{ font-family:var(--display); font-size:1.5rem; color:var(--bordeaux); }
+.pdp__desc{ font-size:.92rem; color:var(--bordeaux-2); line-height:1.6; }
+.pdp__bundles{ display:flex; flex-direction:column; gap:var(--s2); }
+.bundle-card{
+  position:relative; display:flex; align-items:center; justify-content:space-between; gap:var(--s3);
+  padding:14px 18px; border-radius:var(--r-lg); cursor:pointer;
+  border:1.5px solid rgba(74,21,48,.12); background:var(--paper);
+  transition:all var(--t1);
+}
+.bundle-card:hover{ border-color:rgba(216,18,119,.25); box-shadow:var(--sh-sm); }
+.bundle-card.is-active{ border-color:var(--pynk); background:var(--pynk-soft); box-shadow:0 0 0 3px rgba(216,18,119,.12); }
+.bundle-card input{ position:absolute; opacity:0; width:0; height:0; }
+.bundle-card__top{ flex:1; }
+.bundle-card__label{ display:block; font-weight:800; font-size:1rem; color:var(--bordeaux); }
+.bundle-card__sub{ display:block; font-size:.8rem; color:var(--bordeaux-2); margin-top:2px; }
+.bundle-card__price{ font-family:var(--display); font-weight:700; font-size:1.15rem; color:var(--pynk-deep); white-space:nowrap; }
+.bundle-card__badge{
+  position:absolute; top:-9px; right:14px; padding:3px 12px; border-radius:var(--r-pill);
+  font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
+  background:var(--gold); color:#fff; box-shadow:0 3px 8px rgba(201,162,75,.3);
+}
+.pdp__total{ display:flex; align-items:baseline; gap:var(--s2); }
+.pdp__total-price{
+  font-family:var(--display); font-size:1.8rem; font-weight:700; color:var(--pynk-deep);
+  transition:opacity .15s, transform .15s;
+}
+.pdp__total-price.is-changing{ opacity:0; transform:translateY(6px); }
+.pdp__total-vat{ font-size:.78rem; color:var(--bordeaux-2); }
+.pdp__trust{ font-size:.82rem; color:var(--bordeaux-2); opacity:.7; line-height:1.5; text-align:center; }
+@media(max-width:640px){
+  .pdp__panel{ grid-template-columns:1fr; max-height:95vh; }
+  .pdp__media{ border-radius:var(--r-xl) var(--r-xl) 0 0; max-height:240px; }
+  .pdp__body{ padding:var(--s5); }
+  .pdp__name{ font-size:1.25rem; }
+}
+
+/* Gender choice cards (Babyparty) */
+.gender-cards{ display:grid; grid-template-columns:1fr 1fr; gap:var(--s5); max-width:520px; margin:0 auto; }
+.gender-card{
+  display:flex; flex-direction:column; align-items:center; gap:var(--s3); padding:var(--s7) var(--s5);
+  border-radius:var(--r-xl); cursor:pointer; text-align:center;
+  border:2px solid rgba(74,21,48,.12); background:var(--paper);
+  box-shadow:var(--sh-sm); transition:all var(--t2) var(--ease);
+}
+.gender-card:hover{ transform:translateY(-6px); box-shadow:var(--sh-lg); }
+.gender-card__emoji{ font-size:3rem; line-height:1; }
+.gender-card strong{ font-family:var(--display); font-size:1.3rem; color:var(--bordeaux); }
+.gender-card p{ font-size:.88rem; color:var(--bordeaux-2); }
+.gender-card--girl:hover, .gender-card--girl:focus{ border-color:#EF7DA0; background:rgba(239,125,160,.08); }
+.gender-card--boy:hover, .gender-card--boy:focus{ border-color:#A7D4E6; background:rgba(167,212,230,.1); }
+@media(max-width:480px){ .gender-cards{ grid-template-columns:1fr; max-width:280px; } }
+
+/* ============================================================
    CART UPSELL
    ============================================================ */
 .upsell{
