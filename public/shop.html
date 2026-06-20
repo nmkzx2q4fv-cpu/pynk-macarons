@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260620a" />
+  <link rel="stylesheet" href="styles/main.css?v=20260620b" />
 </head>
 <body data-page="shop">
   <a class="skip-link" href="#sortiment">Zum Sortiment springen</a>
@@ -21,49 +21,48 @@
     </div>
   </header>
 
-  <!-- PYNK SURPRISE BOX — Abo-Modell -->
-  <section class="section section--blush" id="abo">
+  <!-- PYNK MYSTERY BOX -->
+  <section class="section section--blush" id="mystery">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Monatlich neu</p>
-        <h2 class="h2">Die Pynk Surprise Box</h2>
-        <p class="lead">Jeden Monat 12 handverlesene Macarons — neue Sorten, saisonale Überraschungen, direkt vor deine Tür.</p>
+        <p class="eyebrow">Lass dich überraschen</p>
+        <h2 class="h2">Die Pynk Mystery Box</h2>
+        <p class="lead">Du liebst Überraschungen? Wir kuratieren für dich eine einzigartige Box mit saisonalen Sorten, Neuheiten und Geheimtipps – jede Box ein Unikat.</p>
       </div>
-      <div class="abo-grid">
-        <article class="abo-card reveal">
-          <span class="abo-card__badge">Flexibel</span>
-          <h3>Monatlich</h3>
-          <div class="abo-card__price">34,00&nbsp;€ <small>/Monat</small></div>
-          <ul class="abo-card__perks">
-            <li>12 Macarons, monatlich neu kuratiert</li>
-            <li>Jederzeit kündbar</li>
-            <li>Versandkostenfrei</li>
-          </ul>
-          <button class="btn btn--ghost btn--block" data-abo="1" data-abo-price="34" type="button">Auswählen</button>
+      <div class="mystery-grid">
+        <article class="mystery-card reveal">
+          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mystery Box 6er" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mystery Box · 6er</h3>
+            <p>6 handverlesene Überraschungs-Macarons</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">18,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="18" type="button">In den Warenkorb</button>
+            </div>
+          </div>
         </article>
-        <article class="abo-card is-popular reveal">
-          <span class="abo-card__badge">Beliebt</span>
-          <h3>6 Monate</h3>
-          <div class="abo-card__price">28,90&nbsp;€ <small>/Monat</small></div>
-          <p class="abo-card__save">Spare 15 % · 173,40 € gesamt</p>
-          <ul class="abo-card__perks">
-            <li>12 Macarons × 6 Lieferungen</li>
-            <li>Exklusive Saison-Sorten</li>
-            <li>Versandkostenfrei</li>
-          </ul>
-          <button class="btn btn--primary btn--block" data-abo="6" data-abo-price="173.40" type="button">Auswählen</button>
+        <article class="mystery-card is-featured reveal">
+          <span class="mystery-card__badge">Bestseller</span>
+          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mystery Box 12er" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mystery Box · 12er</h3>
+            <p>12 Macarons inkl. exklusive Saison-Sorten</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">34,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="34" type="button">In den Warenkorb</button>
+            </div>
+          </div>
         </article>
-        <article class="abo-card reveal">
-          <span class="abo-card__badge">Bester Preis</span>
-          <h3>12 Monate</h3>
-          <div class="abo-card__price">25,50&nbsp;€ <small>/Monat</small></div>
-          <p class="abo-card__save">Spare 25 % · 306,00 € gesamt</p>
-          <ul class="abo-card__perks">
-            <li>12 Macarons × 12 Lieferungen</li>
-            <li>Priority-Zugang zu Neuheiten</li>
-            <li>Versandkostenfrei</li>
-          </ul>
-          <button class="btn btn--ghost btn--block" data-abo="12" data-abo-price="306" type="button">Auswählen</button>
+        <article class="mystery-card reveal">
+          <div class="mystery-card__media"><img src="img/box-open.jpg" alt="Mystery Box 24er" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mystery Box · 24er</h3>
+            <p>24 Macarons – das große Überraschungspaket</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">58,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="24" data-mystery-price="58" type="button">In den Warenkorb</button>
+            </div>
+          </div>
         </article>
       </div>
     </div>
@@ -120,7 +119,7 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260620a"></script>
+  <script src="js/main.js?v=20260620b"></script>
   <script>
     // deep-link category filter (#macarons / #baer / #cupcake)
     (function(){

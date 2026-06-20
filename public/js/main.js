@@ -455,13 +455,11 @@ function ingredientsFor(p){ return `Mandeln, Puderzucker, Eiweiß (Hühnerei), Z
 
 function renderProducts(filter="all"){
   const grid=$("#productGrid"); if(!grid)return;
-  const tagFor={macaron:"",baer:"Bärchen",cupcake:"Törtchen",box:"Geschenk",set:"Set",addon:"Add-on"};
   grid.innerHTML=PRODUCTS.filter(p=>filter==="all"||p.cat===filter).map(p=>{
     const gp=grundpreisStr(p);
     return `
     <article class="pcard reveal" data-id="${p.id}">
       <div class="pcard__media">
-        ${tagFor[p.cat]?`<span class="pcard__tag">${tagFor[p.cat]}</span>`:""}
         <img src="${p.img}" width="384" height="384" loading="lazy" alt="${p.name} – ${p.desc}">
       </div>
       <div class="pcard__body">
@@ -705,21 +703,22 @@ function wireUpsell(){
   });
 }
 
-function wireAbo(){
-  $$("[data-abo]").forEach(btn=>btn.addEventListener("click",()=>{
-    const months=+btn.dataset.abo;
-    const price=+btn.dataset.aboPrice;
-    const label=months===1?"Monatlich":months+" Monate";
+function wireMystery(){
+  document.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-mystery]");
+    if(!btn) return;
+    const size=btn.dataset.mystery;
+    const price=+btn.dataset.mysteryPrice;
     addToCart({
-      key:"abo-"+months,
-      name:"Pynk Surprise Box",
-      meta:label+(months>1?` · ${EUR(price/months)}/Mo.`:" · jederzeit kündbar"),
+      key:"mystery-"+size,
+      name:`Pynk Mystery Box (${size}er)`,
+      meta:"Überraschungs-Auswahl",
       price,
-      thumb:'<span style="font-size:1.8rem">📦</span>'
+      thumb:'<span style="font-size:1.8rem">🎁</span>'
     });
-    toast("Surprise Box-Abo hinzugefügt");
+    toast("Mystery Box hinzugefügt");
     if(typeof openDrawer==="function") openDrawer();
-  }));
+  });
 }
 
 function wireCheckoutExtras(){
@@ -759,7 +758,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireNewsletter();
   initCheckout();
   wireUpsell();
-  wireAbo();
+  wireMystery();
   wireCheckoutExtras();
   observeReveals();
 });
