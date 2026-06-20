@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260619b" />
+  <link rel="stylesheet" href="styles/main.css?v=20260620a" />
 </head>
 <body data-page="checkout">
   <a class="skip-link" href="#checkoutForm">Zur Bestellung springen</a>
@@ -98,6 +98,29 @@
             </div>
           </div>
 
+          <!-- Wunschtermin & Kühlversand -->
+          <div class="co-block">
+            <h2>Lieferoptionen</h2>
+            <div class="field">
+              <label for="coDate">Wunschlieferdatum</label>
+              <input id="coDate" name="date" type="date" class="field__input" />
+              <small class="field__hint">Wir liefern Mo–Sa. Abholbereit ab nächstem Werktag.</small>
+            </div>
+            <div class="co-toggle">
+              <div class="co-toggle__info">
+                <strong>Express-Kühlversand</strong>
+                <p>Isolierbox + Kühlakkus für perfekte Frische — besonders im Sommer empfohlen.</p>
+              </div>
+              <div class="co-toggle__right">
+                <label class="toggle">
+                  <input type="checkbox" id="coKuehlCheck" />
+                  <span class="toggle__track"><span class="toggle__thumb"></span></span>
+                </label>
+                <span class="co-toggle__price">+ 2,50 €</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Pflichtangaben + opt-in + Button-Lösung -->
           <div class="co-block">
             <h2>Bestätigen &amp; bestellen</h2>
@@ -137,6 +160,6 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260619b"></script>
+  <script src="js/main.js?v=20260620a"></script>
 </body>
 </html>

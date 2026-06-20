@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260619b" />
+  <link rel="stylesheet" href="styles/main.css?v=20260620a" />
 </head>
 <body data-page="shop">
   <a class="skip-link" href="#sortiment">Zum Sortiment springen</a>
@@ -21,6 +21,55 @@
     </div>
   </header>
 
+  <!-- PYNK SURPRISE BOX — Abo-Modell -->
+  <section class="section section--blush" id="abo">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Monatlich neu</p>
+        <h2 class="h2">Die Pynk Surprise Box</h2>
+        <p class="lead">Jeden Monat 12 handverlesene Macarons — neue Sorten, saisonale Überraschungen, direkt vor deine Tür.</p>
+      </div>
+      <div class="abo-grid">
+        <article class="abo-card reveal">
+          <span class="abo-card__badge">Flexibel</span>
+          <h3>Monatlich</h3>
+          <div class="abo-card__price">34,00&nbsp;€ <small>/Monat</small></div>
+          <ul class="abo-card__perks">
+            <li>12 Macarons, monatlich neu kuratiert</li>
+            <li>Jederzeit kündbar</li>
+            <li>Versandkostenfrei</li>
+          </ul>
+          <button class="btn btn--ghost btn--block" data-abo="1" data-abo-price="34" type="button">Auswählen</button>
+        </article>
+        <article class="abo-card is-popular reveal">
+          <span class="abo-card__badge">Beliebt</span>
+          <h3>6 Monate</h3>
+          <div class="abo-card__price">28,90&nbsp;€ <small>/Monat</small></div>
+          <p class="abo-card__save">Spare 15 % · 173,40 € gesamt</p>
+          <ul class="abo-card__perks">
+            <li>12 Macarons × 6 Lieferungen</li>
+            <li>Exklusive Saison-Sorten</li>
+            <li>Versandkostenfrei</li>
+          </ul>
+          <button class="btn btn--primary btn--block" data-abo="6" data-abo-price="173.40" type="button">Auswählen</button>
+        </article>
+        <article class="abo-card reveal">
+          <span class="abo-card__badge">Bester Preis</span>
+          <h3>12 Monate</h3>
+          <div class="abo-card__price">25,50&nbsp;€ <small>/Monat</small></div>
+          <p class="abo-card__save">Spare 25 % · 306,00 € gesamt</p>
+          <ul class="abo-card__perks">
+            <li>12 Macarons × 12 Lieferungen</li>
+            <li>Priority-Zugang zu Neuheiten</li>
+            <li>Versandkostenfrei</li>
+          </ul>
+          <button class="btn btn--ghost btn--block" data-abo="12" data-abo-price="306" type="button">Auswählen</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SORTIMENT -->
   <section class="section section--tight" id="sortiment">
     <div class="wrap">
       <div class="toolbar" role="tablist" aria-label="Sortiment filtern">
@@ -29,6 +78,8 @@
         <button class="filter" role="tab" aria-selected="false" data-filter="baer" id="baer">Bärchen</button>
         <button class="filter" role="tab" aria-selected="false" data-filter="cupcake" id="cupcake">Törtchen</button>
         <button class="filter" role="tab" aria-selected="false" data-filter="box">Geschenkboxen</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="set">Sets</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Add-ons</button>
       </div>
       <div class="grid" id="productGrid"></div>
     </div>
@@ -69,7 +120,7 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260619b"></script>
+  <script src="js/main.js?v=20260620a"></script>
   <script>
     // deep-link category filter (#macarons / #baer / #cupcake)
     (function(){

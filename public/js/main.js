@@ -23,7 +23,7 @@ const CONFIG = {
    ============================================================ */
 const I18N = {
   de: {
-    "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
+    "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.gutschein":"Gutscheine","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
     "a11y.cart":"Warenkorb öffnen","a11y.call":"Jetzt anrufen","a11y.wa":"Auf WhatsApp schreiben","a11y.lang":"Sprache wählen",
     "footer.tag":"Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.",
     "footer.discover":"Entdecken","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Firmenkunden","footer.about":"Über uns",
@@ -53,7 +53,7 @@ const I18N = {
     "versand.eyebrow":"So kommst du ran","versand.h2":"Abholen in Hamburg oder liefern lassen"
   },
   en: {
-    "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.ueber":"About","nav.kontakt":"Contact",
+    "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.gutschein":"Gift Cards","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.ueber":"About","nav.kontakt":"Contact",
     "a11y.cart":"Open cart","a11y.call":"Call now","a11y.wa":"Message on WhatsApp","a11y.lang":"Choose language",
     "footer.tag":"Handmade macarons from Hamburg. French technique, a playful soul – to gift, to take away, to fall in love with.",
     "footer.discover":"Discover","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Business","footer.about":"About",
@@ -155,7 +155,13 @@ const PRODUCTS = [
   {id:"toertchen-minz", cat:"cupcake", name:"Minz-Törtchen", flavour:"minze", price:P_CUP, img:"img/dessert-mint.jpg", desc:"Frische Minze, Sahne & Brombeere."},
   // Boxen
   {id:"box-12", cat:"box", name:"12er Geschenkbox", flavour:"erdbeere", price:34, img:"img/box-bears.jpg", desc:"Zwölf handverlesene Macarons in der pinken Box."},
-  {id:"box-15", cat:"box", name:"15er Geschenkbox", flavour:"lavendel", price:42, img:"img/box-open.jpg", desc:"Fünfzehn Macarons – das perfekte Geschenk."}
+  {id:"box-15", cat:"box", name:"15er Geschenkbox", flavour:"lavendel", price:42, img:"img/box-open.jpg", desc:"Fünfzehn Macarons – das perfekte Geschenk."},
+  // Sets
+  {id:"set-probier", cat:"set", name:"Die Probierbox", flavour:"erdbeere", price:18, img:"img/gift-luxe.jpg", desc:"6 handverlesene Sorten – perfekt zum Kennenlernen."},
+  {id:"set-family", cat:"set", name:"Das Family-Set", flavour:"vanille", price:58, img:"img/box-bears.jpg", desc:"24 Stück für große Runden – bunt gemischt, alle glücklich."},
+  {id:"set-tasting", cat:"set", name:"Tasting-Flight", flavour:"lavendel", price:42, img:"img/box-open.jpg", desc:"15 Sorten inkl. Pairing-Guide – die Genuss-Reise für Neugierige."},
+  // Add-ons
+  {id:"crunch", cat:"addon", name:"Pynk Crunch", flavour:"erdbeere", price:6.90, img:"img/mac-erdbeere.jpg", desc:"Zerbröselte Macaron-Schalen als Eis-Topping – 150 g Glas."}
 ];
 
 const macaronHTML = c => `<span class="macaron" style="--mc:${c}" aria-hidden="true"><span class="macaron__shell macaron__shell--top"></span><span class="macaron__filling"></span><span class="macaron__shell macaron__shell--bot"></span></span>`;
@@ -167,6 +173,7 @@ const NAVLINKS = [
   {href:"index.html", label:"Start", key:"home"},
   {href:"shop.html", label:"Shop", key:"shop"},
   {href:"custom-box.html", label:"Box-Atelier", key:"atelier"},
+  {href:"gutschein.html", label:"Gutscheine", key:"gutschein"},
   {href:"spezial.html", label:"Spezial & Anfrage", key:"spezial"},
   {href:"firmenkunden.html", label:"Firmenkunden", key:"b2b"},
   {href:"ueber.html", label:"Über uns", key:"ueber"},
@@ -267,6 +274,11 @@ function injectChrome(){
         </div>
         <div class="drawer__body" id="cartItems"></div>
         <div class="drawer__foot">
+          <div class="upsell" id="cartUpsell" hidden>
+            <img src="img/mac-erdbeere.jpg" width="48" height="48" alt="Pynk Crunch" style="border-radius:8px;object-fit:cover">
+            <div class="upsell__body"><strong>Perfekt zu deinem Dessert</strong><p>Pynk Crunch · Macaron-Topping · 6,90 €</p></div>
+            <button class="btn btn--gold btn--sm" id="upsellAdd" type="button">+ Dazu</button>
+          </div>
           <div class="drawer__total"><span data-i18n="cart.subtotal">Zwischensumme</span><strong id="cartTotal">0,00 €</strong></div>
           <p class="drawer__note" data-i18n="cart.note">Alle Preise inkl. MwSt. · Versand ab 35 € kostenlos · Abholung gratis</p>
           <a class="btn btn--primary btn--block" id="toCheckout" href="checkout.html" data-i18n="cart.checkout">Zur Kasse</a>
@@ -390,6 +402,8 @@ function updateCart(){
   }
   const tot=$("#cartTotal"); if(tot) tot.textContent=EUR(cartTotal());
   const co=$("#toCheckout"); if(co){ co.classList.toggle("is-disabled",!cart.length); }
+  const upsell=$("#cartUpsell");
+  if(upsell) upsell.hidden = !cart.length || cart.some(i=>i.key==="p-crunch");
   const fs=$("#formSummary"); if(fs) renderFormSummary();
   if($("#coItems")) renderCheckout();
 }
@@ -441,7 +455,7 @@ function ingredientsFor(p){ return `Mandeln, Puderzucker, Eiweiß (Hühnerei), Z
 
 function renderProducts(filter="all"){
   const grid=$("#productGrid"); if(!grid)return;
-  const tagFor={macaron:"",baer:"Bärchen",cupcake:"Törtchen",box:"Geschenk"};
+  const tagFor={macaron:"",baer:"Bärchen",cupcake:"Törtchen",box:"Geschenk",set:"Set",addon:"Add-on"};
   grid.innerHTML=PRODUCTS.filter(p=>filter==="all"||p.cat===filter).map(p=>{
     const gp=grundpreisStr(p);
     return `
@@ -483,7 +497,7 @@ function wireGrid(){
     const btn=e.target.closest("[data-add]"); if(!btn)return;
     const p=PRODUCTS.find(x=>x.id===btn.dataset.add);
     flyToCart(btn.closest(".pcard").querySelector(".pcard__media"));
-    addToCart({key:"p-"+p.id,name:p.name,meta:({macaron:"Macaron",baer:"Bärchen-Macaron",cupcake:"Macaron-Törtchen",box:"Geschenkbox"})[p.cat],price:p.price,thumb:`<img src="${p.img}" alt="">`});
+    addToCart({key:"p-"+p.id,name:p.name,meta:({macaron:"Macaron",baer:"Bärchen-Macaron",cupcake:"Macaron-Törtchen",box:"Geschenkbox",set:"Macaron-Set",addon:"Add-on"})[p.cat],price:p.price,thumb:`<img src="${p.img}" alt="">`});
     toast(`${p.name} hinzugefügt`);
   });
 }
@@ -680,6 +694,57 @@ function initCheckout(){
 }
 
 /* ============================================================
+   UPSELL + ABO + CHECKOUT EXTRAS
+   ============================================================ */
+function wireUpsell(){
+  const btn=$("#upsellAdd"); if(!btn) return;
+  btn.addEventListener("click",()=>{
+    const p=PRODUCTS.find(x=>x.id==="crunch"); if(!p) return;
+    addToCart({key:"p-crunch",name:p.name,meta:"Add-on",price:p.price,thumb:`<img src="${p.img}" alt="">`});
+    toast("Pynk Crunch hinzugefügt");
+  });
+}
+
+function wireAbo(){
+  $$("[data-abo]").forEach(btn=>btn.addEventListener("click",()=>{
+    const months=+btn.dataset.abo;
+    const price=+btn.dataset.aboPrice;
+    const label=months===1?"Monatlich":months+" Monate";
+    addToCart({
+      key:"abo-"+months,
+      name:"Pynk Surprise Box",
+      meta:label+(months>1?` · ${EUR(price/months)}/Mo.`:" · jederzeit kündbar"),
+      price,
+      thumb:'<span style="font-size:1.8rem">📦</span>'
+    });
+    toast("Surprise Box-Abo hinzugefügt");
+    if(typeof openDrawer==="function") openDrawer();
+  }));
+}
+
+function wireCheckoutExtras(){
+  const dateInput=$("#coDate");
+  if(dateInput){
+    const tmrw=new Date(); tmrw.setDate(tmrw.getDate()+1);
+    dateInput.min=tmrw.toISOString().split("T")[0];
+  }
+  const kuehlCheck=$("#coKuehlCheck");
+  if(kuehlCheck) kuehlCheck.addEventListener("change", renderCheckout);
+}
+
+// Patch coPricing to include Kühlversand
+const _origCoPricing = typeof coPricing === "function" ? coPricing : null;
+if(_origCoPricing){
+  coPricing = function(){
+    const p = _origCoPricing();
+    const kuehl = $("#coKuehlCheck");
+    if(kuehl && kuehl.checked) { p.total += 2.50; p.ship += 2.50; }
+    p.vat = p.total - p.total/(1+VAT_RATE);
+    return p;
+  };
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -693,5 +758,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireAnfrageForm();
   wireNewsletter();
   initCheckout();
+  wireUpsell();
+  wireAbo();
+  wireCheckoutExtras();
   observeReveals();
 });
