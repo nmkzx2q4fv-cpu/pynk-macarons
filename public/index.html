@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css?v=20260619a" />
+  <link rel="stylesheet" href="styles/main.css?v=20260619b" />
 </head>
 <body data-page="home" data-hero>
   <a class="skip-link" href="#kategorien">Zum Inhalt springen</a>
@@ -26,7 +26,7 @@
       <p class="lead hero__lead" data-anim data-i18n="hero.lead">Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
       <div class="hero__cta" data-anim>
         <a href="shop.html" class="btn btn--primary btn--lg" data-i18n="hero.cta1">Jetzt genießen</a>
-        <a href="atelier.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" data-i18n="hero.cta2">Box-Atelier öffnen</a>
+        <a href="custom-box.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" data-i18n="hero.cta2">Box-Atelier öffnen</a>
       </div>
       <div class="hero__trust" data-anim>
         <span class="stars" aria-hidden="true">
@@ -54,57 +54,41 @@
 
       <!-- Anlass-Kacheln → führen ins volle Atelier mit vorgewähltem Anlass -->
       <div class="occ-tiles reveal" aria-label="Anlass wählen">
-        <a class="occ-tile" href="atelier.html?occ=hochzeit">
+        <a class="occ-tile" href="custom-box.html?occ=hochzeit">
           <img src="img/hero-tower.jpg" alt="" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.hochzeit">Hochzeit</span>
         </a>
-        <a class="occ-tile" href="atelier.html?occ=babyparty">
+        <a class="occ-tile" href="custom-box.html?occ=babyparty">
           <img src="img/bear-hero.jpg" alt="" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.babyparty">Babyparty</span>
         </a>
-        <a class="occ-tile" href="atelier.html?occ=geschenk">
+        <a class="occ-tile" href="custom-box.html?occ=geschenk">
           <img src="img/gift-luxe.jpg" alt="" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.geschenk">Geschenk</span>
         </a>
-        <a class="occ-tile" href="atelier.html?occ=firma">
+        <a class="occ-tile" href="custom-box.html?occ=firma">
           <img src="img/b2b-meta.jpg" alt="" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.firma">Firmen-Event</span>
         </a>
-        <a class="occ-tile" href="atelier.html?occ=self">
+        <a class="occ-tile" href="custom-box.html?occ=self">
           <img src="img/dessert-berry.jpg" alt="" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.self">Einfach so</span>
         </a>
       </div>
 
-      <p class="builder__or reveal" data-i18n="builder.or">Oder bau direkt hier deine Probier-Box:</p>
-
-      <div class="gbuilder reveal">
-        <!-- Palette -->
-        <div class="gbuilder__palette" id="gravPalette" aria-label="Sorten antippen"></div>
-
-        <!-- Box -->
-        <div class="gbuilder__stage">
-          <div class="gbox" id="gravBox" aria-label="Deine Probier-Box, 6 Plätze">
-            <div class="gbox__lidback"></div>
-            <div class="gbox__cells" id="gravCells"></div>
-            <div class="gbox__front"><span>Probier-Box · <span id="gravCount">0</span>/6</span></div>
-          </div>
-          <div class="gbuilder__controls">
-            <button class="btn btn--gold" id="gravSurprise" type="button">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
-              Überrasch mich!
-            </button>
-            <button class="btn btn--ghost" id="gravReroll" type="button">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
-              Neu mischen
-            </button>
-            <button class="btn btn--primary" id="gravAdd" type="button" disabled>Box in den Warenkorb · 18&nbsp;€</button>
-          </div>
+      <div class="builder-cta reveal">
+        <div class="builder-cta__visual">
+          <img src="img/gift-luxe.jpg" alt="Offene Macaron-Box mit handbemalten Macarons" width="480" height="480" loading="lazy" />
         </div>
-      </div>
-
-      <div class="builder__cta reveal">
-        <a href="atelier.html" class="btn btn--ghost" data-i18n="builder.full">Zum vollen Box-Atelier →</a>
+        <div class="builder-cta__content">
+          <h3 class="h3">Dein persönliches Meisterwerk</h3>
+          <p>Wähle Anlass, Sorten und Größe – sieh zu, wie jedes Stück in deine Box fällt. Unser interaktiver Box-Builder macht das Zusammenstellen zum Erlebnis.</p>
+          <a href="custom-box.html" class="btn btn--primary btn--lg">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
+            Stelle jetzt deine Box zusammen
+          </a>
+          <p class="builder-cta__sub">6er ab 18 € · 12er ab 34 € · Kostenlose Abholung in Hamburg</p>
+        </div>
       </div>
     </div>
   </section>
@@ -305,11 +289,11 @@
     </div>
   </section>
 
-  <script src="js/main.js?v=20260619a"></script>
+  <script src="js/main.js?v=20260619b"></script>
   <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="js/interactive.js?v=20260619a" defer></script>
+  <script src="js/interactive.js?v=20260619b" defer></script>
 </body>
 </html>

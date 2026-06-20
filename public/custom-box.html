@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Box zusammenstellen · Macarons by Pynk</title>
+  <meta name="description" content="Stell dir deine perfekte Macaron-Box zusammen – abgestimmt auf deinen Anlass. Klick die Sorten in die Box und sieh zu, wie sie hineinfallen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css?v=20260619b" />
+  <link rel="stylesheet" href="styles/atelier.css?v=20260619b" />
+</head>
+<body data-page="atelier" class="is-custom-box">
+  <a class="skip-link" href="#atelier">Zum Box-Builder springen</a>
+
+  <!-- ============ OCCASION OVERLAY ============ -->
+  <div class="occ" id="occOverlay" role="dialog" aria-modal="true" aria-labelledby="occTitle">
+    <div class="occ__inner">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Dein Moment</p>
+      <h1 class="h2" id="occTitle">Für welchen Anlass suchst du?</h1>
+      <p class="lead">Wir stimmen Sorten, Farben und deine Box auf deinen Anlass ab – damit jedes Stück passt.</p>
+      <div class="occ__grid" id="occGrid"></div>
+      <button class="occ__skip" data-occ="self" type="button">Ich stöbere einfach&nbsp;→</button>
+    </div>
+  </div>
+
+  <!-- ============ THEMED EXPERIENCE ============ -->
+  <main class="atelier" id="atelier" data-occasion="self" hidden>
+    <section class="atelier-hero">
+      <div class="wrap">
+        <p class="eyebrow" id="atEyebrow">Box-Atelier</p>
+        <h1 class="display" id="atTitle">Bau dein Meisterwerk</h1>
+        <p class="lead" id="atLead">Wähle deine Sorten – sieh zu, wie sie in die Box fallen.</p>
+        <button class="occ-change" id="occChange" type="button">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+          Anlass ändern
+        </button>
+      </div>
+    </section>
+
+    <section class="atelier-stage">
+      <div class="wrap stage-grid">
+        <!-- Macaron Grid -->
+        <div class="mac-wrap">
+          <div class="mac-wrap__head">
+            <h2 class="h3">Wähle deine Sorten</h2>
+            <p class="mac-wrap__hint" id="gridHint">Tipp ein Macaron an – es fällt in die Box.</p>
+          </div>
+          <div class="mac-grid" id="macGrid"></div>
+        </div>
+
+        <!-- Box Panel with Tracker -->
+        <aside class="box-panel" id="boxPanel">
+          <div class="box-panel__top">
+            <div class="box-size" role="radiogroup" aria-label="Boxgröße">
+              <button class="is-active" role="radio" aria-checked="true" data-size="6">6er&nbsp;·&nbsp;18&nbsp;€</button>
+              <button role="radio" aria-checked="false" data-size="12">12er&nbsp;·&nbsp;34&nbsp;€</button>
+            </div>
+            <p class="box-social"><span class="stars" aria-hidden="true">
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>
+            </span><strong>4,9</strong> · über <strong>1.200</strong> glückliche Bestellungen</p>
+          </div>
+
+          <div class="pbox" id="pbox">
+            <div class="pbox__lid" id="pboxLid"><span>Macaron <em>by pynk</em></span></div>
+            <div class="pbox__tray">
+              <div class="pbox__slots" id="pboxSlots"></div>
+            </div>
+            <div class="pbox__glow" aria-hidden="true"></div>
+          </div>
+
+          <p class="box-counter" id="boxCounter" role="status" aria-live="polite">Noch 6 Plätze frei für deine Box</p>
+
+          <!-- Live Tracker -->
+          <div class="box-tracker" id="boxTracker">
+            <div class="box-tracker__head">
+              <h3 class="box-tracker__title">Deine Auswahl</h3>
+              <span class="box-tracker__count" id="trackerCount">0 / 6</span>
+            </div>
+            <ul class="box-tracker__list" id="trackerList" aria-live="polite"></ul>
+            <div class="box-tracker__total" id="trackerTotal">
+              <span>Gesamt</span>
+              <strong id="trackerPrice">0,00 €</strong>
+            </div>
+          </div>
+
+          <div class="box-actions">
+            <button class="btn btn--gold" id="magicFill" type="button">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
+              <span id="magicLabel">Magic Fill</span>
+            </button>
+            <button class="btn btn--ghost" id="boxClear" type="button">Leeren</button>
+          </div>
+          <button class="btn btn--primary btn--block box-checkout" id="boxCheckout" type="button" disabled>Box füllen, um fortzufahren</button>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Sticky Bottom Bar -->
+  <div class="mobile-bar" id="mobileBar" aria-hidden="true">
+    <div class="mobile-bar__preview">
+      <div class="mobile-bar__slots" id="mobileSlots"></div>
+      <div class="mobile-bar__info">
+        <strong id="mobileCount">0 / 6</strong>
+        <span id="mobilePrice">0,00 €</span>
+      </div>
+      <button class="mobile-bar__toggle" id="mobileExpand" type="button" aria-label="Details anzeigen">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m18 15-6-6-6 6"/></svg>
+      </button>
+    </div>
+    <div class="mobile-bar__drawer" id="mobileDrawer">
+      <ul class="mobile-bar__list" id="mobileTrackerList"></ul>
+      <div class="mobile-bar__actions">
+        <button class="btn btn--gold btn--sm" id="mobileMagic" type="button">Magic Fill</button>
+        <button class="btn btn--ghost btn--sm" id="mobileClear" type="button">Leeren</button>
+      </div>
+    </div>
+    <button class="btn btn--primary btn--block mobile-bar__checkout" id="mobileCheckout" type="button" disabled>
+      Box füllen, um fortzufahren
+    </button>
+  </div>
+
+  <div id="flightLayer" aria-hidden="true"></div>
+
+  <script src="js/main.js?v=20260619b"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/atelier.js?v=20260619b" defer></script>
+</body>
+</html>

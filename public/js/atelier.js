@@ -72,7 +72,7 @@
     qs("#atLead").textContent = o.lead;
     qs("#magicLabel").textContent = o.magic;
     renderGrid();
-    updateCounter();
+    afterChange();
   }
 
   function openExperience(id) {
@@ -203,8 +203,9 @@
   function placeInSlot(slotIdx, macId, srcRect) {
     const slot = qs(`.pslot[data-idx="${slotIdx}"]`);
     if (!slot) return;
-    renderSlotImg(slot, macId, true);                                       // instant, bulletproof
-    if (!RM && srcRect && !document.hidden) flightTo(srcRect, slot, macId); // pure flourish
+    renderSlotImg(slot, macId, true);
+    const visible = slot.offsetParent !== null;
+    if (!RM && srcRect && !document.hidden && visible) flightTo(srcRect, slot, macId);
   }
 
   function addToBox(macId, sourceEl) {
@@ -293,7 +294,7 @@
   }
 
   function afterChange() {
-    renderSlotsLight();    // keep DOM in sync without rebuilding filled slots mid-animation
+    renderSlotsLight();
     updateCounter();
     const filled = state.slots.filter(Boolean).length;
     const full = filled === state.size;
@@ -311,6 +312,126 @@
     if (magicLabel) {
       if (full) magicLabel.textContent = "Neu Mischen ↻";
       else magicLabel.textContent = (OCCASIONS[state.occasion] || OCCASIONS.self).magic;
+    }
+    updateTracker(filled, full);
+    updateMobileBar(filled, full);
+  }
+
+  /* ============================================================
+     LIVE TRACKER (only if #boxTracker exists in DOM)
+     ============================================================ */
+  let _prevTrackerKeys = "";
+  function updateTracker(filled, full) {
+    const list = qs("#trackerList");
+    if (!list) return;
+    const countEl = qs("#trackerCount");
+    const priceEl = qs("#trackerPrice");
+    if (countEl) countEl.textContent = `${filled} / ${state.size}`;
+    if (priceEl) priceEl.textContent = filled > 0 ? EUR(BOX_PRICE[state.size]) : "0,00 €";
+
+    const counts = {};
+    state.slots.forEach(id => { if (id) counts[id] = (counts[id] || 0) + 1; });
+    const keys = Object.entries(counts).map(([k, v]) => k + v).join(",");
+    const changed = keys !== _prevTrackerKeys;
+    _prevTrackerKeys = keys;
+
+    if (!Object.keys(counts).length) {
+      list.innerHTML = '<li class="box-tracker__empty">Noch leer – tippe eine Sorte an</li>';
+      return;
+    }
+    list.innerHTML = Object.entries(counts).map(([id, qty]) => {
+      const m = byId(id);
+      return `<li class="box-tracker__item${changed ? " is-new" : ""}" style="--dot:${m.color}">
+        <span class="box-tracker__dot" style="background:${m.color}"></span>
+        <span class="box-tracker__name">${m.name}</span>
+        <span class="box-tracker__qty">${qty}×</span>
+      </li>`;
+    }).join("");
+    if (changed) {
+      setTimeout(() => qsa(".box-tracker__item.is-new", list).forEach(el => el.classList.remove("is-new")), 520);
+    }
+  }
+
+  /* ============================================================
+     MOBILE STICKY BAR (only if #mobileBar exists in DOM)
+     ============================================================ */
+  function initMobileBar() {
+    const bar = qs("#mobileBar");
+    if (!bar) return;
+    const slotsWrap = qs("#mobileSlots", bar);
+    const expandBtn = qs("#mobileExpand", bar);
+    const magicBtn = qs("#mobileMagic", bar);
+    const clearBtn = qs("#mobileClear", bar);
+    const mCheckout = qs("#mobileCheckout", bar);
+
+    if (expandBtn) expandBtn.addEventListener("click", () => {
+      bar.classList.toggle("is-expanded");
+      bar.setAttribute("aria-hidden", "false");
+    });
+    if (magicBtn) magicBtn.addEventListener("click", () => {
+      state.slots.filter(Boolean).length === state.size ? reroll() : magicFill();
+    });
+    if (clearBtn) clearBtn.addEventListener("click", clearBox);
+    if (mCheckout) mCheckout.addEventListener("click", checkout);
+
+    renderMobileSlots();
+  }
+
+  function renderMobileSlots() {
+    const slotsWrap = qs("#mobileSlots");
+    if (!slotsWrap) return;
+    slotsWrap.innerHTML = "";
+    for (let i = 0; i < state.size; i++) {
+      const dot = document.createElement("div");
+      dot.className = "mobile-bar__slot";
+      dot.dataset.idx = i;
+      slotsWrap.appendChild(dot);
+    }
+  }
+
+  function updateMobileBar(filled, full) {
+    const bar = qs("#mobileBar");
+    if (!bar) return;
+    const countEl = qs("#mobileCount", bar);
+    const priceEl = qs("#mobilePrice", bar);
+    const mCheckout = qs("#mobileCheckout", bar);
+    const trackerList = qs("#mobileTrackerList", bar);
+
+    if (countEl) countEl.textContent = `${filled} / ${state.size}`;
+    if (priceEl) priceEl.textContent = filled > 0 ? EUR(BOX_PRICE[state.size]) : "0,00 €";
+
+    qsa(".mobile-bar__slot", bar).forEach((dot, i) => {
+      const macId = state.slots[i];
+      const wasFilled = dot.classList.contains("is-filled");
+      if (macId) {
+        dot.style.background = byId(macId).color;
+        dot.classList.add("is-filled");
+        if (!wasFilled) { dot.classList.add("is-new"); setTimeout(() => dot.classList.remove("is-new"), 380); }
+      } else {
+        dot.style.background = "";
+        dot.classList.remove("is-filled");
+      }
+    });
+
+    if (mCheckout) {
+      mCheckout.disabled = filled === 0;
+      mCheckout.classList.toggle("ready", full);
+      mCheckout.textContent = filled === 0 ? "Box füllen, um fortzufahren"
+        : full ? `Zur Kasse · ${EUR(BOX_PRICE[state.size])}`
+        : `Weiter mit ${filled} Macaron${filled === 1 ? "" : "s"}`;
+    }
+
+    if (trackerList) {
+      const counts = {};
+      state.slots.forEach(id => { if (id) counts[id] = (counts[id] || 0) + 1; });
+      if (!Object.keys(counts).length) {
+        trackerList.innerHTML = '<li class="box-tracker__empty">Noch leer</li>';
+      } else {
+        trackerList.innerHTML = Object.entries(counts).map(([id, qty]) => {
+          const m = byId(id);
+          return `<li class="box-tracker__item"><span class="box-tracker__dot" style="background:${m.color}"></span><span class="box-tracker__name">${m.name}</span><span class="box-tracker__qty">${qty}×</span></li>`;
+        }).join("");
+      }
     }
   }
 
@@ -331,7 +452,7 @@
     const old = state.slots;
     state.slots = new Array(n).fill(null);
     for (let i = 0; i < Math.min(n, old.length); i++) state.slots[i] = old[i];
-    renderSlots(); renderSlotsLight(); afterChange();
+    renderSlots(); renderMobileSlots(); renderSlotsLight(); afterChange();
   }
 
   /* checkout */
@@ -384,6 +505,7 @@
 
     // initial render
     renderSlots();
+    initMobileBar();
     applyOccasion(state.occasion);
 
     // deep-link: atelier.html?occ=hochzeit → direkt in den Anlass starten (Overlay überspringen)

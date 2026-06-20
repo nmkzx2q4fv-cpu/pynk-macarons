@@ -652,7 +652,22 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 .occ-tile__label{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:var(--s4) var(--s2); color:#fff; font-family:var(--display); font-weight:600; font-size:1.06rem; text-align:center; letter-spacing:.01em; }
 .occ-tile__label::after{ content:"→"; display:block; font-family:var(--body); font-size:.78rem; font-weight:800; opacity:.8; margin-top:2px; transition:transform var(--t1); }
 .occ-tile:hover .occ-tile__label::after{ transform:translateX(4px); }
-.builder__or{ text-align:center; color:var(--bordeaux-2); font-weight:700; font-size:.95rem; margin:0 0 var(--s5); position:relative; }
-.builder__cta{ text-align:center; margin-top:var(--s6); }
-@media (max-width:860px){ .occ-tiles{ grid-template-columns:repeat(3,1fr); } }
-@media (max-width:560px){ .occ-tiles{ grid-template-columns:repeat(2,1fr); gap:var(--s2); } .occ-tile__label{ font-size:.95rem; padding:var(--s3) var(--s2); } }
+.builder-cta{ display:flex; align-items:center; gap:var(--s8); margin-top:var(--s7); }
+.builder-cta__visual{ flex:0 0 42%; position:relative; }
+.builder-cta__visual img{ width:100%; border-radius:var(--r-xl); box-shadow:var(--sh-lg); aspect-ratio:1; object-fit:cover; }
+.builder-cta__visual::after{ content:""; position:absolute; inset:-8px; border-radius:calc(var(--r-xl) + 8px); border:2px dashed rgba(201,162,75,.32); pointer-events:none; }
+.builder-cta__content{ flex:1; }
+.builder-cta__content .h3{ color:var(--bordeaux); margin-bottom:var(--s3); }
+.builder-cta__content p{ color:var(--bordeaux-2); line-height:1.65; margin-bottom:var(--s5); }
+.builder-cta__content .btn{ display:inline-flex; align-items:center; gap:10px; font-size:1.08rem; padding:18px 36px; }
+.builder-cta__sub{ font-size:.82rem; color:var(--bordeaux-2); opacity:.7; margin-top:var(--s3); }
+@media (max-width:860px){
+  .occ-tiles{ grid-template-columns:repeat(3,1fr); }
+  .builder-cta{ flex-direction:column; text-align:center; gap:var(--s5); }
+  .builder-cta__visual{ flex:none; max-width:320px; width:100%; }
+}
+@media (max-width:560px){
+  .occ-tiles{ grid-template-columns:repeat(2,1fr); gap:var(--s2); }
+  .occ-tile__label{ font-size:.95rem; padding:var(--s3) var(--s2); }
+  .builder-cta__content .btn{ width:100%; justify-content:center; font-size:1rem; padding:16px 24px; }
+}

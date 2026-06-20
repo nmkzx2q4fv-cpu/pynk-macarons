@@ -166,7 +166,7 @@ const macaronHTML = c => `<span class="macaron" style="--mc:${c}" aria-hidden="t
 const NAVLINKS = [
   {href:"index.html", label:"Start", key:"home"},
   {href:"shop.html", label:"Shop", key:"shop"},
-  {href:"atelier.html", label:"Box-Atelier", key:"atelier"},
+  {href:"custom-box.html", label:"Box-Atelier", key:"atelier"},
   {href:"spezial.html", label:"Spezial & Anfrage", key:"spezial"},
   {href:"firmenkunden.html", label:"Firmenkunden", key:"b2b"},
   {href:"ueber.html", label:"Über uns", key:"ueber"},
