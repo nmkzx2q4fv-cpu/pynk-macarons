@@ -933,3 +933,11 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 .toggle input:focus-visible ~ .toggle__track{ outline:3px solid var(--pynk); outline-offset:2px; }
 .field__hint{ display:block; margin-top:4px; font-size:.8rem; color:var(--bordeaux-2); opacity:.65; }
 @media(max-width:600px){ .co-toggle{ flex-direction:column; text-align:center; } .co-toggle__right{ justify-content:center; } }
+
+/* ============================================================
+   GSAP PREMIUM MOTION — 3D perspective, tilt, ticker
+   ============================================================ */
+.grid, .catgrid, .anlass-grid, .occ-tiles{ perspective:900px; }
+.pcard, .anlass-card, .occ-tile, .catcard{ transform-style:preserve-3d; }
+.reviews{ display:flex; gap:24px; overflow:hidden; white-space:nowrap; }
+.reviews .review{ flex:none; white-space:normal; }

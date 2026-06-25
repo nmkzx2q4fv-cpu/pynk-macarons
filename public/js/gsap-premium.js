@@ -1,0 +1,345 @@
+/* ============================================================
+   Pynk Macarons — GSAP Premium Motion Layer
+   ------------------------------------------------------------
+   Layered on top of existing CSS transitions + WAA physics.
+   Requires: gsap.min.js, ScrollTrigger.min.js (already on CDN).
+   Respects prefers-reduced-motion globally.
+   ============================================================ */
+(function () {
+  "use strict";
+
+  if (typeof gsap === "undefined") return;
+  const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (RM) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* ============================================================
+     1) HERO ENTRANCE TIMELINE
+     ============================================================ */
+  function initHero() {
+    const hero = $(".hero");
+    if (!hero) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Nav reveal (guard — injected by main.js)
+    const nav = $(".nav");
+    const brand = $(".brand");
+    const navLinks = $$(".nav__links a");
+    if (nav) tl.from(nav, { y: -30, opacity: 0, duration: 0.8 }, 0.1);
+    if (brand) tl.from(brand, { x: -20, opacity: 0, duration: 0.6 }, 0.2);
+    if (navLinks.length) tl.from(navLinks, { y: -15, opacity: 0, duration: 0.5, stagger: 0.06 }, 0.3);
+
+    // Hero content stagger
+    const animEls = $$("[data-anim]", hero);
+    if (animEls.length) {
+      animEls.forEach(el => { el.style.opacity = "1"; });
+      tl.from(animEls, {
+        y: 40, opacity: 0, duration: 0.9,
+        stagger: 0.12, ease: "power3.out"
+      }, 0.4);
+    }
+
+    // Scroll indicator
+    const scroll = $(".hero__scroll");
+    if (scroll) tl.from(scroll, { opacity: 0, y: 15, duration: 0.6 }, 1.2);
+
+    // Parallax on hero background
+    const bg = $(".hero__bg");
+    if (bg) {
+      gsap.to(bg, {
+        yPercent: 25, ease: "none",
+        scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true }
+      });
+    }
+  }
+
+  /* ============================================================
+     2) SCROLL-DRIVEN TEXT & SECTION REVEALS
+     ============================================================ */
+  function initScrollReveals() {
+    // Staggered heading reveals with split-line effect
+    $$(".section__head .h2, .section__head .display").forEach(heading => {
+      gsap.from(heading, {
+        y: 50, opacity: 0, duration: 1, ease: "power3.out",
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+
+    // Eyebrow + lead text
+    $$(".section__head .eyebrow").forEach(el => {
+      gsap.from(el, {
+        y: 20, opacity: 0, duration: 0.7, ease: "power2.out",
+        scrollTrigger: {
+          trigger: el, start: "top 88%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+
+    $$(".section__head .lead").forEach(el => {
+      gsap.from(el, {
+        y: 30, opacity: 0, duration: 0.8, delay: 0.15, ease: "power2.out",
+        scrollTrigger: {
+          trigger: el, start: "top 88%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+
+    // Category cards stagger
+    $$(".catgrid, .abo-grid, .anlass-grid, .tier-grid, .gc-grid").forEach(grid => {
+      const cards = grid.children;
+      if (!cards.length) return;
+      gsap.from(cards, {
+        y: 60, opacity: 0, scale: 0.95,
+        duration: 0.7, stagger: 0.1, ease: "power3.out",
+        scrollTrigger: {
+          trigger: grid, start: "top 82%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+
+    // Stats counter section
+    $$(".stats").forEach(block => {
+      gsap.from(block.children, {
+        y: 30, opacity: 0, duration: 0.6, stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: block, start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      });
+    });
+
+    // Split sections (image + copy)
+    $$(".split").forEach(split => {
+      const media = $(".split__media, .framed", split);
+      const copy = $(".split__copy", split);
+      if (media) {
+        gsap.from(media, {
+          x: -60, opacity: 0, duration: 1, ease: "power3.out",
+          scrollTrigger: {
+            trigger: split, start: "top 75%",
+            toggleActions: "play none none none"
+          }
+        });
+      }
+      if (copy) {
+        gsap.from(copy, {
+          x: 40, opacity: 0, duration: 1, delay: 0.15, ease: "power3.out",
+          scrollTrigger: {
+            trigger: split, start: "top 75%",
+            toggleActions: "play none none none"
+          }
+        });
+      }
+    });
+  }
+
+  /* ============================================================
+     3) PRODUCT CARD 3D TILT + HOVER
+     ============================================================ */
+  function initCardTilt() {
+    const cards = $$(".pcard, .anlass-card, .occ-tile, .catcard");
+    cards.forEach(card => {
+      card.style.transformStyle = "preserve-3d";
+      card.style.willChange = "transform";
+
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(card, {
+          rotateY: x * 8,
+          rotateX: -y * 6,
+          scale: 1.02,
+          duration: 0.4,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      });
+
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          rotateY: 0, rotateX: 0, scale: 1,
+          duration: 0.6, ease: "power3.out",
+          overwrite: "auto"
+        });
+      });
+    });
+  }
+
+  /* ============================================================
+     4) MAGNETIC BUTTONS
+     ============================================================ */
+  function initMagneticButtons() {
+    const btns = $$(".btn--primary, .btn--gold");
+    btns.forEach(btn => {
+      const strength = 0.3;
+      btn.addEventListener("mousemove", e => {
+        const rect = btn.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) * strength;
+        const dy = (e.clientY - cy) * strength;
+        gsap.to(btn, {
+          x: dx, y: dy,
+          duration: 0.35, ease: "power2.out",
+          overwrite: "auto"
+        });
+      });
+
+      btn.addEventListener("mouseleave", () => {
+        gsap.to(btn, {
+          x: 0, y: 0,
+          duration: 0.5, ease: "elastic.out(1, 0.4)",
+          overwrite: "auto"
+        });
+      });
+    });
+  }
+
+  /* ============================================================
+     5) REVIEW TICKER (infinite horizontal scroll)
+     ============================================================ */
+  function initReviewTicker() {
+    const reviews = $(".reviews");
+    if (!reviews) return;
+
+    const items = $$(".review", reviews);
+    if (items.length < 2) return;
+
+    // Clone items for seamless loop
+    items.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      reviews.appendChild(clone);
+    });
+
+    const totalWidth = items.reduce((w, el) => w + el.offsetWidth + 24, 0);
+
+    gsap.to(reviews, {
+      x: -totalWidth,
+      duration: totalWidth / 40,
+      ease: "none",
+      repeat: -1,
+      modifiers: {
+        x: gsap.utils.unitize(x => parseFloat(x) % totalWidth)
+      }
+    });
+
+    // Pause on hover
+    reviews.addEventListener("mouseenter", () => gsap.globalTimeline.timeScale(0.2));
+    reviews.addEventListener("mouseleave", () => gsap.globalTimeline.timeScale(1));
+  }
+
+  /* ============================================================
+     6) LOGO / BRAND BAR SCROLL PARALLAX
+     ============================================================ */
+  function initLogoParallax() {
+    const logos = $(".logos");
+    if (!logos) return;
+    gsap.from(logos.children, {
+      x: i => (i % 2 === 0 ? -40 : 40),
+      opacity: 0, duration: 0.8, stagger: 0.08,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: logos, start: "top 85%",
+        toggleActions: "play none none none"
+      }
+    });
+  }
+
+  /* ============================================================
+     7) OCCASION COLOR MORPHING (Anlass-Seite + Box Builder)
+     ============================================================ */
+  function initOccasionMorph() {
+    const OCCASION_COLORS = {
+      hochzeit:  { accent: "#C9A24B", bg: "#FFF8F0", ink: "#4A1530" },
+      babyparty: { accent: "#E891B6", bg: "#FFF0F5", ink: "#4A1530" },
+      geburtstag:{ accent: "#EF7DA0", bg: "#FFF5F8", ink: "#4A1530" },
+      firma:     { accent: "#2C5F6E", bg: "#F0F5F5", ink: "#1A3A45" },
+      self:      { accent: "#D81277", bg: "#FFF5F8", ink: "#4A1530" }
+    };
+
+    document.addEventListener("click", e => {
+      const card = e.target.closest("[data-anlass]") || e.target.closest("[data-occ]");
+      if (!card) return;
+      const key = card.dataset.anlass || card.dataset.occ;
+      const colors = OCCASION_COLORS[key];
+      if (!colors) return;
+
+      const root = document.documentElement;
+      gsap.to(root, {
+        "--exp-accent": colors.accent,
+        "--exp-surface": colors.bg,
+        duration: 0.8, ease: "power2.inOut"
+      });
+    });
+  }
+
+  /* ============================================================
+     8) SMOOTH SECTION TRANSITIONS
+     ============================================================ */
+  function initSectionTransitions() {
+    $$(".section").forEach((section, i) => {
+      if (i === 0) return;
+      gsap.from(section, {
+        opacity: 0.3,
+        scrollTrigger: {
+          trigger: section,
+          start: "top 95%",
+          end: "top 60%",
+          scrub: true
+        }
+      });
+    });
+  }
+
+  /* ============================================================
+     9) PAGE-HEAD ENTRANCE (non-hero pages)
+     ============================================================ */
+  function initPageHead() {
+    const ph = $(".pagehead");
+    if (!ph) return;
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    tl.from(ph, { opacity: 0, duration: 0.4 }, 0);
+    const children = $$(".eyebrow, .h2, .lead", ph);
+    tl.from(children, { y: 30, opacity: 0, duration: 0.7, stagger: 0.1 }, 0.15);
+  }
+
+  /* ============================================================
+     INIT — runs after DOMContentLoaded + fonts loaded
+     ============================================================ */
+  function init() {
+    initHero();
+    initPageHead();
+    initScrollReveals();
+    initCardTilt();
+    initMagneticButtons();
+    initReviewTicker();
+    initLogoParallax();
+    initOccasionMorph();
+    initSectionTransitions();
+
+    // Refresh ScrollTrigger after images load
+    window.addEventListener("load", () => ScrollTrigger.refresh());
+  }
+
+  function boot() { setTimeout(init, 60); }
+  if (document.readyState === "complete") {
+    boot();
+  } else {
+    window.addEventListener("load", boot);
+  }
+})();
