@@ -4,20 +4,11 @@
    ============================================================ */
 
 :root {
-  /* Brand */
-  --cream:      #FBF6F0;   /* page background */
-  --cream-2:    #F4EBE2;   /* alt surface */
-  --paper:      #FFFFFF;   /* cards */
-  --pynk:       #D81277;   /* signature magenta — AA on white */
-  --pynk-deep:  #A60C5A;   /* hover / deep */
-  --pynk-soft:  #F8E2EE;   /* blush surface */
-  --pynk-tint:  #FDF1F7;   /* faint wash */
-  --bordeaux:   #4A1530;   /* primary text & dark sections */
-  --bordeaux-2: #6E3650;   /* muted text */
-  --gold:       #C9A24B;   /* framing lines, details */
-  --gold-soft:  #E7D4A6;
+  /* Brand colors, radii, ease, and timing are now defined in m3-tokens.css
+     via the M3 design token system. See that file for the full palette.
+     Only NON-bridged tokens remain here. */
 
-  /* Flavour accents */
+  /* Flavour accents (not in M3 palette — macaron-specific) */
   --f-erdbeere:#EF7DA0; --f-himbeere:#E0567E; --f-pistazie:#A9C77A;
   --f-matcha:#9CC06A; --f-limette:#7FD08C;
   --f-zitrone:#F2D06B; --f-mango:#F4B45E; --f-orange:#EFA277;
@@ -26,29 +17,27 @@
   --f-karamell:#D8A86A; --f-latte:#B8A48F; --f-cookies:#9C9690;
   --f-wildberry:#C86FA8;
 
-  /* Type */
+  /* Type (kept as shorthand aliases; M3 uses --md-ref-typeface-*) */
   --display: "Fraunces", Georgia, "Times New Roman", serif;
   --body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Spacing (8pt) */
+  /* Spacing (8pt grid — not in M3 tokens) */
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px;
   --s7:48px; --s8:64px; --s9:96px; --s10:128px;
 
-  /* Radii */
-  --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:36px; --r-pill:999px;
-
-  /* Shadows */
+  /* Shadows (M3 uses tonal elevation, but we keep shadows for depth) */
   --sh-sm: 0 2px 10px rgba(74,21,48,.06);
   --sh-md: 0 14px 40px rgba(74,21,48,.10);
   --sh-lg: 0 30px 70px rgba(74,21,48,.16);
 
+  /* Layout */
   --maxw: 1240px;
   --nav-h: 76px;
 
-  --ease: cubic-bezier(.22,.61,.36,1);
+  /* Spring easing (custom — not in M3 motion tokens) */
   --spring: cubic-bezier(.34,1.4,.5,1);
-  --t1:160ms; --t2:280ms; --t3:520ms;
 
+  /* Z-indices */
   --z-nav:100; --z-drawer:1000; --z-fly:1200; --z-toast:1300;
 }
 
