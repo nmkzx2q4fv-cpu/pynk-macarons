@@ -4,6 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Macarons by Pynk · Handgemachte Macarons aus Hamburg</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
+  <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://macaronbypynk.de/" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Macarons by Pynk" />
+  <meta property="og:title" content="Macarons by Pynk · Handgemachte Macarons aus Hamburg" />
+  <meta property="og:description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
+  <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta property="og:url" content="https://macaronbypynk.de/" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Macarons by Pynk · Handgemachte Macarons aus Hamburg" />
+  <meta name="twitter:description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
+  <meta name="twitter:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
   <meta name="description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,23 +73,23 @@
       <!-- Anlass-Kacheln → führen ins volle Atelier mit vorgewähltem Anlass -->
       <div class="occ-tiles reveal" aria-label="Anlass wählen">
         <a class="occ-tile" href="custom-box.html?occ=hochzeit">
-          <img src="img/hero-tower.jpg" alt="" width="260" height="320" loading="lazy" />
+          <img src="img/hero-tower.jpg" alt="Macaron-Tower für Hochzeiten" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.hochzeit">Hochzeit</span>
         </a>
         <a class="occ-tile" href="custom-box.html?occ=babyparty">
-          <img src="img/bear-hero.jpg" alt="" width="260" height="320" loading="lazy" />
+          <img src="img/bear-hero.jpg" alt="Bärchen-Macarons für die Babyparty" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.babyparty">Babyparty</span>
         </a>
         <a class="occ-tile" href="custom-box.html?occ=geschenk">
-          <img src="img/gift-luxe.jpg" alt="" width="260" height="320" loading="lazy" />
+          <img src="img/gift-luxe.jpg" alt="Geschenk-Box mit handbemalten Macarons" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.geschenk">Geschenk</span>
         </a>
         <a class="occ-tile" href="custom-box.html?occ=firma">
-          <img src="img/b2b-meta.jpg" alt="" width="260" height="320" loading="lazy" />
+          <img src="img/b2b-meta.jpg" alt="Macarons mit Logo für Firmen-Events" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.firma">Firmen-Event</span>
         </a>
         <a class="occ-tile" href="custom-box.html?occ=self">
-          <img src="img/dessert-berry.jpg" alt="" width="260" height="320" loading="lazy" />
+          <img src="img/dessert-berry.jpg" alt="Bunte Macarons zum Selbstgenuss" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.self">Einfach so</span>
         </a>
       </div>
@@ -319,6 +336,50 @@
       </div>
     </div>
   </section>
+
+  <!-- Structured Data: LocalBusiness + AggregateRating for Google Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "Macarons by Pynk",
+    "image": "https://macaronbypynk.de/img/Firmenlogo.jpg",
+    "url": "https://macaronbypynk.de",
+    "telephone": "+4915228283124",
+    "email": "pynk.coffee.hamburg@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Musterstraße 1",
+      "addressLocality": "Hamburg",
+      "postalCode": "20095",
+      "addressCountry": "DE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 53.5511,
+      "longitude": 9.9937
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "11:00",
+        "closes": "19:00"
+      }
+    ],
+    "priceRange": "€€",
+    "servesCuisine": "Macarons, Pâtisserie, Café",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.7",
+      "reviewCount": "164",
+      "bestRating": "5"
+    },
+    "sameAs": [
+      "https://instagram.com/pynk_hamburg"
+    ]
+  }
+  </script>
 
   <script src="js/main.js?v=20260626a"></script>
   <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->

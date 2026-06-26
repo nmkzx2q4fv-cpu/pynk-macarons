@@ -117,7 +117,7 @@
 .box-panel{ position:sticky; top:calc(var(--nav-h) + 16px); background:var(--exp-surface); border-radius:var(--r-xl); padding:var(--s5); box-shadow:var(--sh-md); border:1px solid color-mix(in srgb, var(--exp-accent-2) 28%, transparent); }
 .box-panel__top{ display:flex; flex-direction:column; gap:var(--s3); margin-bottom:var(--s4); }
 .box-size{ display:grid; grid-template-columns:1fr 1fr; gap:var(--s2); }
-.box-size button{ padding:11px; border-radius:var(--r-sm); font-weight:800; color:var(--exp-ink); box-shadow:inset 0 0 0 1.5px color-mix(in srgb, var(--exp-ink) 16%, transparent); transition:all var(--t1); min-height:46px; }
+.box-size button{ padding:11px; border-radius:var(--r-sm); font-weight:800; color:var(--exp-ink); box-shadow:inset 0 0 0 1.5px color-mix(in srgb, var(--exp-ink) 16%, transparent); transition:all var(--t1); min-height:48px; }
 .box-size button.is-active{ background:var(--exp-accent); color:#fff; box-shadow:none; }
 .box-social{ font-size:.82rem; color:var(--exp-ink); opacity:.7; display:flex; align-items:center; gap:6px; justify-content:center; flex-wrap:wrap; }
 .box-social .stars{ color:var(--exp-accent-2); }
@@ -279,7 +279,7 @@ body.is-sheet-open .sheet-scrim{ opacity:1; visibility:visible; transition-delay
   .occ__grid{ grid-template-columns:1fr 1fr; }
   .mac-grid{ grid-template-columns:1fr 1fr; gap:var(--s3); }
   .box-actions{ grid-template-columns:1fr; }
-  .macaron-item{ padding:24px var(--s3) var(--s4); min-height:44px; }
+  .macaron-item{ padding:24px var(--s3) var(--s4); min-height:48px; }
   .macaron-item__name{ font-size:.95rem; }
   .macaron-item__sensory{ font-size:.75rem; }
 }

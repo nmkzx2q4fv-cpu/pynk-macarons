@@ -1014,3 +1014,11 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 /* safe-area top for fixed header (PWA / landscape notch) */
 .nav{ padding-top:var(--safe-t); }
 @supports not (padding:max(0px)){ .nav{ padding-top:0; } }
+
+/* --- Tap-target fixes: M3 minimum 48×48px ≤767px --- */
+@media (max-width:767px){
+  .footer__legal a,
+  .footer__legal-btn{ min-height:48px; display:inline-flex; align-items:center; }
+  .brand{ min-height:48px; }
+  .btn--sm{ min-height:48px; }
+}

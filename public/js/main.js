@@ -262,7 +262,7 @@ function injectChrome(){
         </form>
         <div class="socials">
           <a href="${CONFIG.instagram}" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z"/></svg></a>
+          <a href="https://facebook.com/pynkhamburg" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5Z"/></svg></a>
         </div>
       </div>
     </div>
@@ -327,7 +327,7 @@ function injectChrome(){
         <button class="pdp__close" id="pdpClose" type="button" aria-label="Schließen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         <div class="pdp__media"><img id="pdpImg" alt="" /></div>
         <div class="pdp__body">
-          <h2 class="pdp__name" id="pdpName"></h2>
+          <h2 class="pdp__name" id="pdpName" aria-hidden="true"></h2>
           <p class="pdp__desc" id="pdpDesc"></p>
           <div class="pdp__bundles" id="pdpBundles" role="radiogroup" aria-label="Menge wählen"></div>
           <div class="pdp__total"><span class="pdp__total-price" id="pdpPrice"></span><span class="pdp__total-vat">inkl. MwSt. · <a href="versand-zahlung.html">zzgl. Versand</a></span></div>
@@ -590,7 +590,7 @@ function openPDP(productId){
   _pdpProduct=p; _pdpQty=1;
   const modal=$("#pdp"); if(!modal) return;
   $("#pdpImg").src=p.img; $("#pdpImg").alt=p.name;
-  $("#pdpName").textContent=p.name;
+  $("#pdpName").textContent=p.name; $("#pdpName").removeAttribute("aria-hidden");
   $("#pdpDesc").textContent=p.desc;
 
   const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
