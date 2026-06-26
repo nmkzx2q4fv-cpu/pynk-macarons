@@ -26,7 +26,7 @@ const I18N = {
     "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.gutschein":"Gutscheine","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.besuche":"Besuche uns","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
     "bottomnav.home":"Home","bottomnav.box":"Box bestellen","bottomnav.cafe":"Café finden",
     "a11y.cart":"Warenkorb öffnen","a11y.call":"Jetzt anrufen","a11y.wa":"Auf WhatsApp schreiben","a11y.lang":"Sprache wählen",
-    "footer.tag":"Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.",
+    "footer.tag":"Handgemachte Macarons aus Hamburg. Französische Technik, Hamburger Herz – zum Mitnehmen, Verschenken und Vernaschen.",
     "footer.discover":"Entdecken","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Firmenkunden","footer.about":"Über uns",
     "footer.visit":"Besuch uns","footer.news":"Süße Post","footer.newsText":"Neue Sorten & Aktionen – eine Mail pro Monat, versprochen.","news.ph":"deine@mail.de",
     "footer.cookie":"Cookie-Einstellungen","footer.copy":"Mit Liebe gebacken in Hamburg",
@@ -39,25 +39,25 @@ const I18N = {
     "fab.help":"Hilfe & Kontakt",
     "hero.eyebrow":"Handmade in Hamburg",
     "hero.h1":"Zartschmelzend.<br>Handbepinselt.<br><em>Zum Verschenken schön.</em>",
-    "hero.lead":"Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.",
-    "hero.cta1":"Jetzt genießen","hero.cta2":"Box selbst füllen",
-    "hero.trust":"<strong>4,9</strong>/5 · über <strong>1.200</strong> glückliche Bestellungen",
+    "hero.lead":"Knusprige Schale, cremige Füllung, alles von Hand. Über 20 Sorten, frisch aus unserem Hamburger Café.",
+    "hero.cta1":"Jetzt genießen","hero.cta2":"Box zusammenstellen",
+    "hero.trust":"<strong>4,9</strong>/5 · <strong>1.200+</strong> Bestellungen",
     "hero.scarcity":"Täglich nur in kleinen Chargen gebacken – solange der Vorrat reicht.",
     "cat.eyebrow":"Unsere Welt","cat.h2":"Wonach ist dir heute?",
-    "best.eyebrow":"Beliebt diese Woche","best.h2":"Heute frisch aus dem Ofen","best.lead":"Eine handverlesene Auswahl – bei jedem Besuch neu gemischt. Welche verführt dich heute?",
-    "builder.eyebrow":"Dein Box-Atelier","builder.h2":"Stell dir deine Box zusammen","builder.lead":"Wähle deinen Anlass – oder leg direkt los: Sorte antippen und zusehen, wie sie in die Schachtel fällt.",
-    "builder.or":"Oder bau direkt hier deine Probier-Box:","builder.full":"Zum vollen Box-Atelier →",
+    "best.eyebrow":"Diese Woche beliebt","best.h2":"Frisch aus dem Ofen","best.lead":"Unsere Lieblinge diese Woche – bei jedem Besuch neu gemischt.",
+    "builder.eyebrow":"Dein Box-Atelier","builder.h2":"Stell dir deine Box zusammen","builder.lead":"Such dir einen Anlass aus – oder leg einfach los.",
+    "builder.or":"Oder bau dir hier eine Probier-Box:","builder.full":"Zum Box-Atelier →",
     "occ.hochzeit":"Hochzeit","occ.babyparty":"Babyparty","occ.geschenk":"Geschenk","occ.firma":"Firmen-Event","occ.self":"Einfach so",
-    "spezial.eyebrow":"Für große Momente","spezial.h2":"Wenn's etwas Besonderes sein darf","spezial.lead":"Macaron-Tower für die Hochzeit, ein Giant Macaron als Überraschung oder eure Logos essbar gedruckt.",
-    "anlass.eyebrow":"Der perfekte Anlass","anlass.h2":"Ein Geschenk, das man nicht vergisst",
-    "proof.eyebrow":"Vertraut von","proof.h2":"Schon für diese Marken gebacken",
-    "versand.eyebrow":"So kommst du ran","versand.h2":"Abholen in Hamburg oder liefern lassen"
+    "spezial.eyebrow":"Für besondere Anlässe","spezial.h2":"Wenn es etwas Größeres sein darf","spezial.lead":"Tower für die Hochzeit, Giant Macaron zum Geburtstag oder euer Logo essbar gedruckt.",
+    "anlass.eyebrow":"Für jeden Anlass","anlass.h2":"Ein Geschenk, das in Erinnerung bleibt",
+    "proof.eyebrow":"Vertrauen von","proof.h2":"Schon für diese Marken gebacken",
+    "versand.eyebrow":"So bekommst du sie","versand.h2":"Abholen oder liefern lassen"
   },
   en: {
     "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.gutschein":"Gift Cards","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.besuche":"Visit us","nav.ueber":"About","nav.kontakt":"Contact",
     "bottomnav.home":"Home","bottomnav.box":"Order Box","bottomnav.cafe":"Find Café",
     "a11y.cart":"Open cart","a11y.call":"Call now","a11y.wa":"Message on WhatsApp","a11y.lang":"Choose language",
-    "footer.tag":"Handmade macarons from Hamburg. French technique, a playful soul – to gift, to take away, to fall in love with.",
+    "footer.tag":"Handmade macarons from Hamburg. French technique, Hamburg heart – to take away, to gift, to enjoy.",
     "footer.discover":"Discover","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Business","footer.about":"About",
     "footer.visit":"Visit us","footer.news":"Sweet mail","footer.newsText":"New flavours & offers – one email a month, promised.","news.ph":"you@mail.com",
     "footer.cookie":"Cookie settings","footer.copy":"Baked with love in Hamburg",
@@ -70,14 +70,14 @@ const I18N = {
     "fab.help":"Help & contact",
     "hero.eyebrow":"Handmade in Hamburg",
     "hero.h1":"Melt-in-the-mouth.<br>Hand-painted.<br><em>Beautiful to gift.</em>",
-    "hero.lead":"A crisp shell, silky ganache, a centre that melts on your tongue. Over 20 flavours – each one filled and hand-painted, fresh from our Hamburg atelier.",
+    "hero.lead":"Crisp shell, creamy filling, all by hand. Over 20 flavours, fresh from our Hamburg café.",
     "hero.cta1":"Order now","hero.cta2":"Build your box",
-    "hero.trust":"<strong>4.9</strong>/5 · over <strong>1,200</strong> happy orders",
+    "hero.trust":"<strong>4.9</strong>/5 · <strong>1,200+</strong> orders",
     "hero.scarcity":"Baked daily in small batches only – while stocks last.",
     "cat.eyebrow":"Our world","cat.h2":"What are you craving today?",
-    "best.eyebrow":"Popular this week","best.h2":"Fresh from the oven today","best.lead":"A hand-picked selection – reshuffled on every visit. Which one tempts you today?",
-    "builder.eyebrow":"Your Box Atelier","builder.h2":"Compose your own box","builder.lead":"Pick your occasion – or dive straight in: tap a flavour and watch it drop into the box.",
-    "builder.or":"Or build your tasting box right here:","builder.full":"Open the full Box Atelier →",
+    "best.eyebrow":"Popular this week","best.h2":"Fresh from the oven","best.lead":"Our favourites this week – reshuffled on every visit.",
+    "builder.eyebrow":"Your Box Atelier","builder.h2":"Build your own box","builder.lead":"Pick an occasion – or just start choosing.",
+    "builder.or":"Or build a tasting box right here:","builder.full":"Open the Box Atelier →",
     "occ.hochzeit":"Wedding","occ.babyparty":"Baby shower","occ.geschenk":"Gift","occ.firma":"Corporate","occ.self":"Just because",
     "spezial.eyebrow":"For the big moments","spezial.h2":"When it should be something special","spezial.lead":"A macaron tower for the wedding, a giant macaron as a surprise, or your logo printed edibly.",
     "anlass.eyebrow":"The perfect occasion","anlass.h2":"A gift no one forgets",
@@ -250,7 +250,8 @@ function injectChrome(){
         <h4 data-i18n="footer.visit">Besuch uns</h4>
         <p>${CONFIG.address}</p>
         <p>${CONFIG.hours}</p>
-        <p>${CONFIG.phone}<br>${CONFIG.email}</p>
+        <p>${CONFIG.phone}</p>
+        <p>${CONFIG.email}</p>
         <a href="besuche-uns.html" data-i18n="nav.besuche" style="font-weight:800;color:var(--pynk-soft)">Besuche uns</a>
       </div>
       <div class="footer__col footer__col--news">
