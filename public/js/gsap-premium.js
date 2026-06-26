@@ -37,10 +37,11 @@
     // Hero content stagger
     const animEls = $$("[data-anim]", hero);
     if (animEls.length) {
-      animEls.forEach(el => { el.style.opacity = "1"; });
+      animEls.forEach(el => { el.style.opacity = "1"; el.style.willChange = "transform"; });
       tl.from(animEls, {
         y: 40, opacity: 0, duration: 0.9,
-        stagger: 0.12, ease: "power3.out"
+        stagger: 0.12, ease: "power3.out",
+        onComplete: () => animEls.forEach(el => { el.style.willChange = ""; })
       }, 0.4);
     }
 
@@ -212,17 +213,20 @@
   /* ============================================================
      5) REVIEW TICKER (infinite horizontal scroll)
      ============================================================ */
-  function initReviewTicker() {
+  function initReviewTicker(opts) {
+    const pauseOnHover = !opts || opts.pauseOnHover !== false;
+    const speed = (opts && opts.speed) || 40;
     const reviews = $(".reviews");
     if (!reviews) return;
 
     const items = $$(".review", reviews);
     if (items.length < 2) return;
 
-    // Clone items for seamless loop
+    // Clone items for seamless loop (marked so cleanup can remove them)
     items.forEach(item => {
       const clone = item.cloneNode(true);
       clone.setAttribute("aria-hidden", "true");
+      clone.dataset.tickerClone = "1";
       reviews.appendChild(clone);
     });
 
@@ -230,7 +234,7 @@
 
     gsap.to(reviews, {
       x: -totalWidth,
-      duration: totalWidth / 40,
+      duration: totalWidth / speed,
       ease: "none",
       repeat: -1,
       modifiers: {
@@ -238,9 +242,32 @@
       }
     });
 
-    // Pause on hover
-    reviews.addEventListener("mouseenter", () => gsap.globalTimeline.timeScale(0.2));
-    reviews.addEventListener("mouseleave", () => gsap.globalTimeline.timeScale(1));
+    // Pause on hover (desktop pointers only)
+    if (pauseOnHover) {
+      reviews.addEventListener("mouseenter", () => gsap.globalTimeline.timeScale(0.2));
+      reviews.addEventListener("mouseleave", () => gsap.globalTimeline.timeScale(1));
+    }
+  }
+
+  /* Remove ticker clones (gsap.context reverts tweens/inline styles but
+     not DOM nodes we appended) — called on breakpoint change + pagehide. */
+  function killTickerClones() {
+    $$('.reviews [data-ticker-clone="1"]').forEach(n => n.remove());
+    gsap.set(".reviews", { clearProps: "transform" });
+  }
+
+  /* ---- Mobile-lite variants (simpler = steadier 60fps on phones) ---- */
+  function initHeroLite() {
+    const hero = $(".hero");
+    if (!hero) return;
+    const animEls = $$("[data-anim]", hero);
+    if (!animEls.length) return;
+    animEls.forEach(el => { el.style.opacity = "1"; el.style.willChange = "transform"; });
+    gsap.from(animEls, {
+      y: 24, opacity: 0, duration: 0.6, stagger: 0.07, ease: "power2.out",
+      onComplete: () => animEls.forEach(el => { el.style.willChange = ""; })
+    });
+    // NO nav-link stagger, NO hero-bg parallax scrub on mobile
   }
 
   /* ============================================================
@@ -319,27 +346,72 @@
   }
 
   /* ============================================================
-     INIT — runs after DOMContentLoaded + fonts loaded
+     INIT — gsap.matchMedia() so each breakpoint scopes & cleans
+     up its own context. Crossing 768px reverts the old branch and
+     builds the other; pagehide tears everything down before the
+     next page loads (this is a multi-page static site).
      ============================================================ */
+  let mm = null;
   function init() {
-    initHero();
-    initPageHead();
-    initScrollReveals();
-    initCardTilt();
-    initMagneticButtons();
-    initReviewTicker();
-    initLogoParallax();
-    initOccasionMorph();
-    initSectionTransitions();
+  mm = gsap.matchMedia();
 
-    // Refresh ScrollTrigger after images load
-    window.addEventListener("load", () => ScrollTrigger.refresh());
+  // 1) Desktop / large: full motion suite
+  mm.add("(min-width: 768px)", () => {
+    const ctx = gsap.context(() => {
+      initHero();
+      initPageHead();
+      initScrollReveals();
+      initReviewTicker({ pauseOnHover: true });
+      initLogoParallax();
+      initOccasionMorph();
+      initSectionTransitions();
+    });
+    ScrollTrigger.refresh();
+    return () => { ctx.revert(); killTickerClones(); gsap.globalTimeline.timeScale(1); };
+  });
+
+  // 2) Pointer-only flourishes (fine pointer + hover) — tilt + magnetic
+  mm.add("(min-width: 768px) and (hover: hover) and (pointer: fine)", () => {
+    const ctx = gsap.context(() => {
+      initCardTilt();
+      initMagneticButtons();
+    });
+    return () => ctx.revert();
+  });
+
+  // 3) Phones ≤767px: simplified, transform-only, no scrub / tilt / magnetic
+  mm.add("(max-width: 767px)", () => {
+    const ctx = gsap.context(() => {
+      initHeroLite();
+      initPageHead();
+      initScrollReveals();                      // play-once triggers, no scrub
+      initReviewTicker({ pauseOnHover: false, speed: 32 });
+      initLogoParallax();
+      initOccasionMorph();
+      // NO initSectionTransitions (scrub), NO tilt, NO magnetic buttons
+    });
+    ScrollTrigger.refresh();
+    return () => { ctx.revert(); killTickerClones(); gsap.globalTimeline.timeScale(1); };
+  });
+
+    // Refresh once images/fonts settle so trigger positions are correct
+    ScrollTrigger.refresh();
   }
 
+  // Boot after load — chrome is injected by main.js on DOMContentLoaded,
+  // so we wait until layout has settled (matches original timing).
   function boot() { setTimeout(init, 60); }
-  if (document.readyState === "complete") {
-    boot();
-  } else {
-    window.addEventListener("load", boot);
-  }
+  if (document.readyState === "complete") boot();
+  else window.addEventListener("load", boot);
+
+  /* ============================================================
+     NAVIGATION TEARDOWN — self-cleaning before leaving the page.
+     mm.revert() runs every branch's cleanup (ctx.revert + clone
+     removal); ScrollTrigger.killAll() drops any stragglers.
+     ============================================================ */
+  window.addEventListener("pagehide", () => {
+    if (mm) mm.revert();
+    if (window.ScrollTrigger) ScrollTrigger.killAll();
+    if (typeof gsap !== "undefined") gsap.globalTimeline.timeScale(1);
+  }, { once: true });
 })();

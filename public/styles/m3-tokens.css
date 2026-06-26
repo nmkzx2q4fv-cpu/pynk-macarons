@@ -326,6 +326,57 @@
   --md-sys-elevation-2: var(--md-sys-color-surface-container);
   --md-sys-elevation-3: var(--md-sys-color-surface-container-high);
   --md-sys-elevation-4: var(--md-sys-color-surface-container-highest);
+
+  /* ============================================================
+     9. Z-INDEX SCALE  (single source of truth)
+     Decorative animation always paints BELOW navigation; sheets &
+     modals sit above the bottom nav. Falling-macaron / flight
+     clones (--z-fly) fly over content but never over the nav bar.
+     ============================================================ */
+  --z-anim:         1;     /* hero parallax, gravity box, decorative */
+  --z-content:      10;    /* in-flow content above bg gradients */
+  --z-header:       100;   /* fixed top header (legacy --z-nav) */
+  --z-fly:          1200;  /* cart fly + atelier flight clones */
+  --z-bottomnav:    1500;  /* M3 bottom navigation bar */
+  --z-sheet-scrim:  1600;  /* bottom-sheet / modal scrim */
+  --z-sheet:        1610;  /* bottom sheet panel */
+  --z-toast:        1700;  /* toasts, skip-link */
+  --z-modal:        1800;  /* pdp / occasion / cookie dialogs */
+  /* Bridge: keep legacy names pointing at the scale */
+  --z-nav:          var(--z-header);
+  --z-toast-legacy: var(--z-toast);
+
+  /* ============================================================
+     10. MOBILE / SAFE-AREA LAYOUT TOKENS
+     ============================================================ */
+  --bp-mobile:      768px;          /* phone cutoff (bottom nav ≤767px) */
+  --bottomnav-h:    64px;           /* M3 navigation bar height */
+  --safe-b:         env(safe-area-inset-bottom, 0px);
+  --safe-t:         env(safe-area-inset-top, 0px);
+  --safe-l:         env(safe-area-inset-left, 0px);
+  --safe-r:         env(safe-area-inset-right, 0px);
+}
+
+/* ============================================================
+   M3 TOUCH RIPPLE  (JS spawns <span class="m3-ripple">)
+   Complements the static state-layer ::after/::before overlays.
+   ============================================================ */
+@keyframes m3-ripple {
+  from { transform: scale(0);   opacity: .28; }
+  to   { transform: scale(2.4); opacity: 0;   }
+}
+.m3-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0);
+  z-index: 2;
+  animation: m3-ripple var(--md-sys-motion-duration-long, 500ms) var(--md-sys-motion-easing-standard, ease-out) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .m3-ripple { display: none; }
 }
 
 /* ============================================================

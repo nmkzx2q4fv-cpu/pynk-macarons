@@ -23,7 +23,8 @@ const CONFIG = {
    ============================================================ */
 const I18N = {
   de: {
-    "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.gutschein":"Gutscheine","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
+    "nav.home":"Start","nav.shop":"Shop","nav.atelier":"Box-Atelier","nav.gutschein":"Gutscheine","nav.spezial":"Spezial & Anfrage","nav.b2b":"Firmenkunden","nav.besuche":"Besuche uns","nav.ueber":"Über uns","nav.kontakt":"Kontakt",
+    "bottomnav.home":"Home","bottomnav.box":"Box bestellen","bottomnav.cafe":"Café finden",
     "a11y.cart":"Warenkorb öffnen","a11y.call":"Jetzt anrufen","a11y.wa":"Auf WhatsApp schreiben","a11y.lang":"Sprache wählen",
     "footer.tag":"Handgemachte Macarons aus Hamburg. Französische Technik, verspielte Seele – zum Verschenken, Mitnehmen und Verlieben.",
     "footer.discover":"Entdecken","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Firmenkunden","footer.about":"Über uns",
@@ -53,7 +54,8 @@ const I18N = {
     "versand.eyebrow":"So kommst du ran","versand.h2":"Abholen in Hamburg oder liefern lassen"
   },
   en: {
-    "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.gutschein":"Gift Cards","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.ueber":"About","nav.kontakt":"Contact",
+    "nav.home":"Home","nav.shop":"Shop","nav.atelier":"Box Atelier","nav.gutschein":"Gift Cards","nav.spezial":"Special & Enquiry","nav.b2b":"Business","nav.besuche":"Visit us","nav.ueber":"About","nav.kontakt":"Contact",
+    "bottomnav.home":"Home","bottomnav.box":"Order Box","bottomnav.cafe":"Find Café",
     "a11y.cart":"Open cart","a11y.call":"Call now","a11y.wa":"Message on WhatsApp","a11y.lang":"Choose language",
     "footer.tag":"Handmade macarons from Hamburg. French technique, a playful soul – to gift, to take away, to fall in love with.",
     "footer.discover":"Discover","footer.shop":"Shop","footer.tower":"Tower & Giant","footer.b2b":"Business","footer.about":"About",
@@ -176,8 +178,23 @@ const NAVLINKS = [
   {href:"gutschein.html", label:"Gutscheine", key:"gutschein"},
   {href:"spezial.html", label:"Spezial & Anfrage", key:"spezial"},
   {href:"firmenkunden.html", label:"Firmenkunden", key:"b2b"},
+  {href:"besuche-uns.html", label:"Besuche uns", key:"besuche"},
   {href:"ueber.html", label:"Über uns", key:"ueber"},
   {href:"kontakt.html", label:"Kontakt", key:"kontakt"}
+];
+
+/* M3 bottom Navigation Bar — primary thumb-reach nav on phones (≤767px).
+   Icons: active (filled) + inactive (outline) per M3 spec. */
+const BOTTOMNAV = [
+  {href:"index.html", label:"Home", i18n:"bottomnav.home",
+   on:`<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg>`,
+   off:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h5v-6h4v6h5V9.5"/></svg>`},
+  {href:"custom-box.html", label:"Box bestellen", i18n:"bottomnav.box",
+   on:`<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M4 7 12 3l8 4v3H4zM4 11h16v8a1 1 0 0 1-1 1h-6v-6h-2v6H5a1 1 0 0 1-1-1z"/></svg>`,
+   off:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.5 12 3.5l8.5 4v12a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M3.5 7.5 12 11l8.5-3.5M12 11v9.5"/></svg>`},
+  {href:"besuche-uns.html", label:"Café finden", i18n:"bottomnav.cafe",
+   on:`<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7m0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5"/></svg>`,
+   off:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12"/><circle cx="12" cy="9" r="2.5"/></svg>`}
 ];
 
 function roseSVG(){return `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-4 0-6 0-9a4 4 0 1 1 4 4c-2 0-4 1-4 5Z"/><path d="M12 12a4 4 0 1 1-4-4c2 0 4 1 4 5"/><path d="M12 12c0-2 .9-3.5 2.5-4.2"/></svg>`;}
@@ -234,6 +251,7 @@ function injectChrome(){
         <p>${CONFIG.address}</p>
         <p>${CONFIG.hours}</p>
         <p>${CONFIG.phone}<br>${CONFIG.email}</p>
+        <a href="besuche-uns.html" data-i18n="nav.besuche" style="font-weight:800;color:var(--pynk-soft)">Besuche uns</a>
       </div>
       <div class="footer__col footer__col--news">
         <h4 data-i18n="footer.news">Süße Post</h4>
@@ -261,6 +279,23 @@ function injectChrome(){
       </nav>
     </div>`;
   document.body.appendChild(footer);
+
+  // M3 BOTTOM NAVIGATION BAR (phones ≤767px) — primary thumb-reach nav
+  const here = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const bottomnav = document.createElement("nav");
+  bottomnav.className = "m3-navbar";
+  bottomnav.setAttribute("aria-label", "Hauptbereiche");
+  bottomnav.innerHTML = BOTTOMNAV.map(t=>{
+    const active = (here === t.href) || (here === "" && t.href === "index.html");
+    return `<a class="m3-navtab${active?' is-active':''}" href="${t.href}"${active?' aria-current="page"':''}>
+        <span class="m3-navtab__ind">
+          <span class="m3-navtab__icon m3-navtab__icon--on" aria-hidden="true">${t.on}</span>
+          <span class="m3-navtab__icon m3-navtab__icon--off" aria-hidden="true">${t.off}</span>
+        </span>
+        <span class="m3-navtab__label" data-i18n="${t.i18n}">${t.label}</span>
+      </a>`;
+  }).join("");
+  document.body.appendChild(bottomnav);
 
   // DRAWER + fly + toast
   const extra = document.createElement("div");
@@ -867,6 +902,39 @@ if(_origCoPricing){
 }
 
 /* ============================================================
+   M3 TOUCH RIPPLE + HAPTIC
+   Visual ripple on tap (M3 standard), with optional real haptic
+   on supported devices. Skipped under prefers-reduced-motion.
+   Complements the static state-layer ::after/::before overlays.
+   ============================================================ */
+const RIPPLE_SEL = ".btn, .m3-navtab, .catcard, .pcard, .pay-btn, .filter";
+function addRipple(e){
+  if(reduceMotion) return;
+  const el = e.target.closest(RIPPLE_SEL);
+  if(!el || el.hasAttribute("disabled")) return;
+  // host must clip + be a positioning context (most already are)
+  const cs = getComputedStyle(el);
+  if(cs.position === "static") el.style.position = "relative";
+  el.style.overflow = "hidden";
+  const r = el.getBoundingClientRect();
+  const size = Math.max(r.width, r.height) * 1.1;
+  const x = (e.clientX ?? r.left + r.width/2) - r.left;
+  const y = (e.clientY ?? r.top + r.height/2) - r.top;
+  const span = document.createElement("span");
+  span.className = "m3-ripple";
+  span.style.width = span.style.height = size + "px";
+  span.style.left = (x - size/2) + "px";
+  span.style.top  = (y - size/2) + "px";
+  el.appendChild(span);
+  span.addEventListener("animationend", ()=>span.remove(), {once:true});
+  // subtle real haptic where supported (Android Chrome); guarded
+  try{ navigator.vibrate && navigator.vibrate(8); }catch(_){}
+}
+function wireRipples(){
+  document.addEventListener("pointerdown", addRipple, {passive:true});
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -885,4 +953,5 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireMystery();
   wireCheckoutExtras();
   observeReveals();
+  wireRipples();
 });

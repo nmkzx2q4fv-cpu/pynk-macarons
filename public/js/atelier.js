@@ -358,21 +358,87 @@
   function initMobileBar() {
     const bar = qs("#mobileBar");
     if (!bar) return;
-    const slotsWrap = qs("#mobileSlots", bar);
     const expandBtn = qs("#mobileExpand", bar);
     const magicBtn = qs("#mobileMagic", bar);
     const clearBtn = qs("#mobileClear", bar);
     const mCheckout = qs("#mobileCheckout", bar);
 
-    if (expandBtn) expandBtn.addEventListener("click", () => {
-      bar.classList.toggle("is-expanded");
-      bar.setAttribute("aria-hidden", "false");
-    });
+    // --- inject M3 modal-bottom-sheet chrome: scrim + drag handle ---
+    let scrim = qs(".sheet-scrim");
+    if (!scrim) {
+      scrim = document.createElement("div");
+      scrim.className = "sheet-scrim";
+      document.body.appendChild(scrim);
+    }
+    let handle = qs(".mobile-bar__handle", bar);
+    if (!handle) {
+      handle = document.createElement("button");
+      handle.type = "button";
+      handle.className = "mobile-bar__handle";
+      handle.setAttribute("aria-label", "Auswahl-Übersicht öffnen oder schließen");
+      bar.insertBefore(handle, bar.firstChild);
+    }
+    bar.setAttribute("role", "dialog");
+    bar.setAttribute("aria-label", "Deine Box-Auswahl");
+
+    let savedOverflow = "";
+    const isOpen = () => bar.classList.contains("is-expanded");
+    function openSheet() {
+      if (isOpen()) return;
+      bar.classList.add("is-expanded");
+      document.body.classList.add("is-sheet-open");
+      bar.setAttribute("aria-modal", "true");
+      expandBtn && expandBtn.setAttribute("aria-expanded", "true");
+      savedOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";   // scroll-lock behind sheet
+    }
+    function closeSheet() {
+      if (!isOpen()) return;
+      bar.classList.remove("is-expanded");
+      document.body.classList.remove("is-sheet-open");
+      bar.removeAttribute("aria-modal");
+      bar.style.removeProperty("--sheet-drag");
+      expandBtn && expandBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = savedOverflow;
+    }
+    const toggleSheet = () => (isOpen() ? closeSheet() : openSheet());
+
+    if (expandBtn) { expandBtn.setAttribute("aria-expanded", "false"); expandBtn.addEventListener("click", toggleSheet); }
+    handle.addEventListener("click", toggleSheet);
+    scrim.addEventListener("click", closeSheet);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+
     if (magicBtn) magicBtn.addEventListener("click", () => {
       state.slots.filter(Boolean).length === state.size ? reroll() : magicFill();
     });
     if (clearBtn) clearBtn.addEventListener("click", clearBox);
     if (mCheckout) mCheckout.addEventListener("click", checkout);
+
+    // --- drag-to-dismiss on the handle (touch + pointer) ---
+    let startY = 0, dy = 0, dragging = false;
+    handle.addEventListener("pointerdown", e => {
+      if (RM) return;
+      dragging = true; startY = e.clientY; dy = 0;
+      if (!isOpen()) openSheet();            // grabbing the peek bar opens it
+      bar.classList.add("is-dragging");
+      bar.style.willChange = "transform";
+      handle.setPointerCapture && handle.setPointerCapture(e.pointerId);
+    });
+    handle.addEventListener("pointermove", e => {
+      if (!dragging) return;
+      dy = Math.max(0, e.clientY - startY);  // downward only
+      bar.style.setProperty("--sheet-drag", dy + "px");
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      bar.classList.remove("is-dragging");
+      bar.style.willChange = "";             // free GPU memory after drag
+      if (dy > 90) closeSheet();             // past threshold → dismiss
+      else bar.style.removeProperty("--sheet-drag"); // snap back
+    };
+    handle.addEventListener("pointerup", endDrag);
+    handle.addEventListener("pointercancel", endDrag);
 
     renderMobileSlots();
   }
