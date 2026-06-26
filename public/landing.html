@@ -121,6 +121,41 @@
 <body class="bg-cream font-body text-bordeaux antialiased overflow-x-hidden">
 
   <!-- ═══════════════════════════════════════════════════════════
+       HEADER — Minimal sticky navigation (transparent over hero)
+       ═══════════════════════════════════════════════════════════ -->
+  <header id="landingNav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="max-w-[1240px] mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="font-display text-white text-lg hover:opacity-80 transition-opacity" aria-label="Zur Hauptseite">
+        Macaron <em class="text-gold-soft">by Pynk</em>
+      </a>
+      <nav class="flex items-center gap-6" aria-label="Navigation">
+        <a href="index.html" class="text-white/80 text-sm font-semibold hover:text-white transition-colors hidden md:block">Startseite</a>
+        <a href="shop.html" class="text-white/80 text-sm font-semibold hover:text-white transition-colors hidden md:block">Shop</a>
+        <a href="custom-box.html" class="text-white/80 text-sm font-semibold hover:text-white transition-colors hidden md:block">Box-Atelier</a>
+        <a href="index.html" class="btn-pynk inline-flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/20 text-white font-bold text-sm px-5 py-2.5 rounded-full hover:bg-white/25">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          Zur Website
+        </a>
+      </nav>
+    </div>
+  </header>
+  <script>
+    (function(){
+      const nav = document.getElementById('landingNav');
+      let solid = false;
+      window.addEventListener('scroll', () => {
+        const should = window.scrollY > 80;
+        if (should !== solid) {
+          solid = should;
+          nav.style.background = solid ? 'rgba(74,21,48,.88)' : '';
+          nav.style.backdropFilter = solid ? 'blur(16px)' : '';
+          nav.style.boxShadow = solid ? '0 2px 16px rgba(74,21,48,.15)' : '';
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════
        HERO — Full-viewport video with brand overlay
        VIDEO-MODUL: Tausche <source src="…"> aus, um das Video
        zu wechseln. Der Rest bleibt unverändert.
@@ -173,7 +208,7 @@
         <a href="index.html"
            class="btn-pynk inline-flex items-center gap-3 border-[1.5px] border-white/40 text-white font-bold text-[.95rem] tracking-wide px-8 py-4 rounded-full backdrop-blur-sm">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          Shop entdecken
+         Jetzt Bestellen
         </a>
       </div>
 

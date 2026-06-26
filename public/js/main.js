@@ -8,7 +8,7 @@ const CONFIG = {
   whatsapp: "+49 15 228283124",                 // WhatsApp-Nummer, nur Ziffern inkl. Ländercode
   email: "pynk.coffee.hamburg@gmail.com",
   phone: "+49 15 228283124",
-  address: "Musterstraße 1, 20095 Hamburg",  // bitte echte Adresse eintragen
+  address: "Rentzelstraße 12, 20146 Hamburg",
   hours: "Di–Sa, 11–19 Uhr",
   instagram: "https://instagram.com/pynk_hamburg"
 };
@@ -371,7 +371,20 @@ function injectChrome(){
   wireDrawer();
   wireConsent();
   wireLang();
-  setLang(LANG);   // applies translations to chrome + page, marks active toggle
+  setLang(LANG);
+
+  // Scroll-to-top button (long pages)
+  const stt = document.createElement("button");
+  stt.className = "scroll-top";
+  stt.setAttribute("aria-label", "Nach oben scrollen");
+  stt.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+  stt.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  document.body.appendChild(stt);
+  let sttVisible = false;
+  window.addEventListener("scroll", () => {
+    const show = window.scrollY > 600;
+    if (show !== sttVisible) { sttVisible = show; stt.classList.toggle("is-visible", show); }
+  }, { passive: true });
 }
 
 /* ============================================================
