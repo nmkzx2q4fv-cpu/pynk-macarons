@@ -34,9 +34,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero__bg" data-parallax="0.3">
-      <video autoplay muted loop playsinline preload="metadata" poster="img/box-bears.jpg">
-        <source src="video/hero.mp4" type="video/mp4" />
-      </video>
+      <img src="img/box-open.jpg" alt="Handgemachte Macarons von Macaron by Pynk" fetchpriority="high" style="width:100%;height:100%;object-fit:cover" />
     </div>
     <div class="wrap hero__inner">
       <p class="eyebrow hero__eyebrow" data-anim data-i18n="hero.eyebrow">Handmade in Hamburg</p>
@@ -44,7 +42,7 @@
       <p class="lead hero__lead" data-anim data-i18n="hero.lead">Knusprige Schale, seidige Ganache, ein Kern, der auf der Zunge zergeht. Über 20 Sorten – jede einzelne von Hand gefüllt und bepinselt, frisch aus unserer Hamburger Manufaktur.</p>
       <div class="hero__cta" data-anim>
         <a href="shop.html" class="btn btn--primary btn--lg" data-i18n="hero.cta1">Jetzt genießen</a>
-        <a href="custom-box.html" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" data-i18n="hero.cta2">Box-Atelier öffnen</a>
+        <a href="shop.html#box" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)" data-i18n="hero.cta2">Box zusammenstellen</a>
       </div>
       <div class="hero__trust" data-anim>
         <span class="stars" aria-hidden="true">
@@ -72,23 +70,23 @@
 
       <!-- Anlass-Kacheln → führen ins volle Atelier mit vorgewähltem Anlass -->
       <div class="occ-tiles reveal" aria-label="Anlass wählen">
-        <a class="occ-tile" href="custom-box.html?occ=hochzeit">
+        <a class="occ-tile" href="events.html?occ=hochzeit">
           <img src="img/hero-tower.jpg" alt="Macaron-Tower für Hochzeiten" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.hochzeit">Hochzeit</span>
         </a>
-        <a class="occ-tile" href="custom-box.html?occ=babyparty">
+        <a class="occ-tile" href="events.html?occ=babyparty">
           <img src="img/bear-hero.jpg" alt="Bärchen-Macarons für die Babyparty" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.babyparty">Babyparty</span>
         </a>
-        <a class="occ-tile" href="custom-box.html?occ=geschenk">
+        <a class="occ-tile" href="events.html?occ=geschenk">
           <img src="img/gift-luxe.jpg" alt="Geschenk-Box mit handbemalten Macarons" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.geschenk">Geschenk</span>
         </a>
-        <a class="occ-tile" href="custom-box.html?occ=firma">
+        <a class="occ-tile" href="events.html?occ=firma">
           <img src="img/b2b-meta.jpg" alt="Macarons mit Logo für Firmen-Events" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.firma">Firmen-Event</span>
         </a>
-        <a class="occ-tile" href="custom-box.html?occ=self">
+        <a class="occ-tile" href="events.html?occ=self">
           <img src="img/dessert-berry.jpg" alt="Bunte Macarons zum Selbstgenuss" width="260" height="320" loading="lazy" />
           <span class="occ-tile__label" data-i18n="occ.self">Einfach so</span>
         </a>
@@ -100,12 +98,12 @@
         </div>
         <div class="builder-cta__content">
           <h3 class="h3">Deine eigene Box</h3>
-          <p>Anlass, Sorten, Größe wählen – fertig. Ab 18 €.</p>
-          <a href="custom-box.html" class="btn btn--primary btn--lg">
+          <p>Anlass, Sorten, Größe wählen – fertig. Ab 14 €.</p>
+          <a href="shop.html#box" class="btn btn--primary btn--lg">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 4.8L19 9l-3.5 3.4.9 5L12 15l-4.4 2.4.9-5L5 9l4.8-1.2L12 3Z"/></svg>
             Stelle jetzt deine Box zusammen
           </a>
-          <p class="builder-cta__sub">6er ab 18 € · 12er ab 34 € · Kostenlose Abholung in Hamburg</p>
+          <p class="builder-cta__sub">6er ab 14 € · 12er ab 26 € · Kostenlose Abholung in Hamburg</p>
         </div>
       </div>
     </div>
@@ -119,27 +117,27 @@
         <h2 class="h2" data-i18n="cat.h2">Wonach ist dir heute?</h2>
       </div>
       <div class="catgrid">
-        <a class="catcard reveal" href="shop.html#macarons">
+        <a class="catcard reveal" href="shop.html#boxen">
           <img src="img/mac-erdbeere.jpg" width="320" height="427" alt="Rosa Macaron Nahaufnahme" loading="lazy" />
           <div class="catcard__label"><h3>Macarons</h3><span>20+ Sorten</span></div>
         </a>
-        <a class="catcard reveal" href="shop.html#baer">
+        <a class="catcard reveal" href="shop.html">
           <img src="img/bear-hero.jpg" width="320" height="427" alt="Pinkes Bärchen-Macaron mit Blütenkrone" loading="lazy" />
           <div class="catcard__label"><h3>Bärchen</h3><span>Täglich frisch</span></div>
         </a>
-        <a class="catcard reveal" href="shop.html#cupcake">
+        <a class="catcard reveal" href="shop.html">
           <img src="img/dessert-mint.jpg" width="320" height="427" alt="Macaron-Törtchen mit Minze und Brombeere" loading="lazy" />
           <div class="catcard__label"><h3>Törtchen</h3><span>Klein & festlich</span></div>
         </a>
-        <a class="catcard reveal" href="spezial.html#tower">
+        <a class="catcard reveal" href="events.html">
           <img src="img/tower-rainbow.jpg" width="320" height="427" alt="Bunter Macaron-Tower für Hochzeiten und Events" loading="lazy" />
           <div class="catcard__label"><h3>Macaron-Tower</h3><span>50 oder 120 Stück</span></div>
         </a>
-        <a class="catcard reveal" href="spezial.html#giant">
+        <a class="catcard reveal" href="events.html">
           <img src="img/giant-pistazie.jpg" width="320" height="427" alt="Giant Pistazien-Macaron als Torte" loading="lazy" />
           <div class="catcard__label"><h3>Giant Macaron</h3><span>~18 cm Torte</span></div>
         </a>
-        <a class="catcard reveal" href="firmenkunden.html">
+        <a class="catcard reveal" href="partner.html">
           <img src="img/b2b-meta.jpg" width="320" height="427" alt="Macarons mit aufgedrucktem Firmenlogo" loading="lazy" />
           <div class="catcard__label"><h3>Logo &amp; B2B</h3><span>Lebensmitteldruck</span></div>
         </a>
@@ -184,7 +182,7 @@
           <div><strong>4,5 cm</strong><span>Durchmesser</span></div>
           <div><strong>0</strong><span>künstl. Farben</span></div>
         </div>
-        <div style="margin-top:var(--s6)"><a href="ueber.html" class="btn btn--ghost">Unsere Geschichte</a></div>
+        <div style="margin-top:var(--s6)"><a href="cafe.html#story" class="btn btn--ghost">Unsere Geschichte</a></div>
       </div>
     </div>
   </section>

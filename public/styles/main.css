@@ -1023,6 +1023,42 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
   .btn--sm{ min-height:48px; }
 }
 
+/* --- Café-Quickinfo popover (header 📍) --- */
+.cafe-pin{ position:relative; display:flex; }
+.cafe-pop{
+  position:absolute; top:calc(100% + 10px); right:0; z-index:var(--z-modal);
+  width:240px; padding:var(--s4); border-radius:var(--r-md);
+  background:var(--paper); color:var(--bordeaux);
+  box-shadow:var(--sh-lg); border:1px solid var(--md-sys-color-outline-variant);
+  display:flex; flex-direction:column; gap:6px; text-align:left;
+}
+.cafe-pop strong{ font-family:var(--display); font-size:1.05rem; color:var(--pynk-deep); }
+.cafe-pop p{ font-size:.86rem; color:var(--bordeaux-2); margin:0; }
+.cafe-pop .btn{ margin-top:8px; }
+.nav.on-hero:not(.solid) .cafe-pin .nav__icon{ color:#fff; }
+
+/* --- Cart: free-shipping progress + gift + newsletter --- */
+.ship-progress{ margin-bottom:var(--s4); }
+.ship-progress__label{ font-size:.86rem; color:var(--bordeaux); margin-bottom:6px; text-align:center; }
+.ship-progress__label strong{ color:var(--pynk-deep); }
+.ship-progress__track{
+  height:8px; border-radius:var(--r-pill); overflow:hidden;
+  background:var(--pynk-soft);
+}
+.ship-progress__bar{
+  display:block; height:100%; width:0; border-radius:inherit;
+  background:linear-gradient(90deg, var(--pynk), var(--gold));
+  transition:width var(--md-sys-motion-duration-long) var(--md-sys-motion-easing-emphasized);
+}
+.ship-progress__gift{ font-size:.82rem; color:var(--bordeaux-2); margin-top:6px; text-align:center; }
+.ship-progress__gift strong{ color:var(--gold); }
+.drawer__news{
+  display:flex; align-items:flex-start; gap:10px; margin-top:var(--s4);
+  font-size:.82rem; color:var(--bordeaux-2); cursor:pointer; line-height:1.4;
+}
+.drawer__news input{ margin-top:2px; width:18px; height:18px; accent-color:var(--pynk); flex:none; }
+@media (prefers-reduced-motion: reduce){ .ship-progress__bar{ transition:none; } }
+
 /* --- Scroll-to-top button (injected by main.js) --- */
 .scroll-top{
   position:fixed; right:18px; bottom:18px; z-index:var(--z-fly);

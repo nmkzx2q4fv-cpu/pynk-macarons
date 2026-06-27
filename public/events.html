@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Events: Hochzeit, Babyshower & Geburtstag · Macaron by Pynk Hamburg</title>
+  <meta name="description" content="Macarons & Macaron-Tower für Hochzeit, Babyshower, Geburtstag und Firmen-Events in Hamburg. Jetzt unverbindlich anfragen – wir gestalten deinen süßen Moment." />
+  <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
+  <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#D81277" />
+  <link rel="canonical" href="https://macaronbypynk.de/events.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Macaron by Pynk" />
+  <meta property="og:title" content="Events: Hochzeit, Babyshower & Geburtstag · Macaron by Pynk" />
+  <meta property="og:description" content="Macaron-Tower & Boxen für deinen besonderen Anlass in Hamburg. Jetzt anfragen." />
+  <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta property="og:url" content="https://macaronbypynk.de/events.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260626b" />
+  <link rel="stylesheet" href="styles/main.min.css?v=20260626b" />
+  <style>
+    .ev-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:var(--s4); }
+    .ev-card{ position:relative; border-radius:var(--r-lg); overflow:hidden; aspect-ratio:3/4; box-shadow:var(--sh-sm); display:block; }
+    .ev-card img{ width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease); }
+    .ev-card:hover img{ transform:scale(1.05); }
+    .ev-card__label{ position:absolute; inset:auto 0 0 0; z-index:2; padding:var(--s5); color:#fff; background:linear-gradient(transparent,rgba(74,21,48,.8)); }
+    .ev-card__label h3{ font-family:var(--display); font-size:1.3rem; }
+    .ev-card__label span{ font-size:.85rem; opacity:.9; }
+    .ev-form{ max-width:640px; margin-inline:auto; }
+  </style>
+</head>
+<body data-page="events">
+  <a class="skip-link" href="#anfrage">Zur Anfrage springen</a>
+
+  <header class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Für besondere Anlässe</p>
+      <h1 class="h2">Macarons für deinen großen Moment</h1>
+      <p class="lead">Ob Hochzeit, Babyshower oder Geburtstag – wir gestalten Boxen, Tower und Motive passend zu deinem Anlass. Erzähl uns davon.</p>
+    </div>
+  </header>
+
+  <!-- ANLASS-AUSWAHL -->
+  <section class="section" id="anlaesse">
+    <div class="wrap">
+      <div class="ev-grid">
+        <a class="ev-card reveal" href="#anfrage" data-occ="Hochzeit" id="hochzeit">
+          <img src="img/hero-tower.jpg" alt="Macaron-Tower für Hochzeiten" loading="lazy" />
+          <div class="ev-card__label"><h3>Hochzeit</h3><span>Tower & Boxen in euren Farben</span></div>
+        </a>
+        <a class="ev-card reveal" href="#anfrage" data-occ="Babyshower" id="babyshower">
+          <img src="img/bear-hero.jpg" alt="Pastell-Macarons & Bärchen für Babyshower und Gender Reveal" loading="lazy" />
+          <div class="ev-card__label"><h3>Babyshower & Reveal</h3><span>Pastell, Bärchen, rosa oder blau</span></div>
+        </a>
+        <a class="ev-card reveal" href="#anfrage" data-occ="Geburtstag" id="geburtstag">
+          <img src="img/gift-luxe.jpg" alt="Macarons und Giant Macaron zum Geburtstag" loading="lazy" />
+          <div class="ev-card__label"><h3>Geburtstag</h3><span>Giant Macaron statt Torte</span></div>
+        </a>
+        <a class="ev-card reveal" href="#anfrage" data-occ="Anderer Anlass" id="weitere">
+          <img src="img/showpiece-dress.jpg" alt="Individuelle Macaron-Kreationen für besondere Anlässe" loading="lazy" />
+          <div class="ev-card__label"><h3>Weitere Anlässe</h3><span>Jubiläum, Taufe, Sonderwunsch</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANFRAGE-FORMULAR -->
+  <section class="section section--blush" id="anfrage">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Unverbindlich anfragen</p>
+        <h2 class="h2">Erzähl uns von deinem Event</h2>
+        <p class="lead">Schick uns die Eckdaten – wir melden uns mit Vorschlag und Preis, meist innerhalb von 24 Stunden.</p>
+      </div>
+      <form class="formcard ev-form reveal" id="eventForm" novalidate>
+        <div class="field">
+          <label for="evName">Name <span class="req">*</span></label>
+          <input id="evName" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="evContact">E-Mail oder Telefon <span class="req">*</span></label>
+          <input id="evContact" type="text" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="evOcc">Anlass</label>
+          <select id="evOcc">
+            <option>Hochzeit</option>
+            <option>Babyshower</option>
+            <option>Geburtstag</option>
+            <option>Firmen-Event</option>
+            <option>Anderer Anlass</option>
+          </select>
+        </div>
+        <div class="field"><label for="evDate">Wunschdatum</label><input id="evDate" type="date" /></div>
+        <div class="field"><label for="evCount">Ungefähre Menge / Personen</label><input id="evCount" type="text" inputmode="numeric" placeholder="z. B. 80 Macarons" /></div>
+        <div class="field"><label for="evNote">Deine Idee (optional)</label><textarea id="evNote" rows="3" placeholder="Farben, Motiv, Tower-Größe …"></textarea></div>
+        <div class="segmented" style="grid-template-columns:1.3fr 1fr;gap:var(--s3)">
+          <button type="submit" class="btn btn--primary">Per WhatsApp senden</button>
+          <button type="button" class="btn btn--ghost" id="evMail">Per E-Mail</button>
+        </div>
+        <p class="hint" style="margin-top:var(--s4)">Die Anfrage wird als fertige Nachricht geöffnet – du schickst sie nur noch ab. Unverbindlich.</p>
+      </form>
+    </div>
+  </section>
+
+  <script src="js/main.min.js?v=20260626b"></script>
+  <script>
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const occ = params.get("occ");
+      const sel = document.getElementById("evOcc");
+      // Pre-select occasion from ?occ= or from card clicks
+      function setOcc(v){ if(!v||!sel) return; [...sel.options].forEach(o=>{ if(o.value.toLowerCase().startsWith(v.toLowerCase().slice(0,4))) sel.value=o.value; }); }
+      if(occ) setOcc(occ);
+      document.querySelectorAll("[data-occ]").forEach(c=>c.addEventListener("click",()=>setOcc(c.dataset.occ)));
+
+      const form = document.getElementById("eventForm");
+      function compose(){
+        const name=evName.value.trim(), contact=evContact.value.trim();
+        if(!name||!contact){ evName.reportValidity?.(); return null; }
+        const msg = `Hallo Pynk-Team, ich habe eine Event-Anfrage:%0A%0A`+
+          `Anlass: ${encodeURIComponent(sel.value)}%0A`+
+          `Name: ${encodeURIComponent(name)}%0A`+
+          `Kontakt: ${encodeURIComponent(contact)}%0A`+
+          `Datum: ${encodeURIComponent(evDate.value||"–")}%0A`+
+          `Menge: ${encodeURIComponent(evCount.value||"–")}%0A`+
+          `Idee: ${encodeURIComponent(evNote.value||"–")}`;
+        return msg;
+      }
+      form.addEventListener("submit",e=>{
+        e.preventDefault();
+        const msg=compose(); if(!msg) return;
+        window.open(`https://wa.me/4915228283124?text=${msg}`,"_blank","noopener");
+      });
+      document.getElementById("evMail").addEventListener("click",()=>{
+        const msg=compose(); if(!msg) return;
+        location.href=`mailto:pynk.coffee.hamburg@gmail.com?subject=Event-Anfrage%20${encodeURIComponent(sel.value)}&body=${msg.replace(/%0A/g,"%0D%0A")}`;
+      });
+    })();
+  </script>
+</body>
+</html>

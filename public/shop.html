@@ -35,7 +35,7 @@
     <div class="wrap">
       <p class="eyebrow eyebrow--plain" style="justify-content:center">Frisch gebacken</p>
       <h1 class="h2">Unser Sortiment</h1>
-      <p class="lead">Einzelne Sorten, fertige Boxen oder deine eigene Mischung – alles da.</p>
+      <p class="lead">Jede Sorte als 15er-Box, fertige Mischboxen oder deine eigene Mischung – alles frisch aus Hamburg.</p>
     </div>
   </header>
 
@@ -43,42 +43,31 @@
   <section class="section section--blush" id="mystery">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Lass dich überraschen</p>
-        <h2 class="h2">Die Pynk Mystery Box</h2>
-        <p class="lead">Lass dich überraschen: Wir packen dir eine Box mit saisonalen Sorten und Geheimtipps – jede anders.</p>
+        <p class="eyebrow">Schnell &amp; bunt</p>
+        <h2 class="h2">Fertige Mischboxen</h2>
+        <p class="lead">Bunt gemischt von uns – die schnellste Art zum Genießen oder Verschenken. Oder stell dir unten deine eigene Box zusammen.</p>
       </div>
       <div class="mystery-grid">
         <article class="mystery-card reveal">
-          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mystery Box 6er" loading="lazy" /></div>
+          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mischbox mit 6 Macarons" loading="lazy" /></div>
           <div class="mystery-card__body">
-            <h3>Mystery Box · 6er</h3>
-            <p>6 handverlesene Überraschungs-Macarons</p>
+            <h3>Mischbox · 6er</h3>
+            <p>6 bunt gemischte Macarons</p>
             <div class="mystery-card__foot">
-              <span class="mystery-card__price">18,00 €</span>
-              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="18" type="button">In den Warenkorb</button>
+              <span class="mystery-card__price">14,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="14" type="button">In den Warenkorb</button>
             </div>
           </div>
         </article>
         <article class="mystery-card is-featured reveal">
           <span class="mystery-card__badge">Bestseller</span>
-          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mystery Box 12er" loading="lazy" /></div>
+          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mischbox mit 12 Macarons" loading="lazy" /></div>
           <div class="mystery-card__body">
-            <h3>Mystery Box · 12er</h3>
-            <p>12 Macarons inkl. exklusive Saison-Sorten</p>
+            <h3>Mischbox · 12er</h3>
+            <p>12 bunt gemischte Macarons</p>
             <div class="mystery-card__foot">
-              <span class="mystery-card__price">34,00 €</span>
-              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="34" type="button">In den Warenkorb</button>
-            </div>
-          </div>
-        </article>
-        <article class="mystery-card reveal">
-          <div class="mystery-card__media"><img src="img/box-open.jpg" alt="Mystery Box 24er" loading="lazy" /></div>
-          <div class="mystery-card__body">
-            <h3>Mystery Box · 24er</h3>
-            <p>24 Macarons – das große Überraschungspaket</p>
-            <div class="mystery-card__foot">
-              <span class="mystery-card__price">58,00 €</span>
-              <button class="btn btn--primary btn--sm" data-mystery="24" data-mystery-price="58" type="button">In den Warenkorb</button>
+              <span class="mystery-card__price">26,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="26" type="button">In den Warenkorb</button>
             </div>
           </div>
         </article>
@@ -91,12 +80,9 @@
     <div class="wrap">
       <div class="toolbar" role="tablist" aria-label="Sortiment filtern">
         <button class="filter is-active" role="tab" aria-selected="true" data-filter="all">Alle</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="macaron" id="macarons">Macarons</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="baer" id="baer">Bärchen</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="cupcake" id="cupcake">Törtchen</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="box">Geschenkboxen</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="set">Sets</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Add-ons</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="box" id="boxen">15er-Boxen</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Extras</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="gutschein" id="gutschein">Gutschein</button>
       </div>
       <div class="grid" id="productGrid"></div>
     </div>
@@ -106,19 +92,17 @@
   <section class="section section--blush" id="box">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="eyebrow">Dein Lieblingsstück</p>
-        <h2 class="h2">Bau deine eigene Box</h2>
+        <p class="eyebrow">Deine Mischbox</p>
+        <h2 class="h2">Stell dir deine Box zusammen</h2>
         <p class="lead">Wähle eine Größe und füll deine Box mit jeder Sorte, die du magst. Perfekt zum Verschenken.</p>
       </div>
       <div class="builder">
         <div class="builder__panel reveal">
           <div class="sizes" role="radiogroup" aria-label="Boxgröße wählen">
-            <button class="size" role="radio" aria-checked="false" data-size="6">
-              <span class="size__count">6er</span><span class="size__price">18 €</span></button>
-            <button class="size is-active" role="radio" aria-checked="true" data-size="12">
-              <span class="size__count">12er</span><span class="size__price">34 €</span></button>
-            <button class="size" role="radio" aria-checked="false" data-size="16">
-              <span class="size__count">16er</span><span class="size__price">44 €</span></button>
+            <button class="size is-active" role="radio" aria-checked="true" data-size="6">
+              <span class="size__count">6er</span><span class="size__price">14 €</span></button>
+            <button class="size" role="radio" aria-checked="false" data-size="12">
+              <span class="size__count">12er</span><span class="size__price">26 €</span></button>
           </div>
           <p class="hint">Tippe eine Sorte an, um sie in die Box zu legen. Zum Entfernen tippe auf den Macaron in der Box.</p>
           <div class="palette" id="palette" aria-label="Sorten zum Hinzufügen"></div>
@@ -129,7 +113,7 @@
             <div class="boxslots" id="boxSlots" role="status" aria-live="polite"></div>
           </div>
           <div class="boxfoot">
-            <p class="boxfoot__count"><span id="boxCount">0</span> / <span id="boxMax">12</span> gefüllt</p>
+            <p class="boxfoot__count"><span id="boxCount">0</span> / <span id="boxMax">6</span> gefüllt</p>
             <button class="btn btn--primary" id="addBoxBtn" disabled>Box in den Warenkorb</button>
           </div>
         </div>
@@ -139,10 +123,10 @@
 
   <script src="js/main.min.js?v=20260626b"></script>
   <script>
-    // deep-link category filter (#macarons / #baer / #cupcake)
+    // deep-link category filter (#boxen / #gutschein)
     (function(){
       var h=location.hash.replace('#','');
-      var map={macarons:'macaron',baer:'baer',cupcake:'cupcake'};
+      var map={boxen:'box',gutschein:'gutschein'};
       if(map[h]){ var b=document.querySelector('.filter[data-filter="'+map[h]+'"]'); if(b){ b.click(); document.getElementById('sortiment').scrollIntoView(); } }
     })();
   </script>
