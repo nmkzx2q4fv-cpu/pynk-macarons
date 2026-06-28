@@ -16,7 +16,7 @@
      1) DYNAMIC "Beliebt diese Woche" — 4 random per load
      ---------------------------------------------------------- */
   const FEATURED_POOL = (typeof PRODUCTS !== "undefined")
-    ? PRODUCTS.filter(p => p.cat === "macaron" || p.cat === "baer")
+    ? PRODUCTS.filter(p => p.cat === "box" && !p.custom && !p.noShop)
     : [];
 
   function featuredCard(p) {
@@ -31,7 +31,7 @@
           <h3 class="pcard__name"><span class="pcard__dot" style="background:${FC[p.flavour]}"></span>${p.name}</h3>
           <p class="pcard__desc">${p.desc}</p>
           <div class="pcard__foot">
-            <span class="pcard__price">${EUR(p.price)}${p.cat === "macaron" ? " <small>/ Stück</small>" : ""}</span>
+            <span class="pcard__price">${EUR(p.price)}${p.box ? ` <small>/ ${p.box}er-Box</small>` : ""}</span>
             <button class="pcard__add" data-add="${p.id}" aria-label="${p.name} in den Warenkorb">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
@@ -59,7 +59,7 @@
       if (typeof flyToCart === "function") flyToCart(btn.closest(".pcard").querySelector(".pcard__media"));
       addToCart({
         key: "p-" + p.id, name: p.name,
-        meta: p.cat === "baer" ? "Bärchen-Macaron" : "Macaron",
+        meta: p.box ? p.box + "er-Box" : "Macaron",
         price: p.price, thumb: `<img src="${p.img}" alt="">`
       });
       if (typeof toast === "function") toast(`${p.name} hinzugefügt`);
