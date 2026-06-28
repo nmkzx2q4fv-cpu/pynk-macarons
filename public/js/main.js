@@ -147,19 +147,19 @@ const BOX_FLAVOURS = [
   {flavour:"himbeere",   name:"Himbeere",           img:"img/mac-himbeere.jpg",   desc:"15 Macarons Himbeere – spritzig und leicht herb."},
   {flavour:"pistazie",   name:"Pistazie",           img:"img/mac-pistazie.jpg",   desc:"15 Macarons Pistazie – geröstet, nussig, cremig."},
   {flavour:"matcha",     name:"Matcha",             img:"img/mac-matcha.jpg",     desc:"15 Macarons Matcha – sanft erdig, fein herb."},
-  {flavour:"limette",    name:"Limette-Minze",      img:"img/mac-limette.png",    desc:"15 Macarons Limette-Minze – frisch und kühl."},
+  {flavour:"limette",    name:"Limette-Minze",      img:"img/mac-limette.webp",    desc:"15 Macarons Limette-Minze – frisch und kühl."},
   {flavour:"zitrone",    name:"Zitrone",            img:"img/mac-zitrone.jpg",    desc:"15 Macarons Zitrone – sonnig mit Biss."},
   {flavour:"mango",      name:"Mango",              img:"img/mac-mango.jpg",      desc:"15 Macarons Mango – reif und tropisch süß."},
   {flavour:"orange",     name:"Orange",             img:"img/mac-orange.jpg",     desc:"15 Macarons Orange – saftig, fein-herb."},
   {flavour:"vanille",    name:"Vanille-Mascarpone", img:"img/mac-vanille.jpg",    desc:"15 Macarons Vanille-Mascarpone – Bourbon-Vanille, samtig."},
   {flavour:"lavendel",   name:"Lavendel-Zitrone",   img:"img/mac-lavendel.jpg",   desc:"15 Macarons Lavendel-Zitrone – zart und blumig."},
-  {flavour:"kokos",      name:"Kokos-Mango",        img:"img/mac-kokos.png",      desc:"15 Macarons Kokos-Mango – cremig und exotisch."},
+  {flavour:"kokos",      name:"Kokos-Mango",        img:"img/mac-kokos.webp",      desc:"15 Macarons Kokos-Mango – cremig und exotisch."},
   {flavour:"cheesecake", name:"Blaubeer-Cheesecake",img:"img/mac-cheesecake.jpg", desc:"15 Macarons Blaubeer-Cheesecake – cremig fruchtig."},
-  {flavour:"schokolade", name:"Schokolade",         img:"img/mac-schokolade.png", desc:"15 Macarons Schokolade – dunkle Ganache, intensiv."},
+  {flavour:"schokolade", name:"Schokolade",         img:"img/mac-schokolade.webp", desc:"15 Macarons Schokolade – dunkle Ganache, intensiv."},
   {flavour:"karamell",   name:"Salzkaramell",       img:"img/mac-salzkaramell.jpg",desc:"15 Macarons Salzkaramell – Karamell mit Fleur de Sel."},
   {flavour:"latte",      name:"Latte Macchiato",    img:"img/mac-latte.jpg",      desc:"15 Macarons Latte Macchiato – mild, rund, Espresso-Creme."},
-  {flavour:"cookies",    name:"Cookies & Cream",    img:"img/mac-cookies.png",    desc:"15 Macarons Cookies & Cream – knusprig in Vanillecreme."},
-  {flavour:"wildberry",  name:"Wild Berry",         img:"img/mac-wildberry.png",  desc:"15 Macarons Wild Berry – wilde Beerenmischung."}
+  {flavour:"cookies",    name:"Cookies & Cream",    img:"img/mac-cookies.webp",    desc:"15 Macarons Cookies & Cream – knusprig in Vanillecreme."},
+  {flavour:"wildberry",  name:"Wild Berry",         img:"img/mac-wildberry.webp",  desc:"15 Macarons Wild Berry – wilde Beerenmischung."}
 ];
 
 const PRODUCTS = [
@@ -169,7 +169,7 @@ const PRODUCTS = [
     flavour:b.flavour, price:P_BOX15, img:b.img, desc:b.desc
   })),
   // Eigene 15er-Mischbox (Konfigurator füllt die Sorten)
-  {id:"box15-mix", cat:"box", box:15, custom:true, name:"Deine eigene 15er-Box", flavour:"erdbeere", price:P_BOX15, img:"img/box-open.jpg", desc:"Stell dir 15 Macarons aus allen Sorten selbst zusammen."},
+  {id:"box15-mix", cat:"box", box:15, custom:true, name:"Deine eigene 15er-Box", flavour:"erdbeere", price:P_BOX15, img:"img/box-open.webp", desc:"Stell dir 15 Macarons aus allen Sorten selbst zusammen."},
   // Extras / Cross-Sell (zufällig im Warenkorb angeboten)
   {id:"crunch",   cat:"addon", crossSell:true, name:"Pynk Crunch",      flavour:"erdbeere", price:6.90, img:"img/mac-erdbeere.jpg", desc:"Zerbröselte Macaron-Schalen als Topping – 150 g Glas."},
   {id:"grusskarte",cat:"addon", crossSell:true, name:"Handgeschriebene Grußkarte", flavour:"lavendel", price:3.50, img:"img/gift-luxe.jpg", desc:"Deine persönliche Nachricht, von Hand geschrieben."},
@@ -177,7 +177,7 @@ const PRODUCTS = [
   // Gutschein (Kachel im Shop)
   {id:"gutschein",cat:"gutschein", name:"Geschenkgutschein", flavour:"wildberry", price:25, img:"img/gift-luxe.jpg", desc:"Verschenke Macaron-Glück – Betrag frei wählbar."},
   // Exklusiver Geschenk-Macaron — NICHT regulär kaufbar, nur Auto-Geschenk ab 80 €
-  {id:GIFT_ID, cat:"gift", noShop:true, name:"Exklusiver Überraschungs-Macaron", flavour:"wildberry", price:0, img:"img/mac-wildberry.png", desc:"Unser Geheim-Macaron – gibt es nur als Geschenk ab 50 € Bestellwert."}
+  {id:GIFT_ID, cat:"gift", noShop:true, name:"Exklusiver Überraschungs-Macaron", flavour:"wildberry", price:0, img:"img/mac-wildberry.webp", desc:"Unser Geheim-Macaron – gibt es nur als Geschenk ab 50 € Bestellwert."}
 ];
 
 // Macaron-Tower — Stufen mit Festpreis (Platzhalter)

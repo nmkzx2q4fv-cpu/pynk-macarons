@@ -60,94 +60,6 @@
   }
 
   /* ============================================================
-     2) SCROLL-DRIVEN TEXT & SECTION REVEALS
-     ============================================================ */
-  function initScrollReveals() {
-    // Staggered heading reveals with split-line effect
-    $$(".section__head .h2, .section__head .display").forEach(heading => {
-      gsap.from(heading, {
-        y: 50, opacity: 0, duration: 1, ease: "power3.out",
-        scrollTrigger: {
-          trigger: heading,
-          start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      });
-    });
-
-    // Eyebrow + lead text
-    $$(".section__head .eyebrow").forEach(el => {
-      gsap.from(el, {
-        y: 20, opacity: 0, duration: 0.7, ease: "power2.out",
-        scrollTrigger: {
-          trigger: el, start: "top 88%",
-          toggleActions: "play none none none"
-        }
-      });
-    });
-
-    $$(".section__head .lead").forEach(el => {
-      gsap.from(el, {
-        y: 30, opacity: 0, duration: 0.8, delay: 0.15, ease: "power2.out",
-        scrollTrigger: {
-          trigger: el, start: "top 88%",
-          toggleActions: "play none none none"
-        }
-      });
-    });
-
-    // Category cards stagger
-    $$(".catgrid, .abo-grid, .anlass-grid, .tier-grid, .gc-grid").forEach(grid => {
-      const cards = grid.children;
-      if (!cards.length) return;
-      gsap.from(cards, {
-        y: 60, opacity: 0, scale: 0.95,
-        duration: 0.7, stagger: 0.1, ease: "power3.out",
-        scrollTrigger: {
-          trigger: grid, start: "top 82%",
-          toggleActions: "play none none none"
-        }
-      });
-    });
-
-    // Stats counter section
-    $$(".stats").forEach(block => {
-      gsap.from(block.children, {
-        y: 30, opacity: 0, duration: 0.6, stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: block, start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      });
-    });
-
-    // Split sections (image + copy)
-    $$(".split").forEach(split => {
-      const media = $(".split__media, .framed", split);
-      const copy = $(".split__copy", split);
-      if (media) {
-        gsap.from(media, {
-          x: -60, opacity: 0, duration: 1, ease: "power3.out",
-          scrollTrigger: {
-            trigger: split, start: "top 75%",
-            toggleActions: "play none none none"
-          }
-        });
-      }
-      if (copy) {
-        gsap.from(copy, {
-          x: 40, opacity: 0, duration: 1, delay: 0.15, ease: "power3.out",
-          scrollTrigger: {
-            trigger: split, start: "top 75%",
-            toggleActions: "play none none none"
-          }
-        });
-      }
-    });
-  }
-
-  /* ============================================================
      3) PRODUCT CARD 3D TILT + HOVER
      ============================================================ */
   function initCardTilt() {
@@ -271,23 +183,6 @@
   }
 
   /* ============================================================
-     6) LOGO / BRAND BAR SCROLL PARALLAX
-     ============================================================ */
-  function initLogoParallax() {
-    const logos = $(".logos");
-    if (!logos) return;
-    gsap.from(logos.children, {
-      x: i => (i % 2 === 0 ? -40 : 40),
-      opacity: 0, duration: 0.8, stagger: 0.08,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: logos, start: "top 85%",
-        toggleActions: "play none none none"
-      }
-    });
-  }
-
-  /* ============================================================
      7) OCCASION COLOR MORPHING (Anlass-Seite + Box Builder)
      ============================================================ */
   function initOccasionMorph() {
@@ -360,9 +255,7 @@
     const ctx = gsap.context(() => {
       initHero();
       initPageHead();
-      initScrollReveals();
       initReviewTicker({ pauseOnHover: true });
-      initLogoParallax();
       initOccasionMorph();
       initSectionTransitions();
     });
@@ -384,9 +277,7 @@
     const ctx = gsap.context(() => {
       initHeroLite();
       initPageHead();
-      initScrollReveals();                      // play-once triggers, no scrub
       initReviewTicker({ pauseOnHover: false, speed: 32 });
-      initLogoParallax();
       initOccasionMorph();
       // NO initSectionTransitions (scrub), NO tilt, NO magnetic buttons
     });

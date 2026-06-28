@@ -24,6 +24,8 @@
   <meta name="twitter:description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
   <meta name="twitter:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
   <meta name="description" content="Handgemachte Macarons, Bärchen-Macarons, Cupcakes, Macaron-Tower & Logo-Macarons aus Hamburg. Online bestellen, abholen oder deutschlandweit liefern lassen." />
+  <!-- LCP: Hero-Bild vorab laden, startet vor CSS/JS -->
+  <link rel="preload" as="image" href="img/box-open.webp" fetchpriority="high" />
   <link rel="stylesheet" href="fonts/fonts.css" />
   <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260626b" />
   <link rel="stylesheet" href="styles/main.min.css?v=20260626b" />
@@ -34,7 +36,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero__bg" data-parallax="0.3">
-      <img src="img/box-open.jpg" alt="Handgemachte Macarons von Macaron by Pynk" fetchpriority="high" style="width:100%;height:100%;object-fit:cover" />
+      <img src="img/box-open.webp" alt="Handgemachte Macarons von Macaron by Pynk" width="600" height="800" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover" />
     </div>
     <div class="wrap hero__inner">
       <p class="eyebrow hero__eyebrow" data-anim data-i18n="hero.eyebrow">Handmade in Hamburg</p>
@@ -359,10 +361,10 @@
   </script>
 
   <script src="js/main.min.js?v=20260626b"></script>
-  <!-- Premium-Motion: optional, lädt nur wenn online; Seite funktioniert auch ohne -->
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <!-- Premium-Motion: self-hosted (DSGVO-konform, kein US-CDN); Seite funktioniert auch ohne -->
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/interactive.min.js?v=20260626b" defer></script>
   <script src="js/gsap-premium.min.js?v=20260626b" defer></script>
 </body>

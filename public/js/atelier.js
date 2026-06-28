@@ -16,14 +16,14 @@
         Neue Sorte = transparentes PNG in /img + ein Objekt hier.
      ============================================================ */
   const MACARONS = [
-    { id: "erdbeere",  name: "Erdbeere-Rose",      flavour: "erdbeere",  color: "#EF7DA0", price: 2.90, img: "img/macaron-pink.png",   sensory: "zartschmelzend, blütenzart", occasions: ["hochzeit", "babyparty", "geschenk", "self"] },
-    { id: "vanille",   name: "Vanille-Mascarpone", flavour: "vanille",   color: "#EBD9B4", price: 2.90, img: "img/mac-cream.png",      sensory: "cremig, samtig",             occasions: ["hochzeit", "firma", "babyparty", "self"] },
-    { id: "limette",   name: "Limette-Minze",      flavour: "limette",   color: "#7FD08C", price: 2.90, img: "img/mac-limette.png",    sensory: "frisch, spritzig",           occasions: ["self", "firma", "geschenk"] },
-    { id: "schoko",    name: "Dunkle Schokolade",  flavour: "schokolade",color: "#9A6B4F", price: 2.90, img: "img/mac-schokolade.png", sensory: "intensiv, seidig",           occasions: ["firma", "self", "geschenk"] },
-    { id: "kokos",     name: "Kokos-Traum",        flavour: "kokos",     color: "#A9E0D2", price: 2.90, img: "img/mac-kokos.png",      sensory: "exotisch, sahnig",           occasions: ["babyparty", "hochzeit", "self"] },
-    { id: "wildberry", name: "Wild Berry",         flavour: "wildberry", color: "#C86FA8", price: 2.90, img: "img/mac-wildberry.png",  sensory: "fruchtig, lebhaft",          occasions: ["geschenk", "babyparty", "self"] },
-    { id: "cookies",   name: "Cookies & Cream",    flavour: "cookies",   color: "#9C9690", price: 2.90, img: "img/mac-cookies.png",    sensory: "knusprig, verspielt",        occasions: ["self", "firma", "geschenk"] },
-    { id: "baer",      name: "Pistazien-Bärchen",  flavour: "pistazie",  color: "#A9C77A", price: 3.90, img: "img/bear-green.png",     sensory: "nussig, zum Knuddeln",       occasions: ["babyparty", "geschenk", "self"] }
+    { id: "erdbeere",  name: "Erdbeere-Rose",      flavour: "erdbeere",  color: "#EF7DA0", price: 2.90, img: "img/macaron-pink.webp",   sensory: "zartschmelzend, blütenzart", occasions: ["hochzeit", "babyparty", "geschenk", "self"] },
+    { id: "vanille",   name: "Vanille-Mascarpone", flavour: "vanille",   color: "#EBD9B4", price: 2.90, img: "img/mac-cream.webp",      sensory: "cremig, samtig",             occasions: ["hochzeit", "firma", "babyparty", "self"] },
+    { id: "limette",   name: "Limette-Minze",      flavour: "limette",   color: "#7FD08C", price: 2.90, img: "img/mac-limette.webp",    sensory: "frisch, spritzig",           occasions: ["self", "firma", "geschenk"] },
+    { id: "schoko",    name: "Dunkle Schokolade",  flavour: "schokolade",color: "#9A6B4F", price: 2.90, img: "img/mac-schokolade.webp", sensory: "intensiv, seidig",           occasions: ["firma", "self", "geschenk"] },
+    { id: "kokos",     name: "Kokos-Traum",        flavour: "kokos",     color: "#A9E0D2", price: 2.90, img: "img/mac-kokos.webp",      sensory: "exotisch, sahnig",           occasions: ["babyparty", "hochzeit", "self"] },
+    { id: "wildberry", name: "Wild Berry",         flavour: "wildberry", color: "#C86FA8", price: 2.90, img: "img/mac-wildberry.webp",  sensory: "fruchtig, lebhaft",          occasions: ["geschenk", "babyparty", "self"] },
+    { id: "cookies",   name: "Cookies & Cream",    flavour: "cookies",   color: "#9C9690", price: 2.90, img: "img/mac-cookies.webp",    sensory: "knusprig, verspielt",        occasions: ["self", "firma", "geschenk"] },
+    { id: "baer",      name: "Pistazien-Bärchen",  flavour: "pistazie",  color: "#A9C77A", price: 3.90, img: "img/bear-green.webp",     sensory: "nussig, zum Knuddeln",       occasions: ["babyparty", "geschenk", "self"] }
   ];
 
   /* ============================================================
@@ -530,7 +530,7 @@
     filled.forEach(id => { const n = byId(id).name; counts[n] = (counts[n] || 0) + 1; });
     const meta = `${o.label} · ` + Object.entries(counts).map(([n, c]) => `${c}× ${n}`).join(", ");
     if (typeof addToCart === "function") {
-      addToCart({ key: "atelier-" + Date.now(), name: `${state.size}er Box · ${o.label}`, meta, price: BOX_PRICE[state.size], thumb: `<img src="img/macaron-pink.png" alt="">` });
+      addToCart({ key: "atelier-" + Date.now(), name: `${state.size}er Box · ${o.label}`, meta, price: BOX_PRICE[state.size], thumb: `<img src="img/macaron-pink.webp" alt="">` });
       if (typeof toast === "function") toast("Box in den Warenkorb gelegt");
       if (typeof window.openDrawer === "function") window.openDrawer();
     }
