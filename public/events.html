@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Events: Hochzeit, Babyshower & Geburtstag · Macaron by Pynk Hamburg</title>
-  <meta name="description" content="Macarons & Macaron-Tower für Hochzeit, Babyshower, Geburtstag und Firmen-Events in Hamburg. Jetzt unverbindlich anfragen – wir gestalten deinen süßen Moment." />
+  <title>Events & Anlässe · Macaron by Pynk Hamburg</title>
+  <meta name="description" content="Macarons & Macaron-Tower für Hochzeit, Babyshower, Geburtstag, Taufe, Jubiläum und Firmen-Events in Hamburg. Jetzt unverbindlich anfragen." />
   <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
   <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
   <link rel="manifest" href="manifest.json" />
@@ -12,7 +12,7 @@
   <link rel="canonical" href="https://macaronbypynk.de/events.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Macaron by Pynk" />
-  <meta property="og:title" content="Events: Hochzeit, Babyshower & Geburtstag · Macaron by Pynk" />
+  <meta property="og:title" content="Events & Anlässe · Macaron by Pynk" />
   <meta property="og:description" content="Macaron-Tower & Boxen für deinen besonderen Anlass in Hamburg. Jetzt anfragen." />
   <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
   <meta property="og:url" content="https://macaronbypynk.de/events.html" />
@@ -20,54 +20,210 @@
   <link rel="stylesheet" href="fonts/fonts.css" />
   <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260628d" />
   <link rel="stylesheet" href="styles/main.min.css?v=20260628d" />
-  <style>
-    .ev-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:var(--s4); }
-    .ev-card{ position:relative; border-radius:var(--r-lg); overflow:hidden; aspect-ratio:3/4; box-shadow:var(--sh-sm); display:block; }
-    .ev-card img{ width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease); }
-    .ev-card:hover img{ transform:scale(1.05); }
-    .ev-card__label{ position:absolute; inset:auto 0 0 0; z-index:2; padding:var(--s5); color:#fff; background:linear-gradient(transparent,rgba(74,21,48,.8)); }
-    .ev-card__label h3{ font-family:var(--display); font-size:1.3rem; }
-    .ev-card__label span{ font-size:.85rem; opacity:.9; }
-    .ev-form{ max-width:640px; margin-inline:auto; }
-  </style>
 </head>
-<body data-page="events">
-  <a class="skip-link" href="#anfrage">Zur Anfrage springen</a>
+<body data-page="events" data-hero>
+  <a class="skip-link" href="#anlaesse">Zur Anlass-Auswahl springen</a>
 
-  <header class="pagehead">
-    <div class="wrap">
-      <p class="eyebrow eyebrow--plain" style="justify-content:center">Für besondere Anlässe</p>
-      <h1 class="h2">Macarons für deinen großen Moment</h1>
-      <p class="lead">Ob Hochzeit, Babyshower oder Geburtstag – wir gestalten Boxen, Tower und Motive passend zu deinem Anlass. Erzähl uns davon.</p>
+  <!-- HERO -->
+  <section class="hero hero--events">
+    <div class="hero__bg" data-parallax="0.3">
+      <img src="img/hero-tower.jpg" alt="Macaron-Tower für besondere Anlässe" width="1200" height="800" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover" />
     </div>
-  </header>
+    <div class="wrap hero__inner">
+      <p class="eyebrow hero__eyebrow" data-anim>Für besondere Momente</p>
+      <h1 class="display" data-anim>Dein Anlass.<br>Deine Macarons.<br><em>Unvergesslich süß.</em></h1>
+      <p class="lead hero__lead" data-anim>Ob Hochzeit, Geburtstag oder Baby Reveal – wir gestalten Tower, Boxen und Motive, die deine Gäste verzaubern.</p>
+      <div class="hero__cta" data-anim>
+        <a href="#anlaesse" class="btn btn--primary btn--lg">Anlass wählen</a>
+        <a href="#anfrage" class="btn btn--ghost btn--lg" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)">Direkt anfragen</a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">Entdecken<span></span></div>
+  </section>
 
   <!-- ANLASS-AUSWAHL -->
-  <section class="section" id="anlaesse">
+  <section class="section cv-section" id="anlaesse">
     <div class="wrap">
-      <div class="ev-grid">
-        <a class="ev-card reveal" href="#anfrage" data-occ="Hochzeit" id="hochzeit">
+      <div class="section__head reveal">
+        <p class="eyebrow">Wähle deinen Anlass</p>
+        <h2 class="h2">Für welchen Moment darf es etwas Besonderes sein?</h2>
+        <p class="lead">Klicke auf deinen Anlass und erfahre, was wir für dich gestalten können.</p>
+      </div>
+      <div class="ev-grid ev-grid--lg">
+        <!-- Hochzeit -->
+        <a class="ev-card ev-card--xl reveal" href="#anfrage" data-occ="Hochzeit" id="hochzeit">
           <img src="img/hero-tower.jpg" alt="Macaron-Tower für Hochzeiten" loading="lazy" />
-          <div class="ev-card__label"><h3>Hochzeit</h3><span>Tower & Boxen in euren Farben</span></div>
+          <div class="ev-card__label">
+            <span class="ev-card__badge">Beliebtester Anlass</span>
+            <h3>Hochzeit</h3>
+            <span>Tower · Gastgeschenke · Candy Bar</span>
+          </div>
         </a>
-        <a class="ev-card reveal" href="#anfrage" data-occ="Babyshower" id="babyshower">
-          <img src="img/bear-hero.jpg" alt="Pastell-Macarons & Bärchen für Babyshower und Gender Reveal" loading="lazy" />
-          <div class="ev-card__label"><h3>Babyshower & Reveal</h3><span>Pastell, Bärchen, rosa oder blau</span></div>
-        </a>
+        <!-- Geburtstag -->
         <a class="ev-card reveal" href="#anfrage" data-occ="Geburtstag" id="geburtstag">
-          <img src="img/gift-luxe.jpg" alt="Macarons und Giant Macaron zum Geburtstag" loading="lazy" />
-          <div class="ev-card__label"><h3>Geburtstag</h3><span>Giant Macaron statt Torte</span></div>
+          <img src="img/gift-luxe.jpg" alt="Giant Macaron und Boxen zum Geburtstag" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Geburtstag</h3>
+            <span>Giant Macaron · Themen-Boxen</span>
+          </div>
         </a>
+        <!-- Baby Reveal -->
+        <a class="ev-card reveal" href="#anfrage" data-occ="Babyshower" id="babyshower">
+          <img src="img/bear-hero.jpg" alt="Pastell-Macarons für Baby Reveal und Babyshower" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Baby Reveal & Shower</h3>
+            <span>Rosa oder Blau · Bärchen-Macarons</span>
+          </div>
+        </a>
+        <!-- Taufe -->
+        <a class="ev-card reveal" href="#anfrage" data-occ="Taufe" id="taufe">
+          <img src="img/box-bears.jpg" alt="Zarte Macarons für die Taufe" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Taufe</h3>
+            <span>Pastell · Zart · Individuell bedruckt</span>
+          </div>
+        </a>
+        <!-- Jubiläum -->
+        <a class="ev-card reveal" href="#anfrage" data-occ="Jubilaeum" id="jubilaeum">
+          <img src="img/b2b-meta.jpg" alt="Macarons für Firmen-Jubiläen und Feierlichkeiten" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Jubiläum</h3>
+            <span>Silber · Gold · mit Zahl bedruckt</span>
+          </div>
+        </a>
+        <!-- Valentinstag -->
+        <a class="ev-card reveal" href="#anfrage" data-occ="Valentinstag" id="valentinstag">
+          <img src="img/mac-erdbeere.jpg" alt="Romantische Macarons zum Valentinstag" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Valentinstag</h3>
+            <span>Herzform · Rot & Rosa</span>
+          </div>
+        </a>
+        <!-- Firmen-Event -->
+        <a class="ev-card reveal" href="#anfrage" data-occ="Firmen-Event" id="firmen">
+          <img src="img/showpiece-dress.jpg" alt="Logo-Macarons und Catering für Business-Events" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Firmen-Event</h3>
+            <span>Logo-Druck · Messen · Kundengeschenke</span>
+          </div>
+        </a>
+        <!-- Sonderwunsch -->
         <a class="ev-card reveal" href="#anfrage" data-occ="Anderer Anlass" id="weitere">
-          <img src="img/showpiece-dress.jpg" alt="Individuelle Macaron-Kreationen für besondere Anlässe" loading="lazy" />
-          <div class="ev-card__label"><h3>Weitere Anlässe</h3><span>Jubiläum, Taufe, Sonderwunsch</span></div>
+          <img src="img/pynkcafejpg.jpg" alt="Individuelle Macaron-Kreationen" loading="lazy" />
+          <div class="ev-card__label">
+            <h3>Sonderwunsch</h3>
+            <span>Deine Idee – wir backen sie</span>
+          </div>
         </a>
       </div>
     </div>
   </section>
 
+  <!-- DETAILS zu jedem Anlass -->
+  <section class="section section--cream2 cv-section" id="details">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Was wir für dich gestalten</p>
+        <h2 class="h2">Jeder Anlass, perfekt in Szene gesetzt</h2>
+      </div>
+
+      <!-- Hochzeit Detail -->
+      <div class="ev-detail reveal" id="detail-hochzeit">
+        <div class="ev-detail__media">
+          <img src="img/hero-tower.jpg" alt="Macaron-Tower Hochzeit" loading="lazy" />
+        </div>
+        <div class="ev-detail__content">
+          <span class="ev-detail__badge">Hochzeit</span>
+          <h3 class="h3">Euer Macaron-Tower zur Hochzeit</h3>
+          <p>Statt klassischer Hochzeitstorte oder als spektakuläres Highlight auf der Candy Bar: Unser Macaron-Tower wird bis zu 13 Stufen hoch, mit je einem Geschmack pro Stufe – bis zu 192 Macarons.</p>
+          <ul class="ev-detail__list">
+            <li>Tower mit 3 bis 13 Stufen</li>
+            <li>Farben passend zu eurem Konzept</li>
+            <li>Gastgeschenk-Boxen (2er, 4er, 6er)</li>
+            <li>Candy Bar komplett mit Aufstellern</li>
+            <li>Lieferung & Aufbau in Hamburg</li>
+          </ul>
+          <a href="#anfrage" class="btn btn--primary" data-set-occ="Hochzeit">Hochzeitsanfrage starten</a>
+        </div>
+      </div>
+
+      <!-- Geburtstag Detail -->
+      <div class="ev-detail ev-detail--reverse reveal" id="detail-geburtstag">
+        <div class="ev-detail__media">
+          <img src="img/gift-luxe.jpg" alt="Giant Macaron Geburtstag" loading="lazy" />
+        </div>
+        <div class="ev-detail__content">
+          <span class="ev-detail__badge ev-detail__badge--alt">Geburtstag</span>
+          <h3 class="h3">Giant Macaron statt Geburtstagstorte</h3>
+          <p>Überrasche zum Geburtstag mit einem Giant Macaron (Ø 20 cm!) oder einer personalisierten Box mit dem Lieblingsgeschmack. Auch mit aufgedruckter Zahl, Name oder Nachricht.</p>
+          <ul class="ev-detail__list">
+            <li>Giant Macaron mit persönlichem Aufdruck</li>
+            <li>Themen-Boxen in Wunschfarben</li>
+            <li>Zahlen-Macarons (18, 30, 50 …)</li>
+            <li>Überraschungsbox mit Schleife</li>
+          </ul>
+          <a href="#anfrage" class="btn btn--primary" data-set-occ="Geburtstag">Geburtstagsanfrage starten</a>
+        </div>
+      </div>
+
+      <!-- Baby Reveal Detail -->
+      <div class="ev-detail reveal" id="detail-baby">
+        <div class="ev-detail__media">
+          <img src="img/bear-hero.jpg" alt="Baby Reveal Macarons" loading="lazy" />
+        </div>
+        <div class="ev-detail__content">
+          <span class="ev-detail__badge" style="background:linear-gradient(135deg,#EF7DA0,#A7D4E6)">Baby Reveal</span>
+          <h3 class="h3">Das süßeste Geheimnis der Welt</h3>
+          <p>Rosa oder Blau? Die Füllung verrät es! Unsere Baby-Reveal-Macarons haben außen eine neutrale Farbe und innen Rosa oder Blau. Dazu passende Bärchen-Macarons und Boxen für die Gäste.</p>
+          <ul class="ev-detail__list">
+            <li>Reveal-Macarons (neutral außen, Farbe innen)</li>
+            <li>Bärchen-Macarons in Rosa oder Blau</li>
+            <li>Pastell-Boxen als Mitgebsel</li>
+            <li>Tower in Babyfarben</li>
+          </ul>
+          <a href="#anfrage" class="btn btn--primary" data-set-occ="Babyshower">Baby-Anfrage starten</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOWER KONFIGURATOR TEASER -->
+  <section class="section cv-section" id="tower">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Macaron Tower</p>
+        <h2 class="h2">Bis zu 13 Stufen – ein Geschmack pro Stufe</h2>
+        <p class="lead">Von der eleganten 3-Stufen-Krönung bis zum spektakulären 13-Stufen-Tower mit 192 Macarons. Konfiguriere deinen Tower.</p>
+      </div>
+      <div class="tower-visual reveal" id="towerVisual">
+        <div class="tower-display">
+          <div class="tower-stack" id="towerStack"></div>
+          <div class="tower-info" id="towerInfo">
+            <div class="tower-info__count">
+              <span class="tower-info__number" id="towerCount">0</span>
+              <span class="tower-info__label">Macarons</span>
+            </div>
+            <div class="tower-info__tiers">
+              <span class="tower-info__number" id="towerTiers">0</span>
+              <span class="tower-info__label">Stufen</span>
+            </div>
+          </div>
+        </div>
+        <div class="tower-config">
+          <label for="towerSlider" class="tower-config__label">Anzahl Stufen wählen</label>
+          <input type="range" id="towerSlider" min="3" max="13" value="5" class="tower-slider" />
+          <div class="tower-config__markers">
+            <span>3</span><span>5</span><span>7</span><span>9</span><span>11</span><span>13</span>
+          </div>
+          <div class="tower-tiers-list" id="towerTiersList"></div>
+          <a href="#anfrage" class="btn btn--primary btn--lg btn--block" data-set-occ="Hochzeit" style="margin-top:var(--s5)">Tower anfragen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ANFRAGE-FORMULAR -->
-  <section class="section section--blush" id="anfrage">
+  <section class="section section--blush cv-section" id="anfrage">
     <div class="wrap">
       <div class="section__head reveal">
         <p class="eyebrow">Unverbindlich anfragen</p>
@@ -87,17 +243,23 @@
           <label for="evOcc">Anlass</label>
           <select id="evOcc">
             <option>Hochzeit</option>
-            <option>Babyshower</option>
             <option>Geburtstag</option>
+            <option>Babyshower / Baby Reveal</option>
+            <option>Taufe</option>
+            <option>Jubiläum</option>
+            <option>Valentinstag</option>
             <option>Firmen-Event</option>
             <option>Anderer Anlass</option>
           </select>
         </div>
         <div class="field"><label for="evDate">Wunschdatum</label><input id="evDate" type="date" /></div>
-        <div class="field"><label for="evCount">Ungefähre Menge / Personen</label><input id="evCount" type="text" inputmode="numeric" placeholder="z. B. 80 Macarons" /></div>
-        <div class="field"><label for="evNote">Deine Idee (optional)</label><textarea id="evNote" rows="3" placeholder="Farben, Motiv, Tower-Größe …"></textarea></div>
+        <div class="field"><label for="evCount">Ungefähre Menge / Personen</label><input id="evCount" type="text" inputmode="numeric" placeholder="z. B. 80 Macarons / 40 Gäste" /></div>
+        <div class="field"><label for="evNote">Deine Idee (optional)</label><textarea id="evNote" rows="4" placeholder="Farben, Motiv, Tower-Größe, Logo-Upload …"></textarea></div>
         <div class="segmented" style="grid-template-columns:1.3fr 1fr;gap:var(--s3)">
-          <button type="submit" class="btn btn--primary">Per WhatsApp senden</button>
+          <button type="submit" class="btn btn--primary">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7 0-1.3.7-1.9.9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.1.3.7 1.1 1.4 1.8.9.8 1.7 1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.4.1.8-.1 1.5Z"/></svg>
+            Per WhatsApp senden
+          </button>
           <button type="button" class="btn btn--ghost" id="evMail">Per E-Mail</button>
         </div>
         <p class="hint" style="margin-top:var(--s4)">Die Anfrage wird als fertige Nachricht geöffnet – du schickst sie nur noch ab. Unverbindlich.</p>
@@ -108,37 +270,91 @@
   <script src="js/main.min.js?v=20260628d"></script>
   <script>
     (function(){
-      const params = new URLSearchParams(location.search);
-      const occ = params.get("occ");
-      const sel = document.getElementById("evOcc");
-      // Pre-select occasion from ?occ= or from card clicks
-      function setOcc(v){ if(!v||!sel) return; [...sel.options].forEach(o=>{ if(o.value.toLowerCase().startsWith(v.toLowerCase().slice(0,4))) sel.value=o.value; }); }
-      if(occ) setOcc(occ);
-      document.querySelectorAll("[data-occ]").forEach(c=>c.addEventListener("click",()=>setOcc(c.dataset.occ)));
+      var TOWER_DATA = [
+        {stufe:1,stk:3},{stufe:2,stk:5},{stufe:3,stk:7},{stufe:4,stk:9},
+        {stufe:5,stk:12},{stufe:6,stk:14},{stufe:7,stk:16},{stufe:8,stk:18},
+        {stufe:9,stk:20},{stufe:10,stk:22},{stufe:11,stk:22},{stufe:12,stk:22},{stufe:13,stk:22}
+      ];
+      var FC_ARR = ["#EF7DA0","#A9C77A","#F2D06B","#BFA0D6","#9CC06A","#F4B45E","#EBD9B4","#E0567E","#A9E0D2","#9A6B4F","#D8A86A","#C86FA8","#A7D4E6"];
 
-      const form = document.getElementById("eventForm");
-      function compose(){
-        const name=evName.value.trim(), contact=evContact.value.trim();
-        if(!name||!contact){ evName.reportValidity?.(); return null; }
-        const msg = `Hallo Pynk-Team, ich habe eine Event-Anfrage:%0A%0A`+
-          `Anlass: ${encodeURIComponent(sel.value)}%0A`+
-          `Name: ${encodeURIComponent(name)}%0A`+
-          `Kontakt: ${encodeURIComponent(contact)}%0A`+
-          `Datum: ${encodeURIComponent(evDate.value||"–")}%0A`+
-          `Menge: ${encodeURIComponent(evCount.value||"–")}%0A`+
-          `Idee: ${encodeURIComponent(evNote.value||"–")}`;
-        return msg;
+      var slider = document.getElementById("towerSlider");
+      var stack = document.getElementById("towerStack");
+      var info = document.getElementById("towerInfo");
+      var tiersList = document.getElementById("towerTiersList");
+
+      function renderTower(n){
+        if(!stack) return;
+        var tiers = TOWER_DATA.slice(0,n).reverse();
+        var total = tiers.reduce(function(s,t){return s+t.stk;},0);
+        var maxW = 280;
+        stack.innerHTML = tiers.map(function(t,i){
+          var w = 40 + (t.stk/22)*maxW;
+          var c = FC_ARR[(n-1-i) % FC_ARR.length];
+          var realIdx = n-i;
+          return '<div class="tower-tier" style="width:'+w+'px;background:'+c+'" title="Stufe '+realIdx+': '+t.stk+' Stk."><span class="tower-tier__label">'+t.stk+'</span></div>';
+        }).join("");
+        document.getElementById("towerCount").textContent = total;
+        document.getElementById("towerTiers").textContent = n;
+
+        if(tiersList){
+          var usedTiers = TOWER_DATA.slice(0,n);
+          tiersList.innerHTML = usedTiers.map(function(t,i){
+            return '<div class="tower-tier-row"><span class="tower-tier-dot" style="background:'+FC_ARR[i%FC_ARR.length]+'"></span><span>Stufe '+(i+1)+'</span><strong>'+t.stk+' Stk.</strong></div>';
+          }).join("");
+        }
       }
-      form.addEventListener("submit",e=>{
-        e.preventDefault();
-        const msg=compose(); if(!msg) return;
-        window.open(`https://wa.me/4915228283124?text=${msg}`,"_blank","noopener");
+
+      if(slider){
+        slider.addEventListener("input",function(){ renderTower(+this.value); });
+        renderTower(+slider.value);
+      }
+
+      // Occasion routing
+      var params = new URLSearchParams(location.search);
+      var occ = params.get("occ");
+      var sel = document.getElementById("evOcc");
+      function setOcc(v){
+        if(!v||!sel) return;
+        var opts = sel.options;
+        for(var i=0;i<opts.length;i++){
+          if(opts[i].value.toLowerCase().indexOf(v.toLowerCase().slice(0,4))===0){ sel.selectedIndex=i; break; }
+        }
+      }
+      if(occ) setOcc(occ);
+      document.querySelectorAll("[data-occ]").forEach(function(c){
+        c.addEventListener("click",function(){ setOcc(c.dataset.occ); });
       });
-      document.getElementById("evMail").addEventListener("click",()=>{
-        const msg=compose(); if(!msg) return;
-        location.href=`mailto:pynk.coffee.hamburg@gmail.com?subject=Event-Anfrage%20${encodeURIComponent(sel.value)}&body=${msg.replace(/%0A/g,"%0D%0A")}`;
+      document.querySelectorAll("[data-set-occ]").forEach(function(b){
+        b.addEventListener("click",function(){ setOcc(b.dataset.setOcc); });
+      });
+
+      // Form submission
+      var form = document.getElementById("eventForm");
+      function compose(){
+        var name=evName.value.trim(), contact=evContact.value.trim();
+        if(!name||!contact){ evName.reportValidity && evName.reportValidity(); return null; }
+        return "Hallo Pynk-Team, ich habe eine Event-Anfrage:%0A%0A"+
+          "Anlass: "+encodeURIComponent(sel.value)+"%0A"+
+          "Name: "+encodeURIComponent(name)+"%0A"+
+          "Kontakt: "+encodeURIComponent(contact)+"%0A"+
+          "Datum: "+encodeURIComponent(evDate.value||"–")+"%0A"+
+          "Menge: "+encodeURIComponent(evCount.value||"–")+"%0A"+
+          "Idee: "+encodeURIComponent(evNote.value||"–");
+      }
+      form.addEventListener("submit",function(e){
+        e.preventDefault();
+        var msg=compose(); if(!msg) return;
+        window.open("https://wa.me/4915228283124?text="+msg,"_blank","noopener");
+      });
+      document.getElementById("evMail").addEventListener("click",function(){
+        var msg=compose(); if(!msg) return;
+        location.href="mailto:pynk.coffee.hamburg@gmail.com?subject=Event-Anfrage%20"+encodeURIComponent(sel.value)+"&body="+msg.replace(/%0A/g,"%0D%0A");
       });
     })();
   </script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/gsap-premium.min.js?v=20260628d" defer></script>
 </body>
 </html>

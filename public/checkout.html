@@ -31,13 +31,61 @@
 <body data-page="checkout">
   <a class="skip-link" href="#checkoutForm">Zur Bestellung springen</a>
 
-  <header class="pagehead">
+  <!-- Premium checkout header with progress -->
+  <header class="co-hero">
     <div class="wrap">
-      <p class="eyebrow eyebrow--plain" style="justify-content:center">Sichere Bestellung</p>
-      <h1 class="h2">Bestellung abschließen</h1>
-      <p class="lead">Zahl in Sekunden per Express – oder mit deinen Angaben. Alle Preise inkl. MwSt.</p>
+      <a href="shop.html" class="co-back" aria-label="Zurück zum Shop">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Zurück zum Shop</span>
+      </a>
+      <div class="co-hero__title">
+        <div class="co-hero__icon">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <h1 class="h3">Sichere Bestellung</h1>
+      </div>
+      <div class="co-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="Bestellschritt 1 von 3">
+        <div class="co-progress__step is-active" data-step="1">
+          <span class="co-progress__dot">1</span>
+          <span class="co-progress__label">Warenkorb</span>
+        </div>
+        <div class="co-progress__line"><span class="co-progress__fill"></span></div>
+        <div class="co-progress__step" data-step="2">
+          <span class="co-progress__dot">2</span>
+          <span class="co-progress__label">Deine Daten</span>
+        </div>
+        <div class="co-progress__line"><span class="co-progress__fill"></span></div>
+        <div class="co-progress__step" data-step="3">
+          <span class="co-progress__dot">3</span>
+          <span class="co-progress__label">Bestätigen</span>
+        </div>
+      </div>
     </div>
   </header>
+
+  <!-- Trust bar -->
+  <div class="co-trust-bar">
+    <div class="wrap">
+      <div class="co-trust-bar__inner">
+        <span class="co-trust-badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          SSL-verschlüsselt
+        </span>
+        <span class="co-trust-badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Frisch &amp; handgemacht
+        </span>
+        <span class="co-trust-badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 4 2v6l-4 2"/></svg>
+          Express-Versand
+        </span>
+        <span class="co-trust-badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Mit Liebe verpackt
+        </span>
+      </div>
+    </div>
+  </div>
 
   <section class="section section--tight">
     <div class="wrap checkout">
@@ -46,8 +94,11 @@
       <div class="co-left">
 
         <!-- Express checkout -->
-        <div class="co-block">
-          <h2>Schnell-Checkout</h2>
+        <div class="co-block co-block--express">
+          <div class="co-block__head">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <h2>Schnell-Checkout</h2>
+          </div>
           <p class="co-block__hint">Bezahl direkt – ohne lange Adresseingabe.</p>
           <div class="pay-grid">
             <button class="pay-btn pay-btn--paypal" id="payPaypal" type="button" aria-label="Mit PayPal bezahlen">
@@ -67,16 +118,29 @@
               WhatsApp
             </button>
           </div>
-          <div class="co-divider">oder mit deinen Angaben bestellen</div>
+          <div class="co-divider">
+            <span>oder mit deinen Angaben bestellen</span>
+          </div>
         </div>
 
         <form id="checkoutForm" novalidate>
           <!-- Contact & delivery -->
           <div class="co-block">
-            <h2>Kontakt &amp; Lieferung</h2>
+            <div class="co-block__head">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <h2>Kontakt &amp; Lieferung</h2>
+            </div>
             <div class="co-seg-wrap" role="radiogroup" aria-label="Abholung oder Versand">
-              <label class="co-seg is-active"><input type="radio" name="coFulfil" value="Abholung" checked /> Abholung (Hamburg)</label>
-              <label class="co-seg"><input type="radio" name="coFulfil" value="Versand" /> Versand</label>
+              <label class="co-seg is-active">
+                <input type="radio" name="coFulfil" value="Abholung" checked />
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Abholung (Hamburg)
+              </label>
+              <label class="co-seg">
+                <input type="radio" name="coFulfil" value="Versand" />
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                Versand
+              </label>
             </div>
             <div class="field">
               <label for="coName">Name <span class="req">*</span></label>
@@ -116,18 +180,24 @@
             </div>
           </div>
 
-          <!-- Wunschtermin & Kühlversand -->
+          <!-- Wunschtermin & Geschenkverpackung -->
           <div class="co-block">
-            <h2>Lieferoptionen</h2>
+            <div class="co-block__head">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <h2>Lieferoptionen</h2>
+            </div>
             <div class="field">
               <label for="coDate">Wunschlieferdatum</label>
               <input id="coDate" name="date" type="date" class="field__input" />
               <small class="field__hint">Wir liefern Mo–Sa. Abholbereit ab nächstem Werktag.</small>
             </div>
             <div class="co-toggle">
+              <div class="co-toggle__icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+              </div>
               <div class="co-toggle__info">
-                <strong>Geschenk Verpackung</strong>
-                <p>Du möchtest deine Liebesten überaschen? Gerne verpacken wir dein Geschenk für dich .</p>
+                <strong>Geschenkverpackung</strong>
+                <p>Dein Geschenk liebevoll verpackt mit Schleife und Grußkarte.</p>
               </div>
               <div class="co-toggle__right">
                 <label class="toggle">
@@ -140,8 +210,11 @@
           </div>
 
           <!-- Pflichtangaben + opt-in + Button-Lösung -->
-          <div class="co-block">
-            <h2>Bestätigen &amp; bestellen</h2>
+          <div class="co-block co-block--confirm">
+            <div class="co-block__head">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <h2>Bestätigen &amp; bestellen</h2>
+            </div>
             <div class="co-legal">
               <label class="co-check">
                 <input type="checkbox" id="coAgb" />
@@ -152,27 +225,49 @@
                 <span>Ich habe die <a href="widerruf.html" target="_blank" rel="noopener">Widerrufsbelehrung</a> zur Kenntnis genommen. <small>(Bei frischen Lebensmitteln kann das Widerrufsrecht ausgeschlossen sein – siehe Belehrung.)</small></span>
               </label>
             </div>
-            <p class="co-pflicht">Mit Klick auf „Zahlungspflichtig bestellen" schließt du einen kostenpflichtigen Vertrag über die in der Übersicht gelisteten Artikel zum dort genannten <strong>Gesamtpreis inkl. MwSt. zzgl. ausgewiesener Versandkosten</strong> ab.</p>
+            <div class="co-pflicht">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Mit Klick auf „Zahlungspflichtig bestellen" schließt du einen kostenpflichtigen Vertrag über die in der Übersicht gelisteten Artikel zum dort genannten <strong>Gesamtpreis inkl. MwSt. zzgl. ausgewiesener Versandkosten</strong> ab.
+            </div>
             <button type="submit" class="btn btn--primary co-submit" id="coSubmit" disabled>
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
               Zahlungspflichtig bestellen
             </button>
-            <p class="co-note">Aktuell schließen wir deine Bestellung verbindlich per WhatsApp/E-Mail ab. Online-Zahlung (PayPal, Apple Pay, Google Pay) wird in Kürze angebunden.</p>
+            <p class="co-note">Aktuell schließen wir deine Bestellung verbindlich per WhatsApp/E-Mail ab. Online-Zahlung wird in Kürze angebunden.</p>
           </div>
         </form>
       </div>
 
       <!-- RIGHT: summary -->
       <aside class="co-summary" aria-label="Bestellübersicht">
-        <h2>Deine Bestellung</h2>
+        <div class="co-summary__head">
+          <h2>Deine Bestellung</h2>
+          <span class="co-summary__count" id="coCount"></span>
+        </div>
         <div id="coItems" aria-live="polite"></div>
         <div class="co-totals">
           <div class="co-row"><span>Zwischensumme</span><span id="coSubtotal">0,00 €</span></div>
           <div class="co-row"><span>Versand</span><span id="coShip">—</span></div>
-          <div class="co-row co-row--total"><span>Gesamt</span><span id="coTotal">0,00 €</span></div>
+          <div class="co-row co-row--total">
+            <span>Gesamt</span>
+            <span id="coTotal">0,00 €</span>
+          </div>
           <div class="co-vatline">inkl. <span id="coVat">0,00 €</span> MwSt. (7 %)</div>
         </div>
-        <p class="co-note" style="text-align:left;margin-top:var(--s4)">Versand ab 35 € kostenlos · Abholung gratis · <a href="versand-zahlung.html">Versand &amp; Zahlung</a></p>
+        <div class="co-summary__trust">
+          <div class="co-summary__trust-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Sicher bestellen
+          </div>
+          <div class="co-summary__trust-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Abholung gratis
+          </div>
+          <div class="co-summary__trust-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Ab 35 € versandkostenfrei
+          </div>
+        </div>
       </aside>
 
     </div>
