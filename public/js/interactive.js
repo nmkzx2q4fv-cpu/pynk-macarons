@@ -268,8 +268,39 @@
   }
 
   /* ---- init (runs after app.js injected chrome at DOMContentLoaded) ---- */
-  function init() {
+  function initOrderCutoff() {
+  const host = qs(".hero__scarcity");
+  if (!host) return;
+  const target = host.querySelector('[data-i18n="hero.scarcity"]') || host.querySelector("span:last-child");
+  if (!target) return;
+  target.removeAttribute("data-i18n");        // Text ab hier dynamisch gesteuert
+  const CUTOFF_HOUR = 14, CUTOFF_MIN = 0;     // <-- DEINE echte Bestell-/Backschluss-Zeit (24h-Format)
+  const lang = () => (window.PynkLang && window.PynkLang.get && window.PynkLang.get()) || "de";
+  function render() {
+    const now = new Date();
+    const cut = new Date(now); cut.setHours(CUTOFF_HOUR, CUTOFF_MIN, 0, 0);
+    const de = lang() === "de";
+    const hh = String(CUTOFF_HOUR).padStart(2, "0") + ":" + String(CUTOFF_MIN).padStart(2, "0");
+    if (now < cut) {
+      const ms = cut - now, h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000);
+      const tDe = h > 0 ? `${h} Std ${m} Min` : `${m} Min`;
+      const tEn = h > 0 ? `${h} h ${m} min` : `${m} min`;
+      target.innerHTML = de
+        ? `Bestell bis <strong>${hh} Uhr</strong> – noch <strong>${tDe}</strong> für die morgige Backcharge.`
+        : `Order by <strong>${hh}</strong> – <strong>${tEn}</strong> left for tomorrow’s fresh batch.`;
+    } else {
+      target.innerHTML = de
+        ? `Heutige Backcharge ist durch – ab morgen früh wieder frisch gebacken.`
+        : `Today’s batch is done – freshly baked again tomorrow morning.`;
+    }
+  }
+  render();
+  setInterval(render, 20000);
+}
+
+function init() {
     wireFeatured();
+  initOrderCutoff();
     initGravity();
     initCounters();
     initMotion();
