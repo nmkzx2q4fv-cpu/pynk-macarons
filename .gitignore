@@ -16,6 +16,7 @@ Desktop.ini
 # Node (falls du mal npm brauchst)
 node_modules/
 package-lock.json
+package.json
 
 # Logs
 *.log
