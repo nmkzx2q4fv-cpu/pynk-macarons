@@ -1,2 +1,21 @@
-# Local tooling / preview config (machine-specific paths)
+# Local tooling / preview config
 .claude/
+
+# OS-Dateien
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor-Dateien
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Node (falls du mal npm brauchst)
+node_modules/
+package-lock.json
+
+# Logs
+*.log
