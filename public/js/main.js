@@ -638,8 +638,9 @@ function renderProducts(filter="all"){
   const grid=$("#productGrid"); if(!grid)return;
   grid.innerHTML=PRODUCTS.filter(p=>!p.noShop && (filter==="all"||p.cat===filter)).map(p=>{
     const gp=grundpreisStr(p);
+    const sold = p.soldOut ? ' pcard--sold-out' : '';
     return `
-    <article class="pcard reveal" data-id="${p.id}">
+    <article class="pcard reveal${sold}" data-id="${p.id}">
       <div class="pcard__media">
         <img src="${p.img}" width="384" height="384" loading="lazy" alt="${p.name} – ${p.desc}">
       </div>
@@ -678,12 +679,17 @@ function wireGrid(){
     if(btn){
       e.stopPropagation();
       const p=PRODUCTS.find(x=>x.id===btn.dataset.add);
+      if(p && p.soldOut){ toast("Dieses Produkt ist leider ausverkauft"); return; }
       flyToCart(btn.closest(".pcard").querySelector(".pcard__media"));
       addToCart({key:"p-"+p.id,name:p.name,meta:({box:"15er-Box",addon:"Extra",gutschein:"Gutschein"})[p.cat]||"",price:p.price,thumb:`<img src="${p.img}" alt="">`});
       toast(`${p.name} hinzugefügt`);
       return;
     }
-    if(card && card.dataset.id) openPDP(card.dataset.id);
+    if(card && card.dataset.id){
+      const cp=PRODUCTS.find(x=>x.id===card.dataset.id);
+      if(cp && cp.soldOut){ toast("Dieses Produkt ist leider ausverkauft"); return; }
+      openPDP(card.dataset.id);
+    }
   });
 }
 
@@ -931,9 +937,19 @@ function renderCheckout(){
   }
   const p=coPricing(), set=(id,v)=>{const e=$("#"+id); if(e)e.textContent=v;};
   set("coSubtotal",EUR(p.sub));
-  set("coShip", p.ship>0 ? EUR(p.ship) : (coFulfil()==="Versand"?"Kostenlos":"— (Abholung)"));
+  const shipText = p.ship>0 ? EUR(p.ship) : (coFulfil()==="Versand"?"Kostenlos":"— (Abholung)");
+  set("coShip", shipText);
   set("coVat",EUR(p.vat));
   set("coTotal",EUR(p.total));
+  // sync mobile summary bar
+  set("coMobileTotal",EUR(p.total));
+  set("coMobileTotalFull",EUR(p.total));
+  set("coMobileShip", shipText);
+  const mItems=$("#coMobileItems");
+  if(mItems){
+    if(!cart.length){ mItems.innerHTML=""; }
+    else { mItems.innerHTML=cart.map(i=>`<div class="co-line"><span class="co-line__name">${i.qty}× ${i.name}</span><span class="co-line__price">${EUR(i.price*i.qty)}</span></div>`).join(""); }
+  }
   updateCheckoutSubmit();
 }
 function updateCheckoutSubmit(){
@@ -952,31 +968,53 @@ function initCheckout(){
   }));
   ["coAgb","coWiderruf"].forEach(id=>$("#"+id)?.addEventListener("change",updateCheckoutSubmit));
 
-  const demo=name=>toast(`Demo: ${name} würde hier starten – Zahlungsanbieter wird noch angebunden.`);
+  const demo=name=>toast(`${name} wird in Kürze verfügbar – wir arbeiten an der Anbindung.`);
   $("#payPaypal")?.addEventListener("click",()=>demo("PayPal"));
   $("#payApple")?.addEventListener("click",()=>demo("Apple Pay"));
   $("#payGoogle")?.addEventListener("click",()=>demo("Google Pay"));
-  $("#payWhatsapp")?.addEventListener("click",()=>submitOrder(true));
+  $("#payCard")?.addEventListener("click",()=>demo("Kreditkarte"));
   $("#checkoutForm")?.addEventListener("submit",e=>{e.preventDefault();submitOrder(false);});
   ["coName","coEmail","coPhone","coStreet","coZip","coCity"].forEach(id=>$("#"+id)?.addEventListener("input",()=>{ const i=$("#"+id); if(i.value.trim()){i.removeAttribute("aria-invalid");const e=$(`.field__error[data-for="${id}"]`);if(e)e.hidden=true;} }));
 
-  function submitOrder(express){
+  // Delivery hint text updates on fulfillment toggle
+  function updateDeliveryHint(){
+    const hint=$("#coDeliveryText");
+    if(!hint) return;
+    hint.textContent = coFulfil()==="Versand"
+      ? "Versand: 2–3 Werktage · ab 35 € kostenlos"
+      : "Abholbereit ab nächstem Werktag · kostenlos";
+  }
+  updateDeliveryHint();
+  $$(".co-seg").forEach(seg=>seg.addEventListener("click",updateDeliveryHint));
+
+  // Mobile summary bar toggle
+  const mobileToggle=$("#coMobileToggle"), mobileDrop=$("#coMobileDrop"), mobileBar=$("#coMobileBar");
+  if(mobileToggle && mobileDrop){
+    mobileToggle.addEventListener("click",()=>{
+      const open=mobileDrop.hidden;
+      mobileDrop.hidden=!open;
+      mobileToggle.setAttribute("aria-expanded", open?"true":"false");
+      if(mobileBar) mobileBar.setAttribute("aria-expanded", open?"true":"false");
+    });
+  }
+
+  function submitOrder(){
     if(!cart.length){ toast("Dein Warenkorb ist leer"); return; }
-    if(!express){
-      const req=["coName","coEmail","coPhone"].concat(coFulfil()==="Versand"?["coStreet","coZip","coCity"]:[]);
-      if(!validate(req)){ const f=$("#checkoutForm").querySelector('[aria-invalid="true"]'); if(f)f.focus(); return; }
-      if(!$("#coAgb").checked || !$("#coWiderruf").checked){ toast("Bitte AGB und Widerruf bestätigen"); return; }
-    }
+    const req=["coName","coEmail","coPhone"].concat(coFulfil()==="Versand"?["coStreet","coZip","coCity"]:[]);
+    if(!validate(req)){ const f=$("#checkoutForm").querySelector('[aria-invalid="true"]'); if(f)f.focus(); return; }
+    if(!$("#coAgb").checked || !$("#coWiderruf").checked){ toast("Bitte AGB und Widerruf bestätigen"); return; }
     const p=coPricing();
-    let t=`Verbindliche Bestellung – ${CONFIG.brand}:\n\n`;
-    cart.forEach(i=>t+=`• ${i.qty}× ${i.name}${i.meta?" ("+i.meta+")":""} – ${EUR(i.price*i.qty)}\n`);
-    t+=`\nZwischensumme: ${EUR(p.sub)}\nVersand: ${p.ship>0?EUR(p.ship):"kostenlos / Abholung"}\nGesamt: ${EUR(p.total)} (inkl. ${EUR(p.vat)} MwSt.)\n`;
-    if(!express){
-      t+=`\nName: ${$("#coName").value.trim()}\nE-Mail: ${$("#coEmail").value.trim()}\nTelefon: ${$("#coPhone").value.trim()}\nAbwicklung: ${coFulfil()}\n`;
-      if(coFulfil()==="Versand") t+=`Lieferadresse: ${$("#coStreet").value.trim()}, ${$("#coZip").value.trim()} ${$("#coCity").value.trim()}\n`;
-    }
-    window.open(`https://wa.me/${waNumber()}?text=${encodeURIComponent(t)}`,"_blank","noopener");
-    toast("Bestellung wird übermittelt …");
+    let subject=`Bestellung – ${CONFIG.brand}`;
+    let body=`Verbindliche Bestellung – ${CONFIG.brand}:\n\n`;
+    cart.forEach(i=>body+=`• ${i.qty}× ${i.name}${i.meta?" ("+i.meta+")":""} – ${EUR(i.price*i.qty)}\n`);
+    body+=`\nZwischensumme: ${EUR(p.sub)}\nVersand: ${p.ship>0?EUR(p.ship):"kostenlos / Abholung"}\nGesamt: ${EUR(p.total)} (inkl. ${EUR(p.vat)} MwSt.)\n`;
+    body+=`\nName: ${$("#coName").value.trim()}\nE-Mail: ${$("#coEmail").value.trim()}\nTelefon: ${$("#coPhone").value.trim()}\nAbwicklung: ${coFulfil()}\n`;
+    if(coFulfil()==="Versand") body+=`Lieferadresse: ${$("#coStreet").value.trim()}, ${$("#coZip").value.trim()} ${$("#coCity").value.trim()}\n`;
+    const dateVal=$("#coDate")?.value;
+    if(dateVal) body+=`Wunschtermin: ${dateVal}\n`;
+    if($("#coKuehlCheck")?.checked) body+=`Geschenkverpackung: Ja (+2,50 €)\n`;
+    window.location.href=`mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    toast("Deine Bestellung wird per E-Mail gesendet – vielen Dank!");
   }
 }
 
