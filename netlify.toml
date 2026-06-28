@@ -1,0 +1,10 @@
+# Netlify-Konfiguration — statische Multi-Page-Seite, kein Build-Schritt.
+# Die ausgelieferten Dateien liegen alle in public/.
+
+[build]
+  publish = "public"
+
+# Serverless-Funktionen (für #8 Live-Reviews / #9 Newsletter, später).
+# Ordner wird angelegt, sobald die erste Funktion dazukommt.
+[functions]
+  directory = "netlify/functions"
