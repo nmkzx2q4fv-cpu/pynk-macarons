@@ -1127,3 +1127,27 @@ body[data-page="checkout"] .scroll-top{ display:none; }
 }
 @keyframes miniCartUp{ from{ transform:translateY(100%); } to{ transform:translateY(0); } }
 @media (prefers-reduced-motion: reduce){ .mini-cart{ animation:none; } }
+
+/* === index.html Schlank-Umbau + Scroll-Perf — Runde 3 === */
+/* Offscreen-Sektionen nicht rendern → flüssigeres Scrollen auf langen Seiten */
+.cv-section{ content-visibility:auto; contain-intrinsic-size:auto 700px; }
+
+/* Reviews als ruhiges, statisches Raster (kein Endlos-Ticker auf der Startseite) */
+.review-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:var(--s4); margin-top:var(--s7); }
+
+/* Schlanke Abhol-/Versand-Zeile */
+.reassure{ display:flex; flex-wrap:wrap; justify-content:center; gap:var(--s4) var(--s7); }
+.reassure__item{ display:inline-flex; align-items:center; gap:12px; max-width:32ch; font-size:.98rem; line-height:1.4; }
+.reassure__item svg{ flex:none; color:var(--pynk,#D81277); }
+.reassure__item strong{ color:var(--pynk-deep,#A60C5A); }
+
+/* Mobile-Scroll-Perf */
+@media (max-width:767px){
+  /* kein backdrop-blur am sticky Header — pro Scroll-Frame sehr teuer */
+  .nav.solid{ -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(251,246,240,.97); }
+  /* statischer Hero (Parallax ist auf Touch aus → kein Overscan nötig) */
+  .hero__bg{ top:0; height:100%; will-change:auto; }
+}
+
+/* Intent-Grid auch auf sehr schmalen Phones 2-spaltig (Scannbarkeit) */
+@media (max-width:380px){ .catgrid{ grid-template-columns:repeat(2,1fr); } }

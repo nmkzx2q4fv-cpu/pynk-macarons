@@ -221,6 +221,7 @@
      4) SMOOTH SCROLL (Lenis) + PARALLAX (GSAP or vanilla)
      ---------------------------------------------------------- */
   function initMotion() {
+    if (!matchMedia("(min-width:768px) and (pointer:fine)").matches) return; // Touch/Mobile: native Scroll, kein Lenis/Parallax
     if (RM) return;
     let lenis = null;
     if (window.Lenis) {

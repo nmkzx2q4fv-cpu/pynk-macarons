@@ -211,24 +211,6 @@
   }
 
   /* ============================================================
-     8) SMOOTH SECTION TRANSITIONS
-     ============================================================ */
-  function initSectionTransitions() {
-    $$(".section").forEach((section, i) => {
-      if (i === 0) return;
-      gsap.from(section, {
-        opacity: 0.3,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 95%",
-          end: "top 60%",
-          scrub: true
-        }
-      });
-    });
-  }
-
-  /* ============================================================
      9) PAGE-HEAD ENTRANCE (non-hero pages)
      ============================================================ */
   function initPageHead() {
@@ -257,7 +239,6 @@
       initPageHead();
       initReviewTicker({ pauseOnHover: true });
       initOccasionMorph();
-      initSectionTransitions();
     });
     ScrollTrigger.refresh();
     return () => { ctx.revert(); killTickerClones(); gsap.globalTimeline.timeScale(1); };
