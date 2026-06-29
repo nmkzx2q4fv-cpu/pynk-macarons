@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tower Builder · Pynk Macarons</title>
+  <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
+  <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#D81277" />
+  <link rel="canonical" href="https://macaronbypynk.de/tower.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Macarons by Pynk" />
+  <meta property="og:title" content="Macaron Tower Builder · Pynk" />
+  <meta property="og:description" content="Bau deinen eigenen Macaron-Tower — 1 bis 6 Teller, jede Sorte frei wählbar. Perfekt für Hochzeiten und Events." />
+  <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta name="description" content="Bau deinen eigenen Macaron-Tower — 1 bis 6 Teller, jede Sorte frei wählbar. Perfekt für Hochzeiten und Events." />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260628d" />
+  <link rel="stylesheet" href="styles/main.min.css?v=20260628d" />
+</head>
+<body data-page="tower">
+  <a class="skip-link" href="#towerBuilder">Zum Tower-Builder springen</a>
+
+  <header class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Für Hochzeiten, Events &amp; besondere Anlässe</p>
+      <h1 class="h2">Bau deinen Macaron-Tower</h1>
+      <p class="lead">Wähle die Anzahl der Teller, bestücke jeden mit deinen Lieblingssorten — und wir bauen deinen Traum-Tower.</p>
+    </div>
+  </header>
+
+  <section class="section" id="towerBuilder">
+    <div class="wrap">
+      <div class="tower-builder">
+
+        <!-- LEFT: Controls -->
+        <div class="tower__controls reveal">
+          <h2 style="margin-bottom:var(--s2)">Anzahl Teller</h2>
+          <p class="hint">Wähle 1 bis 6 Teller — je mehr Teller, desto beeindruckender.</p>
+          <div class="tier-select" role="radiogroup" aria-label="Anzahl Teller wählen">
+            <button class="tier-btn" data-tiers="1" role="radio" aria-checked="false">1</button>
+            <button class="tier-btn" data-tiers="2" role="radio" aria-checked="false">2</button>
+            <button class="tier-btn is-active" data-tiers="3" role="radio" aria-checked="true">3</button>
+            <button class="tier-btn" data-tiers="4" role="radio" aria-checked="false">4</button>
+            <button class="tier-btn" data-tiers="5" role="radio" aria-checked="false">5</button>
+            <button class="tier-btn" data-tiers="6" role="radio" aria-checked="false">6</button>
+          </div>
+
+          <h3 style="margin-bottom:var(--s3)">Sorten pro Teller</h3>
+          <p class="hint">Klicke auf einen Teller, um die Sorten zu wählen.</p>
+          <div id="tierConfigs" class="tier-config"></div>
+        </div>
+
+        <!-- RIGHT: Tower Visualization -->
+        <div class="tower__visual reveal">
+          <div class="tower-viz" id="towerViz" aria-label="Dein Tower"></div>
+          <div class="tower-summary">
+            <p class="tower-summary__price" id="towerPrice">120,00 €</p>
+            <p class="tower-summary__count" id="towerCount">60 Macarons · 3 Teller</p>
+            <button class="btn btn--primary" id="towerSubmit" type="button" style="margin-top:var(--s4)">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+              Tower anfragen
+            </button>
+            <p class="co-note" style="margin-top:var(--s2)">Wir melden uns innerhalb von 24h mit deinem individuellen Angebot.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.min.js?v=20260628d"></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/gsap-premium.min.js?v=20260628d" defer></script>
+</body>
+</html>

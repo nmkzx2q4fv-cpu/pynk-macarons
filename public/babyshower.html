@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Babyshower Macarons · Pynk</title>
+  <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
+  <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#D81277" />
+  <link rel="canonical" href="https://macaronbypynk.de/babyshower.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Macarons by Pynk" />
+  <meta property="og:title" content="Babyshower Macarons · Pynk" />
+  <meta property="og:description" content="Süße Macarons für deine Babyshower — in Blau für Jungs oder Pink für Mädchen. Stell deine Box zusammen." />
+  <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta name="description" content="Süße Macarons für deine Babyshower — in Blau für Jungs oder Pink für Mädchen. Stell deine Box zusammen." />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260628d" />
+  <link rel="stylesheet" href="styles/main.min.css?v=20260628d" />
+</head>
+<body data-page="babyshower">
+  <a class="skip-link" href="#babyBuilder">Zur Box springen</a>
+
+  <header class="pagehead pagehead--baby">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Babyshower &amp; Gender Reveal</p>
+      <h1 class="h2">Süße Macarons für euren großen Moment</h1>
+      <p class="lead">Wähle Junge oder Mädchen — und stell eine Box in den passenden Farben zusammen.</p>
+    </div>
+  </header>
+
+  <!-- GENDER AUSWAHL -->
+  <section class="section" id="babyGender">
+    <div class="wrap">
+      <div class="baby-gender reveal">
+        <button class="baby-gender__btn baby-gender__btn--boy" id="genderBoy" type="button">
+          <span class="baby-gender__icon">👶🏻</span>
+          <span class="baby-gender__label">Junge</span>
+          <span class="baby-gender__hint">Blaue &amp; kühle Töne</span>
+        </button>
+        <button class="baby-gender__btn baby-gender__btn--girl" id="genderGirl" type="button">
+          <span class="baby-gender__icon">👶🏻</span>
+          <span class="baby-gender__label">Mädchen</span>
+          <span class="baby-gender__hint">Pinke &amp; warme Töne</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOX BUILDER (hidden until gender selected) -->
+  <section class="section section--blush" id="babyBuilder" hidden>
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow" id="babyEyebrow">Deine Babyshower-Box</p>
+        <h2 class="h2" id="babyHeading">Box zusammenstellen</h2>
+      </div>
+      <div class="builder">
+        <div class="builder__panel reveal">
+          <div class="sizes" role="radiogroup" aria-label="Boxgröße wählen">
+            <button class="size is-active" role="radio" aria-checked="true" data-size="6">
+              <span class="size__count">6er</span><span class="size__price">14 €</span></button>
+            <button class="size" role="radio" aria-checked="false" data-size="15">
+              <span class="size__count">15er</span><span class="size__price">29 €</span></button>
+          </div>
+          <p class="hint">Tippe eine Sorte an, um sie in die Box zu legen.</p>
+          <div class="builder__quick">
+            <button class="btn btn--ghost btn--quick" id="babyRandomBtn" type="button">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h3l2.5 13h9L21 7H7"/><circle cx="10.5" cy="19.5" r="1.5"/><circle cx="17.5" cy="19.5" r="1.5"/></svg>
+              Zufällig auffüllen
+            </button>
+          </div>
+          <div class="palette" id="babyPalette" aria-label="Sorten wählen"></div>
+        </div>
+        <div class="boxside reveal">
+          <div class="pinkbox" id="pinkbox" aria-label="Deine Box">
+            <div class="pinkbox__lid"><span class="pinkbox__brand">Pynk <em>Babyshower</em></span></div>
+            <div class="boxslots" id="boxSlots" role="status" aria-live="polite"></div>
+          </div>
+          <div class="boxfoot">
+            <p class="boxfoot__count"><span id="boxCount">0</span> / <span id="boxMax">6</span> gefüllt</p>
+            <div class="boxfoot__actions">
+              <button class="btn btn--ghost btn--sm" id="clearBoxBtn" type="button" hidden>Alles leeren</button>
+              <button class="btn btn--primary" id="addBoxBtn" disabled>Noch 6 Macarons wählen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANFRAGE FORMULAR -->
+  <section class="section" id="babyAnfrage">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Größere Bestellung?</p>
+        <h2 class="h2">Babyshower-Anfrage</h2>
+        <p class="lead">Für größere Mengen, Tower oder individuelle Wünsche — schreib uns einfach.</p>
+      </div>
+      <form class="form reveal" style="max-width:600px;margin:0 auto">
+        <div class="field">
+          <label for="bsName">Name <span class="req">*</span></label>
+          <input id="bsName" type="text" required />
+        </div>
+        <div class="field--row">
+          <div class="field">
+            <label for="bsEmail">E-Mail <span class="req">*</span></label>
+            <input id="bsEmail" type="email" required />
+          </div>
+          <div class="field">
+            <label for="bsPhone">Telefon</label>
+            <input id="bsPhone" type="tel" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="bsDate">Wunschtermin</label>
+          <input id="bsDate" type="date" />
+        </div>
+        <div class="field">
+          <label for="bsNote">Deine Wünsche</label>
+          <textarea id="bsNote" rows="4" placeholder="Farben, Menge, Deko-Ideen ..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary">Anfrage senden</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="js/main.min.js?v=20260628d"></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/gsap-premium.min.js?v=20260628d" defer></script>
+</body>
+</html>
