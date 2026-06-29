@@ -101,10 +101,20 @@
           <div class="sizes" role="radiogroup" aria-label="Boxgröße wählen">
             <button class="size is-active" role="radio" aria-checked="true" data-size="6">
               <span class="size__count">6er</span><span class="size__price">14 €</span></button>
-            <button class="size" role="radio" aria-checked="false" data-size="12">
-              <span class="size__count">12er</span><span class="size__price">26 €</span></button>
+            <button class="size" role="radio" aria-checked="false" data-size="15">
+              <span class="size__count">15er</span><span class="size__price">29 €</span></button>
           </div>
-          <p class="hint">Tippe eine Sorte an, um sie in die Box zu legen. Zum Entfernen tippe auf den Macaron in der Box.</p>
+          <p class="hint">Tippe eine Sorte an, um sie in die Box zu legen. Zum Entfernen tippe auf das × am Macaron.</p>
+          <div class="builder__quick">
+            <button class="btn btn--ghost btn--quick" id="quickFillBtn" type="button">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Unsere Empfehlung
+            </button>
+            <button class="btn btn--ghost btn--quick" id="randomFillBtn" type="button">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h3l2.5 13h9L21 7H7"/><circle cx="10.5" cy="19.5" r="1.5"/><circle cx="17.5" cy="19.5" r="1.5"/></svg>
+              Zufällig auffüllen
+            </button>
+          </div>
           <div class="palette" id="palette" aria-label="Sorten zum Hinzufügen"></div>
         </div>
         <div class="boxside reveal">
@@ -114,7 +124,10 @@
           </div>
           <div class="boxfoot">
             <p class="boxfoot__count"><span id="boxCount">0</span> / <span id="boxMax">6</span> gefüllt</p>
-            <button class="btn btn--primary" id="addBoxBtn" disabled>Box in den Warenkorb</button>
+            <div class="boxfoot__actions">
+              <button class="btn btn--ghost btn--sm" id="clearBoxBtn" type="button" hidden>Alles leeren</button>
+              <button class="btn btn--primary" id="addBoxBtn" disabled>Noch 6 Macarons wählen</button>
+            </div>
           </div>
         </div>
       </div>

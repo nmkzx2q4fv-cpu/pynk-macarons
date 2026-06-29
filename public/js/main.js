@@ -925,46 +925,289 @@ function wirePDP(){
 }
 
 /* ============================================================
-   BOX BUILDER
+   BOX CONFIGURATOR — GSAP Flying Animation System
    ============================================================ */
 let boxSize=6, boxPrice=14, boxItems=[];
-const BOX_PRICES={6:14,12:26};
-function buildPalette(){
-  const pal=$("#palette"); if(!pal)return;
-  const keys=["erdbeere","himbeere","pistazie","matcha","limette","zitrone","mango","vanille","lavendel","kokos","schokolade","karamell","latte","wildberry"];
-  pal.innerHTML=keys.map(k=>`<button class="chip" data-flav="${k}"><span class="chip__dot" style="background:${FC[k]}"></span>${FLAVOURS[k]}</button>`).join("");
+const BOX_PRICES={6:14,15:29};
+const PALETTE_KEYS=["erdbeere","himbeere","pistazie","matcha","limette","zitrone","mango","vanille","lavendel","kokos","schokolade","karamell","latte","wildberry"];
+const CHIP_META={
+  erdbeere:{tip:"Fruchtig mit zartem Rosenhauch",badge:"Beliebt"},
+  pistazie:{tip:"Geröstet, nussig, cremig",badge:"Beliebt"},
+  matcha:{tip:"Sanft erdig, fein herb"},
+  himbeere:{tip:"Spritzig und leicht herb"},
+  limette:{tip:"Frisch und kühl mit Minze",badge:"Saisonal"},
+  zitrone:{tip:"Sonnig mit Biss"},
+  mango:{tip:"Reif und tropisch süß",badge:"Neu"},
+  vanille:{tip:"Bourbon-Vanille, samtig weich"},
+  lavendel:{tip:"Zart und blumig mit Zitrone"},
+  kokos:{tip:"Cremig und exotisch"},
+  schokolade:{tip:"Dunkle Ganache, intensiv",badge:"Beliebt"},
+  karamell:{tip:"Karamell mit Fleur de Sel"},
+  latte:{tip:"Mild, rund, Espresso-Creme"},
+  wildberry:{tip:"Wilde Beerenmischung",badge:"Neu"}
+};
+const QUICK_FILL_6=["erdbeere","pistazie","schokolade","mango","lavendel","vanille"];
+const QUICK_FILL_15=["erdbeere","pistazie","schokolade","mango","lavendel","vanille","himbeere","matcha","limette","karamell","kokos","latte","zitrone","wildberry","erdbeere"];
+let flightLayer=null;
+let flyLock=false;
+
+function ensureFlightLayer(){
+  if(flightLayer) return flightLayer;
+  flightLayer=document.createElement("div");
+  flightLayer.id="builderFlightLayer";
+  document.body.appendChild(flightLayer);
+  return flightLayer;
 }
+
+function chipHTML(k){
+  const bf=BOX_FLAVOURS.find(b=>b.flavour===k);
+  const img=bf?bf.img:`img/mac-${k}.jpg`;
+  const meta=CHIP_META[k]||{};
+  const badge=meta.badge?`<span class="chip__badge chip__badge--${meta.badge==='Beliebt'?'hot':meta.badge==='Neu'?'new':'season'}">${meta.badge}</span>`:"";
+  const tip=meta.tip?` title="${meta.tip}"`:"";
+  return `<button class="chip" data-flav="${k}"${tip}><img class="chip__thumb" src="${img}" alt="" width="32" height="32" loading="lazy"><span class="chip__dot" style="background:${FC[k]}"></span>${FLAVOURS[k]}${badge}</button>`;
+}
+
+function buildPalette(container){
+  const pal=container||$("#palette"); if(!pal)return;
+  pal.innerHTML=PALETTE_KEYS.map(k=>chipHTML(k)).join("");
+}
+
+function slotImgSrc(flavour){
+  const bf=BOX_FLAVOURS.find(b=>b.flavour===flavour);
+  return bf?bf.img:`img/mac-${flavour}.jpg`;
+}
+
 function renderSlots(){
   const slots=$("#boxSlots"); if(!slots)return;
-  slots.style.gridTemplateColumns=`repeat(${boxSize===6?3:4},1fr)`;
+  slots.style.gridTemplateColumns=`repeat(${boxSize<=6?3:5},1fr)`;
   slots.innerHTML="";
   for(let i=0;i<boxSize;i++){
     const d=document.createElement("div"); d.className="slot";
-    if(boxItems[i]){ d.classList.add("slot--filled","drop"); d.innerHTML=macaronHTML(FC[boxItems[i]]); d.dataset.idx=i; d.setAttribute("role","button"); d.setAttribute("aria-label",FLAVOURS[boxItems[i]]+" entfernen"); }
+    if(boxItems[i]){
+      d.classList.add("slot--filled");
+      d.innerHTML=`<img class="slot__img" src="${slotImgSrc(boxItems[i])}" alt="${FLAVOURS[boxItems[i]]}" width="80" height="80"><button class="slot__remove" type="button" aria-label="${FLAVOURS[boxItems[i]]} entfernen" data-idx="${i}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+      d.dataset.idx=i;
+      d.setAttribute("role","button");
+      d.setAttribute("tabindex","0");
+      d.setAttribute("aria-label",FLAVOURS[boxItems[i]]+" entfernen");
+    }
     slots.appendChild(d);
   }
-  $("#boxCount").textContent=boxItems.length;
-  $("#boxMax").textContent=boxSize;
-  $("#addBoxBtn").disabled=boxItems.length===0;
+  const countEl=$("#boxCount"), maxEl=$("#boxMax");
+  if(countEl) countEl.textContent=boxItems.length;
+  if(maxEl) maxEl.textContent=boxSize;
+  const addBtn=$("#addBoxBtn");
+  if(addBtn){
+    const remaining=boxSize-boxItems.length;
+    addBtn.disabled=remaining>0;
+    addBtn.textContent=remaining>0?`Noch ${remaining} Macaron${remaining>1?'s':''} wählen`:'Box in den Warenkorb';
+  }
+  const clearBtn=$("#clearBoxBtn");
+  if(clearBtn) clearBtn.hidden=boxItems.length===0;
+  updateSheetPreview();
 }
+
+function flyMacaronToSlot(chipEl, slotIdx){
+  if(reduceMotion || typeof gsap==="undefined"){
+    boxItems.push(chipEl.dataset.flav);
+    renderSlots();
+    return;
+  }
+  if(flyLock) return;
+  flyLock=true;
+  const flavour=chipEl.dataset.flav;
+  const bf=BOX_FLAVOURS.find(b=>b.flavour===flavour);
+  const src=chipEl.getBoundingClientRect();
+  boxItems.push(flavour);
+  renderSlots();
+  const slot=$("#boxSlots")?.children[slotIdx];
+  if(!slot){ flyLock=false; return; }
+  const tgt=slot.getBoundingClientRect();
+  const layer=ensureFlightLayer();
+  const clone=document.createElement("img");
+  clone.className="builder-flight";
+  clone.src=bf?bf.img:`img/mac-${flavour}.jpg`;
+  clone.alt="";
+  const size=Math.min(tgt.width*0.85, 70);
+  Object.assign(clone.style,{width:size+"px",height:size+"px",willChange:"transform,opacity"});
+  layer.appendChild(clone);
+  slot.querySelector(".slot__img")?.style.setProperty("opacity","0");
+  const sx=src.left+src.width/2-size/2;
+  const sy=src.top+src.height/2-size/2;
+  const ex=tgt.left+tgt.width/2-size/2;
+  const ey=tgt.top+tgt.height/2-size/2;
+  const apexY=Math.min(sy,ey)-Math.max(80, Math.abs(ey-sy)*0.45);
+  const midX=sx+(ex-sx)*0.45;
+  const tl=gsap.timeline({
+    onComplete:()=>{
+      clone.style.willChange="";
+      clone.remove();
+      const img=slot.querySelector(".slot__img");
+      if(img) img.style.opacity="";
+      slot.classList.add("slot--landing");
+      setTimeout(()=>slot.classList.remove("slot--landing"),350);
+      flyLock=false;
+    }
+  });
+  tl.set(clone,{x:sx,y:sy,scale:1.15,opacity:1,rotation:0})
+    .to(clone,{duration:0.32,x:midX,y:apexY,scale:1,rotation:(Math.random()*24-12),ease:"power2.out"})
+    .to(clone,{duration:0.3,x:ex,y:ey,scale:1,rotation:0,ease:"power2.in"})
+    .to(clone,{duration:0.07,scaleX:1.12,scaleY:0.88,y:ey+2,ease:"none"})
+    .to(clone,{duration:0.1,scaleX:0.96,scaleY:1.06,y:ey-3,ease:"power1.out"})
+    .to(clone,{duration:0.09,scale:1,y:ey,ease:"power2.out"});
+  setTimeout(()=>{if(clone.parentNode){clone.remove();flyLock=false;}},1200);
+}
+
+function flyMacaronOut(slotIdx){
+  if(reduceMotion || typeof gsap==="undefined"){
+    boxItems.splice(slotIdx,1);
+    renderSlots();
+    return;
+  }
+  const slot=$("#boxSlots")?.children[slotIdx];
+  if(!slot){ boxItems.splice(slotIdx,1); renderSlots(); return; }
+  const rect=slot.getBoundingClientRect();
+  const flavour=boxItems[slotIdx];
+  const bf=BOX_FLAVOURS.find(b=>b.flavour===flavour);
+  boxItems.splice(slotIdx,1);
+  const layer=ensureFlightLayer();
+  const clone=document.createElement("img");
+  clone.className="builder-flight";
+  clone.src=bf?bf.img:`img/mac-${flavour}.jpg`;
+  clone.alt="";
+  const size=Math.min(rect.width*0.85,70);
+  Object.assign(clone.style,{width:size+"px",height:size+"px",willChange:"transform,opacity"});
+  layer.appendChild(clone);
+  const drift=Math.random()*60-30;
+  const spin=Math.random()*50-25;
+  gsap.timeline({onComplete:()=>{clone.style.willChange="";clone.remove();}})
+    .set(clone,{x:rect.left+rect.width/2-size/2,y:rect.top+rect.height/2-size/2,scale:1,opacity:1})
+    .to(clone,{duration:0.1,scaleX:0.92,scaleY:1.1,y:rect.top-12,ease:"power1.out"})
+    .to(clone,{duration:0.32,x:rect.left+drift,y:rect.top+160,scale:0.5,rotation:spin,opacity:0,ease:"power2.in"});
+  renderSlots();
+  setTimeout(()=>{if(clone.parentNode)clone.remove();},600);
+}
+
+function clearBoxAnimated(){
+  if(!boxItems.length) return;
+  if(reduceMotion || typeof gsap==="undefined"){ boxItems=[]; renderSlots(); return; }
+  const count=boxItems.length;
+  for(let k=count-1;k>=0;k--){
+    setTimeout(()=>{ if(boxItems.length>0) flyMacaronOut(boxItems.length-1); }, (count-1-k)*60);
+  }
+}
+
+/* ---- Mobile Bottom Sheet ---- */
+let sheetEl=null;
+function initBuilderSheet(){
+  if(sheetEl || !matchMedia("(max-width:767px)").matches) return;
+  sheetEl=document.createElement("div");
+  sheetEl.className="builder-sheet";
+  sheetEl.innerHTML=`
+    <div class="builder-sheet__handle" id="sheetHandle"></div>
+    <div class="builder-sheet__preview" id="sheetPreview">
+      <span class="builder-sheet__dots" id="sheetDots"></span>
+      <span class="builder-sheet__toggle">Sorten wählen ▾</span>
+    </div>
+    <div class="builder-sheet__drawer" id="sheetDrawer">
+      <div class="palette" id="sheetPalette" aria-label="Sorten wählen"></div>
+      <div class="boxfoot__actions" style="padding:var(--s3) 0">
+        <button class="btn btn--ghost btn--sm" id="sheetClearBtn" type="button">Alles leeren</button>
+      </div>
+    </div>`;
+  const scrim=document.createElement("div");
+  scrim.className="builder-sheet__scrim";
+  scrim.id="sheetScrim";
+  document.body.appendChild(scrim);
+  document.body.appendChild(sheetEl);
+  buildPalette($("#sheetPalette"));
+  const handle=$("#sheetHandle"), preview=$("#sheetPreview");
+  let isDrag=false, startY=0;
+  function expandSheet(){ sheetEl.classList.add("is-expanded"); scrim.classList.add("is-active"); }
+  function collapseSheet(){ sheetEl.classList.remove("is-expanded"); scrim.classList.remove("is-active"); }
+  preview.addEventListener("click",()=>{ sheetEl.classList.contains("is-expanded")?collapseSheet():expandSheet(); });
+  scrim.addEventListener("click",collapseSheet);
+  handle.addEventListener("pointerdown",e=>{ isDrag=true; startY=e.clientY; sheetEl.classList.add("is-dragging"); handle.setPointerCapture(e.pointerId); });
+  handle.addEventListener("pointermove",e=>{ if(!isDrag) return; sheetEl.style.setProperty("--sheet-drag",Math.max(0,e.clientY-startY)+"px"); });
+  handle.addEventListener("pointerup",e=>{ isDrag=false; sheetEl.classList.remove("is-dragging"); sheetEl.style.setProperty("--sheet-drag","0px"); if(e.clientY-startY>60) collapseSheet(); else expandSheet(); });
+  $("#sheetPalette").addEventListener("click",e=>{ const c=e.target.closest("[data-flav]"); if(!c)return; if(boxItems.length>=boxSize){toast(`Die ${boxSize}er-Box ist voll`);return;} flyMacaronToSlot(c,boxItems.length); });
+  $("#sheetClearBtn")?.addEventListener("click",clearBoxAnimated);
+  updateSheetPreview();
+}
+
+function updateSheetPreview(){
+  const dots=$("#sheetDots"); if(!dots) return;
+  dots.innerHTML=boxItems.map(f=>`<span class="builder-sheet__dot" style="background:${FC[f]}"></span>`).join("");
+  const toggle=dots.parentElement?.querySelector(".builder-sheet__toggle");
+  if(toggle) toggle.textContent=boxItems.length?`${boxItems.length}/${boxSize} gefüllt`:"Sorten wählen ▾";
+}
+
 function wireBuilder(){
-  if(!$("#boxSlots"))return;
+  if(!$("#boxSlots")||!$("#palette"))return;
   buildPalette();
+  ensureFlightLayer();
+
   $$(".size").forEach(b=>b.addEventListener("click",()=>{
     $$(".size").forEach(x=>{x.classList.remove("is-active");x.setAttribute("aria-checked","false");});
     b.classList.add("is-active"); b.setAttribute("aria-checked","true");
-    boxSize=+b.dataset.size; boxPrice=BOX_PRICES[boxSize]; if(boxItems.length>boxSize)boxItems=boxItems.slice(0,boxSize); renderSlots();
+    boxSize=+b.dataset.size; boxPrice=BOX_PRICES[boxSize];
+    if(boxItems.length>boxSize) boxItems=boxItems.slice(0,boxSize);
+    renderSlots();
   }));
-  $("#palette").addEventListener("click",e=>{ const c=e.target.closest("[data-flav]"); if(!c)return; if(boxItems.length>=boxSize){toast(`Die ${boxSize}er-Box ist voll`);return;} boxItems.push(c.dataset.flav); renderSlots(); });
-  $("#boxSlots").addEventListener("click",e=>{ const s=e.target.closest(".slot--filled"); if(!s)return; boxItems.splice(+s.dataset.idx,1); renderSlots(); });
+
+  $("#palette").addEventListener("click",e=>{
+    const c=e.target.closest("[data-flav]");
+    if(!c) return;
+    if(boxItems.length>=boxSize){toast(`Die ${boxSize}er-Box ist voll`);return;}
+    flyMacaronToSlot(c,boxItems.length);
+  });
+
+  $("#boxSlots").addEventListener("click",e=>{
+    const rm=e.target.closest(".slot__remove");
+    if(rm){ e.stopPropagation(); flyMacaronOut(+rm.dataset.idx); return; }
+    const s=e.target.closest(".slot--filled");
+    if(s) flyMacaronOut(+s.dataset.idx);
+  });
+
+  $("#boxSlots").addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){
+      const s=e.target.closest(".slot--filled");
+      if(s){ e.preventDefault(); flyMacaronOut(+s.dataset.idx); }
+    }
+  });
+
+  $("#clearBoxBtn")?.addEventListener("click",clearBoxAnimated);
+
+  $("#quickFillBtn")?.addEventListener("click",()=>{
+    const fill=boxSize<=6?QUICK_FILL_6:QUICK_FILL_15;
+    boxItems=fill.slice(0,boxSize);
+    renderSlots();
+    toast(`${boxSize}er Box mit unserer Empfehlung gefüllt`);
+  });
+
+  $("#randomFillBtn")?.addEventListener("click",()=>{
+    const added=boxSize-boxItems.length;
+    if(added<=0){toast("Deine Box ist schon voll!");return;}
+    while(boxItems.length<boxSize) boxItems.push(PALETTE_KEYS[Math.floor(Math.random()*PALETTE_KEYS.length)]);
+    renderSlots();
+    toast(added===boxSize?`${boxSize}er Box zufällig gefüllt — Überraschung!`:`${added} zufällige Macaron${added>1?'s':''} hinzugefügt`);
+  });
+
   $("#addBoxBtn").addEventListener("click",()=>{
+    if(boxItems.length<boxSize){
+      toast(`Fülle deine Box noch mit ${boxSize-boxItems.length} Macaron${boxSize-boxItems.length>1?'s':''} — dann kann's losgehen!`);
+      return;
+    }
     const counts={}; boxItems.forEach(f=>counts[f]=(counts[f]||0)+1);
     const meta=Object.entries(counts).map(([k,n])=>`${n}× ${FLAVOURS[k]}`).join(", ");
     flyToCart($("#pinkbox"));
     addToCart({key:"box-"+Date.now(),name:`${boxSize}er Box (eigene Auswahl)`,meta:meta||"gemischt",price:boxPrice,thumb:macaronHTML("#D81277")});
     toast(`${boxSize}er Box hinzugefügt`); boxItems=[]; renderSlots();
   });
+
   renderSlots();
+  initBuilderSheet();
 }
 
 /* ============================================================
@@ -1205,6 +1448,230 @@ function wireRipples(){
 }
 
 /* ============================================================
+   BABYSHOWER PAGE
+   ============================================================ */
+const BLUE_FLAVOURS=["kokos","cheesecake","lavendel","matcha","limette","zitrone","vanille"];
+const PINK_FLAVOURS=["erdbeere","himbeere","wildberry","mango","karamell","latte","orange"];
+
+function initBabyshower(){
+  const boyBtn=$("#genderBoy"), girlBtn=$("#genderGirl");
+  if(!boyBtn||!girlBtn) return;
+  const builderSection=$("#babyBuilder");
+  let babyGender=null;
+
+  function selectGender(gender){
+    babyGender=gender;
+    boyBtn.classList.toggle("is-active",gender==="boy");
+    girlBtn.classList.toggle("is-active",gender==="girl");
+    document.body.classList.remove("baby--boy","baby--girl");
+    document.body.classList.add(gender==="boy"?"baby--boy":"baby--girl");
+    if(builderSection) builderSection.hidden=false;
+    const heading=$("#babyHeading");
+    if(heading) heading.textContent=gender==="boy"?"Blaue Box für den kleinen Prinzen":"Pinke Box für die kleine Prinzessin";
+    const eyebrow=$("#babyEyebrow");
+    if(eyebrow) eyebrow.textContent=gender==="boy"?"It's a Boy!":"It's a Girl!";
+    const keys=gender==="boy"?BLUE_FLAVOURS:PINK_FLAVOURS;
+    const pal=$("#babyPalette");
+    if(pal) pal.innerHTML=keys.map(k=>chipHTML(k)).join("");
+    boxItems=[];
+    renderSlots();
+    builderSection.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  boyBtn.addEventListener("click",()=>selectGender("boy"));
+  girlBtn.addEventListener("click",()=>selectGender("girl"));
+
+  ensureFlightLayer();
+  renderSlots();
+
+  $$(".size").forEach(b=>b.addEventListener("click",()=>{
+    $$(".size").forEach(x=>{x.classList.remove("is-active");x.setAttribute("aria-checked","false");});
+    b.classList.add("is-active");b.setAttribute("aria-checked","true");
+    boxSize=+b.dataset.size;boxPrice=BOX_PRICES[boxSize];
+    if(boxItems.length>boxSize)boxItems=boxItems.slice(0,boxSize);
+    renderSlots();
+  }));
+
+  $("#babyPalette")?.addEventListener("click",e=>{
+    const c=e.target.closest("[data-flav]");
+    if(!c)return;
+    if(boxItems.length>=boxSize){toast(`Die ${boxSize}er-Box ist voll`);return;}
+    flyMacaronToSlot(c,boxItems.length);
+  });
+
+  $("#boxSlots")?.addEventListener("click",e=>{
+    const rm=e.target.closest(".slot__remove");
+    if(rm){e.stopPropagation();flyMacaronOut(+rm.dataset.idx);return;}
+    const s=e.target.closest(".slot--filled");
+    if(s)flyMacaronOut(+s.dataset.idx);
+  });
+
+  $("#clearBoxBtn")?.addEventListener("click",clearBoxAnimated);
+
+  $("#babyRandomBtn")?.addEventListener("click",()=>{
+    const keys=babyGender==="boy"?BLUE_FLAVOURS:PINK_FLAVOURS;
+    const added=boxSize-boxItems.length;
+    if(added<=0){toast("Deine Box ist schon voll!");return;}
+    while(boxItems.length<boxSize) boxItems.push(keys[Math.floor(Math.random()*keys.length)]);
+    renderSlots();
+    toast(`${added} zufällige Macaron${added>1?'s':''} hinzugefügt`);
+  });
+
+  $("#addBoxBtn")?.addEventListener("click",()=>{
+    if(boxItems.length<boxSize){toast(`Fülle deine Box noch mit ${boxSize-boxItems.length} Macarons — dann kann's losgehen!`);return;}
+    const counts={};boxItems.forEach(f=>counts[f]=(counts[f]||0)+1);
+    const meta=Object.entries(counts).map(([k,n])=>`${n}× ${FLAVOURS[k]}`).join(", ");
+    const label=babyGender==="boy"?"Babyshower Boy":"Babyshower Girl";
+    flyToCart($("#pinkbox"));
+    addToCart({key:"baby-"+Date.now(),name:`${boxSize}er Box (${label})`,meta,price:boxPrice,thumb:macaronHTML(babyGender==="boy"?"#5B9BD5":"#E06B9F")});
+    toast(`${label} Box hinzugefügt`);boxItems=[];renderSlots();
+  });
+}
+
+/* ============================================================
+   TOWER CONFIGURATOR PAGE
+   ============================================================ */
+const TOWER_TIERS=[
+  {tier:1,count:25,label:"Basis-Teller (unten)",width:"100%"},
+  {tier:2,count:20,label:"2. Teller",width:"85%"},
+  {tier:3,count:15,label:"3. Teller",width:"70%"},
+  {tier:4,count:10,label:"4. Teller",width:"55%"},
+  {tier:5,count:6,label:"5. Teller",width:"42%"},
+  {tier:6,count:3,label:"Spitze (oben)",width:"28%"}
+];
+const TOWER_PRICES={1:50,2:90,3:120,4:160,5:190,6:200};
+let towerTierCount=3;
+let towerItems={1:[],2:[],3:[],4:[],5:[],6:[]};
+let activeTier=null;
+
+function towerMacaronCount(){
+  let sum=0;
+  for(let i=1;i<=towerTierCount;i++) sum+=TOWER_TIERS[i-1].count;
+  return sum;
+}
+
+function renderTowerViz(){
+  const viz=$("#towerViz"); if(!viz) return;
+  let html="";
+  for(let t=towerTierCount;t>=1;t--){
+    const tier=TOWER_TIERS[t-1];
+    const items=towerItems[t]||[];
+    let macs="";
+    for(let i=0;i<tier.count;i++){
+      if(items[i]){
+        const bf=BOX_FLAVOURS.find(b=>b.flavour===items[i]);
+        macs+=`<img class="tower-tier__mac" src="${bf?bf.img:`img/mac-${items[i]}.jpg`}" alt="${FLAVOURS[items[i]]||''}" width="36" height="36">`;
+      } else {
+        macs+=`<span class="tower-tier__empty"></span>`;
+      }
+    }
+    html+=`<div class="tower-tier" style="max-width:${tier.width}" data-tier="${t}">${macs}</div>`;
+    if(t>1) html+=`<div class="tower-stand"></div>`;
+  }
+  html+=`<div class="tower-base"></div>`;
+  viz.innerHTML=html;
+  const price=TOWER_PRICES[towerTierCount]||0;
+  const priceEl=$("#towerPrice");
+  const countEl=$("#towerCount");
+  if(priceEl) priceEl.textContent=EUR(price);
+  if(countEl) countEl.textContent=`${towerMacaronCount()} Macarons · ${towerTierCount} Teller`;
+}
+
+function renderTierConfigs(){
+  const container=$("#tierConfigs"); if(!container) return;
+  let html="";
+  for(let t=1;t<=towerTierCount;t++){
+    const tier=TOWER_TIERS[t-1];
+    const items=towerItems[t]||[];
+    const filled=items.filter(Boolean).length;
+    const isOpen=activeTier===t;
+    html+=`<div class="tier-config__item${isOpen?" is-open":""}" data-tier="${t}">
+      <div class="tier-config__head">
+        <span>${tier.label} · ${filled}/${tier.count} Sorten</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="tier-config__body">
+        <div class="palette">${PALETTE_KEYS.map(k=>chipHTML(k)).join("")}</div>
+        <div class="tier-config__fill">
+          <button class="btn btn--ghost btn--quick" data-fill-tier="${t}" type="button">Teller zufällig füllen</button>
+          <button class="btn btn--ghost btn--quick" data-clear-tier="${t}" type="button">Teller leeren</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  container.innerHTML=html;
+}
+
+function initTower(){
+  if(!$("#towerViz")) return;
+  $$(".tier-btn").forEach(b=>b.addEventListener("click",()=>{
+    towerTierCount=+b.dataset.tiers;
+    $$(".tier-btn").forEach(x=>x.classList.remove("is-active"));
+    b.classList.add("is-active");
+    for(let t=towerTierCount+1;t<=6;t++) towerItems[t]=[];
+    activeTier=null;
+    renderTierConfigs();
+    renderTowerViz();
+  }));
+  const configs=$("#tierConfigs");
+  if(configs){
+    configs.addEventListener("click",e=>{
+      const head=e.target.closest(".tier-config__head");
+      if(head){
+        const tier=+head.closest(".tier-config__item").dataset.tier;
+        activeTier=activeTier===tier?null:tier;
+        renderTierConfigs();
+        return;
+      }
+      const chip=e.target.closest("[data-flav]");
+      if(chip && activeTier){
+        const tierData=TOWER_TIERS[activeTier-1];
+        if(!towerItems[activeTier]) towerItems[activeTier]=[];
+        if(towerItems[activeTier].length>=tierData.count){
+          toast(`Teller ${activeTier} ist voll (${tierData.count} Macarons)`);return;
+        }
+        towerItems[activeTier].push(chip.dataset.flav);
+        renderTierConfigs();
+        renderTowerViz();
+        return;
+      }
+      const fillBtn=e.target.closest("[data-fill-tier]");
+      if(fillBtn){
+        const t=+fillBtn.dataset.fillTier;
+        const max=TOWER_TIERS[t-1].count;
+        if(!towerItems[t]) towerItems[t]=[];
+        while(towerItems[t].length<max) towerItems[t].push(PALETTE_KEYS[Math.floor(Math.random()*PALETTE_KEYS.length)]);
+        renderTierConfigs();
+        renderTowerViz();
+        toast(`Teller ${t} zufällig gefüllt`);
+        return;
+      }
+      const clearBtn=e.target.closest("[data-clear-tier]");
+      if(clearBtn){
+        towerItems[+clearBtn.dataset.clearTier]=[];
+        renderTierConfigs();
+        renderTowerViz();
+        return;
+      }
+    });
+  }
+  $("#towerSubmit")?.addEventListener("click",()=>{
+    let body=`Tower-Anfrage – ${CONFIG.brand}\n\nTeller: ${towerTierCount}\n`;
+    for(let t=1;t<=towerTierCount;t++){
+      const items=towerItems[t]||[];
+      const counts={};items.forEach(f=>counts[f]=(counts[f]||0)+1);
+      const meta=Object.entries(counts).map(([k,n])=>`${n}× ${FLAVOURS[k]}`).join(", ");
+      body+=`\nTeller ${t}: ${meta||"noch leer"}`;
+    }
+    body+=`\n\nGesamt: ${towerMacaronCount()} Macarons · ${EUR(TOWER_PRICES[towerTierCount]||0)}`;
+    window.location.href=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Tower-Anfrage")}&body=${encodeURIComponent(body)}`;
+    toast("Deine Tower-Anfrage wird per E-Mail gesendet!");
+  });
+  renderTierConfigs();
+  renderTowerViz();
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener("DOMContentLoaded",()=>{
@@ -1222,6 +1689,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   wirePDP();
   wireMystery();
   wireCheckoutExtras();
+  initBabyshower();
+  initTower();
   observeReveals();
   wireRipples();
 });
