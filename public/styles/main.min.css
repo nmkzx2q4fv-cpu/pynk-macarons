@@ -303,6 +303,11 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
 /* flight layer for flying macaron clones */
 #builderFlightLayer{ position:fixed; inset:0; pointer-events:none; z-index:1200; }
 .builder-flight{ position:fixed; border-radius:50%; pointer-events:none; filter:drop-shadow(0 8px 20px rgba(74,21,48,.25)); object-fit:cover; }
+.particle{ position:fixed; border-radius:50%; pointer-events:none; opacity:.8; }
+.confetti{ position:fixed; pointer-events:none; opacity:.9; }
+
+/* box lid opening animation */
+.pinkbox__lid{ transform-style:preserve-3d; will-change:transform; }
 
 /* mobile bottom sheet for builder */
 .builder-sheet{ display:none; }

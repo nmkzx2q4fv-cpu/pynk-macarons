@@ -959,6 +959,93 @@ function ensureFlightLayer(){
   return flightLayer;
 }
 
+/* ---- Luxus: Particle Trail ---- */
+function spawnParticleTrail(x, y, color){
+  if(reduceMotion || typeof gsap==="undefined") return;
+  const layer=ensureFlightLayer();
+  for(let i=0;i<5;i++){
+    const p=document.createElement("span");
+    p.className="particle";
+    Object.assign(p.style,{
+      left:x+"px", top:y+"px",
+      background:color,
+      width:(3+Math.random()*4)+"px",
+      height:(3+Math.random()*4)+"px"
+    });
+    layer.appendChild(p);
+    gsap.to(p,{
+      duration:0.4+Math.random()*0.3,
+      x:(Math.random()-0.5)*40,
+      y:(Math.random()-0.5)*40,
+      opacity:0,
+      scale:0,
+      ease:"power2.out",
+      onComplete:()=>p.remove()
+    });
+  }
+}
+
+/* ---- Luxus: Konfetti bei voller Box ---- */
+function burstConfetti(){
+  if(reduceMotion || typeof gsap==="undefined") return;
+  const box=$("#pinkbox"); if(!box) return;
+  const rect=box.getBoundingClientRect();
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/3;
+  const layer=ensureFlightLayer();
+  const colors=["#D81277","#C9A24B","#EF7DA0","#F2D06B","#A9C77A","#fff"];
+  for(let i=0;i<35;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    const col=colors[Math.floor(Math.random()*colors.length)];
+    const isCircle=Math.random()>0.5;
+    Object.assign(c.style,{
+      left:cx+"px", top:cy+"px",
+      background:col,
+      width:isCircle?"6px":(4+Math.random()*6)+"px",
+      height:isCircle?"6px":(8+Math.random()*8)+"px",
+      borderRadius:isCircle?"50%":"2px"
+    });
+    layer.appendChild(c);
+    gsap.to(c,{
+      duration:0.8+Math.random()*0.6,
+      x:(Math.random()-0.5)*220,
+      y:-60+Math.random()*200,
+      rotation:Math.random()*360,
+      opacity:0,
+      ease:"power1.out",
+      onComplete:()=>c.remove()
+    });
+  }
+}
+
+/* ---- Luxus: Haptic Feedback (Mobile) ---- */
+function haptic(ms){
+  if(navigator.vibrate) try{navigator.vibrate(ms||15);}catch(e){}
+}
+
+/* ---- Luxus: Box-Öffnen Animation (ScrollTrigger) ---- */
+function initBoxLidAnimation(){
+  if(reduceMotion || typeof gsap==="undefined" || typeof ScrollTrigger==="undefined") return;
+  const lid=document.querySelector(".pinkbox__lid");
+  if(!lid) return;
+  gsap.fromTo(lid,
+    {rotateX:0, transformOrigin:"top center", perspective:600},
+    {
+      rotateX:-35,
+      duration:0.6,
+      ease:"power2.out",
+      scrollTrigger:{
+        trigger:"#box",
+        start:"top 80%",
+        end:"top 40%",
+        scrub:0.5,
+        once:true
+      }
+    }
+  );
+}
+
 function chipHTML(k){
   const bf=BOX_FLAVOURS.find(b=>b.flavour===k);
   const img=bf?bf.img:`img/mac-${k}.jpg`;
@@ -1002,6 +1089,7 @@ function renderSlots(){
     const remaining=boxSize-boxItems.length;
     addBtn.disabled=remaining>0;
     addBtn.textContent=remaining>0?`Noch ${remaining} Macaron${remaining>1?'s':''} wählen`:'Box in den Warenkorb';
+    if(remaining===0 && boxItems.length>0){ burstConfetti(); haptic(30); }
   }
   const clearBtn=$("#clearBoxBtn");
   if(clearBtn) clearBtn.hidden=boxItems.length===0;
@@ -1050,12 +1138,18 @@ function flyMacaronToSlot(chipEl, slotIdx){
       flyLock=false;
     }
   });
+  const trailColor=FC[flavour]||"#D81277";
   tl.set(clone,{x:sx,y:sy,scale:1.15,opacity:1,rotation:0})
-    .to(clone,{duration:0.32,x:midX,y:apexY,scale:1,rotation:(Math.random()*24-12),ease:"power2.out"})
-    .to(clone,{duration:0.3,x:ex,y:ey,scale:1,rotation:0,ease:"power2.in"})
+    .to(clone,{duration:0.32,x:midX,y:apexY,scale:1,rotation:(Math.random()*24-12),ease:"power2.out",
+      onUpdate:function(){const p=this.progress();if(p>0.2&&Math.random()>0.6)spawnParticleTrail(gsap.getProperty(clone,"x")+size/2,gsap.getProperty(clone,"y")+size/2,trailColor);}
+    })
+    .to(clone,{duration:0.3,x:ex,y:ey,scale:1,rotation:0,ease:"power2.in",
+      onUpdate:function(){if(Math.random()>0.7)spawnParticleTrail(gsap.getProperty(clone,"x")+size/2,gsap.getProperty(clone,"y")+size/2,trailColor);}
+    })
     .to(clone,{duration:0.07,scaleX:1.12,scaleY:0.88,y:ey+2,ease:"none"})
     .to(clone,{duration:0.1,scaleX:0.96,scaleY:1.06,y:ey-3,ease:"power1.out"})
     .to(clone,{duration:0.09,scale:1,y:ey,ease:"power2.out"});
+  haptic(12);
   setTimeout(()=>{if(clone.parentNode){clone.remove();flyLock=false;}},1200);
 }
 
@@ -1208,6 +1302,7 @@ function wireBuilder(){
 
   renderSlots();
   initBuilderSheet();
+  initBoxLidAnimation();
 }
 
 /* ============================================================
