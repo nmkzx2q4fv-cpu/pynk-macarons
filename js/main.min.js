@@ -750,28 +750,22 @@ function ingredientsFor(p){ return `Mandeln, Puderzucker, Eiweiß (Hühnerei), Z
 
 function renderProducts(filter="all"){
   const grid=$("#productGrid"); if(!grid)return;
+  const catLabel={box:"15er-Box",addon:"Extra",gutschein:"Gutschein"};
   grid.innerHTML=PRODUCTS.filter(p=>!p.noShop && (filter==="all"||p.cat===filter)).map(p=>{
     const gp=grundpreisStr(p);
     return `
     <article class="pcard reveal" data-id="${p.id}">
       <div class="pcard__media">
+        ${p.cat==="box"?`<span class="pcard__tag">${catLabel[p.cat]}</span>`:""}
         <img src="${p.img}" width="384" height="384" loading="lazy" alt="${p.name} – ${p.desc}">
       </div>
       <div class="pcard__body">
         <h3 class="pcard__name"><span class="pcard__dot" style="background:${FC[p.flavour]}"></span>${p.name}</h3>
         <p class="pcard__desc">${p.desc}</p>
-        <p class="pcard__delivery"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Frisch gebacken · versandfertig in 1–2 Werktagen</p>
-        <details class="allergens">
-          <summary>Zutaten &amp; Allergene</summary>
-          <div class="allergens__body">
-            <p><strong>Zutaten:</strong> ${ingredientsFor(p)}</p>
-            <p><strong>Allergene:</strong> ${allergensFor(p).join(", ")}. Kann Spuren weiterer Schalenfrüchte enthalten.</p>
-          </div>
-        </details>
         <div class="pcard__foot">
           <span class="pcard__price-wrap">
             <span class="pcard__price">${EUR(p.price)}</span>
-            <span class="pcard__vat">inkl. MwSt.${gp?` · ${gp}`:""} · <a href="versand-zahlung.html">zzgl. Versand</a></span>
+            <span class="pcard__vat">inkl. MwSt.${gp?` · ${gp}`:""}</span>
           </span>
           <button class="pcard__add" data-add="${p.id}" aria-label="${p.name} in den Warenkorb legen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
@@ -831,27 +825,33 @@ let _pdpProduct=null, _pdpQty=1;
 function openPDP(productId){
   const p=PRODUCTS.find(x=>x.id===productId);
   if(!p) return;
-  if(p.cat!=="macaron" && p.cat!=="baer" && p.cat!=="cupcake") return;
   _pdpProduct=p; _pdpQty=1;
   const modal=$("#pdp"); if(!modal) return;
   $("#pdpImg").src=p.img; $("#pdpImg").alt=p.name;
   $("#pdpName").textContent=p.name; $("#pdpName").removeAttribute("aria-hidden");
   $("#pdpDesc").textContent=p.desc;
 
-  const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
-  const p6=+(p.price*6*0.90).toFixed(2);
-  const p12=+(p.price*12*0.85).toFixed(2);
-
-  $("#pdpBundles").innerHTML=`
-    <label class="bundle-card is-active"><input type="radio" name="pdpBundle" value="1" checked />
-      <span class="bundle-card__top"><span class="bundle-card__label">Zum Probieren</span><span class="bundle-card__sub">Einzelstück</span></span>
-      <span class="bundle-card__price">${EUR(p.price)}</span></label>
-    <label class="bundle-card"><input type="radio" name="pdpBundle" value="6" />
-      <span class="bundle-card__top"><span class="bundle-card__label">${bn.s6}</span><span class="bundle-card__sub">6er Box · Spare 10 %</span></span>
-      <span class="bundle-card__price">${EUR(p6)}</span></label>
-    <label class="bundle-card"><span class="bundle-card__badge">Bestseller</span><input type="radio" name="pdpBundle" value="12" />
-      <span class="bundle-card__top"><span class="bundle-card__label">${bn.s12}</span><span class="bundle-card__sub">12er Box · Spare 15 %</span></span>
-      <span class="bundle-card__price">${EUR(p12)}</span></label>`;
+  const isBundle=p.cat==="macaron"||p.cat==="baer"||p.cat==="cupcake";
+  if(isBundle){
+    const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
+    const p6=+(p.price*6*0.90).toFixed(2);
+    const p12=+(p.price*12*0.85).toFixed(2);
+    $("#pdpBundles").innerHTML=`
+      <label class="bundle-card is-active"><input type="radio" name="pdpBundle" value="1" checked />
+        <span class="bundle-card__top"><span class="bundle-card__label">Zum Probieren</span><span class="bundle-card__sub">Einzelstück</span></span>
+        <span class="bundle-card__price">${EUR(p.price)}</span></label>
+      <label class="bundle-card"><input type="radio" name="pdpBundle" value="6" />
+        <span class="bundle-card__top"><span class="bundle-card__label">${bn.s6}</span><span class="bundle-card__sub">6er Box · Spare 10 %</span></span>
+        <span class="bundle-card__price">${EUR(p6)}</span></label>
+      <label class="bundle-card"><span class="bundle-card__badge">Bestseller</span><input type="radio" name="pdpBundle" value="12" />
+        <span class="bundle-card__top"><span class="bundle-card__label">${bn.s12}</span><span class="bundle-card__sub">12er Box · Spare 15 %</span></span>
+        <span class="bundle-card__price">${EUR(p12)}</span></label>`;
+  } else {
+    const gp=grundpreisStr(p);
+    const allergens=p.cat==="box"||p.cat==="addon"?`<details class="allergens" open><summary>Zutaten &amp; Allergene</summary><div class="allergens__body"><p><strong>Zutaten:</strong> ${ingredientsFor(p)}</p><p><strong>Allergene:</strong> ${allergensFor(p).join(", ")}. Kann Spuren weiterer Schalenfrüchte enthalten.</p></div></details>`:"";
+    const delivery=p.cat==="box"?`<p class="pcard__delivery"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Frisch gebacken · versandfertig in 1–2 Werktagen</p>`:"";
+    $("#pdpBundles").innerHTML=delivery+allergens+(gp?`<p class="pcard__vat" style="margin-top:8px">${gp}</p>`:"");
+  }
 
   $("#pdpPrice").textContent=EUR(p.price);
   modal.hidden=false;
@@ -892,12 +892,19 @@ function wirePDP(){
   $("#pdpAdd")?.addEventListener("click",()=>{
     if(!_pdpProduct) return;
     const p=_pdpProduct, q=_pdpQty;
-    const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
-    const price=q===1?p.price:q===6?+(p.price*6*0.90).toFixed(2):+(p.price*12*0.85).toFixed(2);
-    const name=q===1?p.name:q===6?`${bn.s6} (6× ${p.name})`: `${bn.s12} (12× ${p.name})`;
-    const meta=q===1?"Einzelstück":q===6?"6er Box · 10 % Vorteil":"12er Box · 15 % Vorteil";
-    addToCart({key:`bundle-${p.id}-${q}`,name,meta,price,thumb:`<img src="${p.img}" alt="">`});
-    toast(name+" hinzugefügt");
+    const isBundle=p.cat==="macaron"||p.cat==="baer"||p.cat==="cupcake";
+    if(isBundle){
+      const bn=BUNDLE_NAMES[p.flavour]||BUNDLE_NAMES._default;
+      const price=q===1?p.price:q===6?+(p.price*6*0.90).toFixed(2):+(p.price*12*0.85).toFixed(2);
+      const name=q===1?p.name:q===6?`${bn.s6} (6× ${p.name})`: `${bn.s12} (12× ${p.name})`;
+      const meta=q===1?"Einzelstück":q===6?"6er Box · 10 % Vorteil":"12er Box · 15 % Vorteil";
+      addToCart({key:`bundle-${p.id}-${q}`,name,meta,price,thumb:`<img src="${p.img}" alt="">`});
+      toast(name+" hinzugefügt");
+    } else {
+      const meta=({box:"15er-Box",addon:"Extra",gutschein:"Gutschein"})[p.cat]||"";
+      addToCart({key:"p-"+p.id,name:p.name,meta,price:p.price,thumb:`<img src="${p.img}" alt="">`});
+      toast(p.name+" hinzugefügt");
+    }
     closePDP();
     if(typeof openDrawer==="function") openDrawer();
   });
