@@ -1451,8 +1451,10 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.06; colo
   width:240px; padding:var(--s4); border-radius:var(--r-md);
   background:var(--paper); color:var(--bordeaux);
   box-shadow:var(--sh-lg); border:1px solid var(--md-sys-color-outline-variant);
-  display:flex; flex-direction:column; gap:6px; text-align:left;
+  flex-direction:column; gap:6px; text-align:left;
 }
+.cafe-pop[hidden]{ display:none; }
+.cafe-pop:not([hidden]){ display:flex; }
 .cafe-pop strong{ font-family:var(--display); font-size:1.05rem; color:var(--pynk-deep); }
 .cafe-pop p{ font-size:.86rem; color:var(--bordeaux-2); margin:0; }
 .cafe-pop .btn{ margin-top:8px; }
