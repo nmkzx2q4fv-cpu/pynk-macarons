@@ -394,14 +394,16 @@ function injectChrome(){
           </div>
         </div>
 
-        <div class="drawer__body" id="cartItems"></div>
+        <div class="drawer__scroll">
+          <div class="drawer__body" id="cartItems"></div>
 
-        <div class="drawer__cross" id="cartCrossSell" hidden>
-          <p class="drawer__cross-title">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
-            Kunden kaufen auch
-          </p>
-          <div class="drawer__cross-items" id="crossSellItems"></div>
+          <div class="drawer__cross" id="cartCrossSell" hidden>
+            <p class="drawer__cross-title">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+              Dazu passt
+            </p>
+            <div class="drawer__cross-items" id="crossSellItems"></div>
+          </div>
         </div>
 
         <div class="drawer__foot">
@@ -669,8 +671,8 @@ function updateCart(){
       const available=PRODUCTS.filter(p=>p.crossSell && !inCart.has("p-"+p.id));
       const shopItems=PRODUCTS.filter(p=>p.cat==="box" && !p.custom && !inCart.has("p-"+p.id));
       const pool=[...available];
-      while(pool.length<3 && shopItems.length){ pool.push(shopItems.splice(Math.floor(Math.random()*shopItems.length),1)[0]); }
-      const show=pool.slice(0,3);
+      while(pool.length<2 && shopItems.length){ pool.push(shopItems.splice(Math.floor(Math.random()*shopItems.length),1)[0]); }
+      const show=pool.slice(0,2);
       if(show.length){
         crossSell.hidden=false;
         crossItems.innerHTML=show.map(p=>`
