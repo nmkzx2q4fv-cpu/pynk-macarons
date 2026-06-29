@@ -956,6 +956,35 @@ function cfgRenderSlots(){
   $("#cfgTotal").textContent = EUR(cfgGetPrice());
   const addBtn = $("#cfgAddBtn");
   if(addBtn) addBtn.disabled = cfgItems.length === 0;
+  cfgUpdateBar();
+}
+
+function cfgUpdateBar(){
+  const bar = $("#cfgBar"); if(!bar) return;
+  const isFull = cfgItems.length >= cfgSize;
+  bar.classList.toggle("is-visible", cfgItems.length > 0);
+  bar.classList.toggle("is-full", isFull);
+  const thumbs = bar.querySelector(".cfg-bar__thumbs");
+  if(thumbs){
+    let html = "";
+    for(let i = 0; i < cfgSize; i++){
+      if(cfgItems[i]){
+        const it = CFG_ITEMS.find(c => c.key === cfgItems[i]);
+        html += `<div class="cfg-bar__thumb"><img src="${it?it.img:''}" alt="${it?it.name:''}"></div>`;
+      } else {
+        html += `<div class="cfg-bar__thumb cfg-bar__thumb--empty"></div>`;
+      }
+    }
+    thumbs.innerHTML = html;
+    if(isFull) thumbs.scrollLeft = thumbs.scrollWidth;
+  }
+  const cnt = bar.querySelector(".cfg-bar__count");
+  if(cnt) cnt.textContent = `${cfgItems.length}/${cfgSize}`;
+  const cta = $("#cfgBarBtn");
+  if(cta){
+    cta.disabled = cfgItems.length === 0;
+    cta.textContent = isFull ? "In den Warenkorb" : `Noch ${cfgSize - cfgItems.length}`;
+  }
 }
 
 function cfgRenderFlavors(){
@@ -1023,9 +1052,19 @@ function cfgSwitchMode(mode){
   }
 }
 
+function cfgCreateBar(){
+  if($("#cfgBar")) return;
+  const bar = document.createElement("div");
+  bar.className = "cfg-bar";
+  bar.id = "cfgBar";
+  bar.innerHTML = `<div class="cfg-bar__row"><div class="cfg-bar__thumbs"></div><span class="cfg-bar__count">0/${cfgSize}</span><div class="cfg-bar__cta"><button class="btn btn--primary btn--sm" id="cfgBarBtn" disabled>Noch ${cfgSize}</button></div></div>`;
+  document.body.appendChild(bar);
+}
+
 function wireConfigurator(){
   if(!$("#cfgSlots")) return;
 
+  cfgCreateBar();
   cfgRenderFlavors();
   cfgRenderPalette();
   cfgRenderSlots();
@@ -1082,6 +1121,12 @@ function wireConfigurator(){
     cfgItems = [];
     if(cfgMode === "pure"){ cfgPureFlavour = null; cfgRenderFlavors(); }
     cfgRenderSlots();
+  });
+
+  document.addEventListener("click", e => {
+    if(e.target.id === "cfgBarBtn" || e.target.closest("#cfgBarBtn")){
+      if(addBtn) addBtn.click();
+    }
   });
 }
 
