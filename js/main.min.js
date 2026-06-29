@@ -1128,6 +1128,13 @@ function wireConfigurator(){
       if(addBtn) addBtn.click();
     }
   });
+
+  $$("[data-choice]").forEach(card => card.addEventListener("click", () => {
+    const mode = card.dataset.choice;
+    cfgSwitchMode(mode);
+    const box = document.getElementById("box");
+    if(box) box.scrollIntoView({ behavior:"smooth", block:"start" });
+  }));
 }
 
 /* Legacy builder compat (homepage gravity builder) */

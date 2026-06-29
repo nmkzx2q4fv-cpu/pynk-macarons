@@ -1,0 +1,410 @@
+<!--
+  Macaron By Pynk — Google Reviews Widget
+  ========================================
+  Einfach per Copy-Paste in die Website einbinden.
+
+  MOCK-DATA: Bewertungen sind im REVIEWS-Array hinterlegt.
+  Später gegen Google Places API austauschen:
+  1. Google Places API Key besorgen
+  2. fetch() gegen die Places API (New) machen
+  3. REVIEWS-Array mit den Ergebnissen befüllen
+  ========================================
+-->
+
+<!-- WIDGET START -->
+<section class="pynk-reviews" id="pynkReviews" aria-label="Google-Bewertungen">
+  <style>
+    .pynk-reviews {
+      --pr-pynk: #D81277;
+      --pr-pynk-deep: #A60C5A;
+      --pr-pynk-soft: #F8E2EE;
+      --pr-pynk-tint: #FDF1F7;
+      --pr-cream: #FBF6F0;
+      --pr-bordeaux: #4A1530;
+      --pr-bordeaux-2: #6E3650;
+      --pr-gold: #C9A24B;
+      --pr-gold-dim: #E0D4BC;
+      --pr-paper: #FFFFFF;
+      font-family: "Nunito Sans", system-ui, -apple-system, sans-serif;
+      color: var(--pr-bordeaux);
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .pr-section-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .pr-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--pr-pynk);
+      margin-bottom: 16px;
+    }
+    .pr-eyebrow::before,
+    .pr-eyebrow::after {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: var(--pr-gold);
+    }
+    .pr-title {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      line-height: 1.1;
+      color: var(--pr-bordeaux);
+      margin: 0 0 12px;
+    }
+    .pr-lead {
+      font-size: 1.05rem;
+      color: var(--pr-bordeaux-2);
+      max-width: 50ch;
+      margin: 0 auto;
+    }
+
+    .pr-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      padding: 24px 28px;
+      background: var(--pr-paper);
+      border: 1px solid rgba(201,162,75,.18);
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(74,21,48,.05);
+    }
+
+    .pr-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .pr-google-icon { width: 40px; height: 40px; flex: none; }
+
+    .pr-score {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pr-score__rating {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .pr-score__number {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--pr-bordeaux);
+    }
+    .pr-score__max {
+      font-size: .88rem;
+      color: var(--pr-bordeaux-2);
+      font-weight: 600;
+    }
+    .pr-score__count {
+      font-size: .8rem;
+      color: var(--pr-bordeaux-2);
+      font-weight: 600;
+    }
+
+    .pr-stars { display: inline-flex; gap: 2px; }
+    .pr-stars svg { width: 20px; height: 20px; fill: var(--pr-gold); }
+    .pr-stars--sm svg { width: 15px; height: 15px; }
+
+    .pr-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Nunito Sans", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: .95rem;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: var(--pr-pynk);
+      color: #fff;
+      text-decoration: none;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(216,18,119,.2);
+    }
+    .pr-cta:hover {
+      background: var(--pr-pynk-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(216,18,119,.25);
+    }
+    .pr-cta svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+
+    .pr-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .pr-card {
+      background: var(--pr-paper);
+      border: 1px solid rgba(201,162,75,.14);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform .3s cubic-bezier(0.2,0,0,1), box-shadow .3s;
+      position: relative;
+    }
+    .pr-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(74,21,48,.08);
+    }
+    .pr-card::before {
+      content: "\201C";
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--pr-pynk-soft);
+      pointer-events: none;
+    }
+
+    .pr-card__head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pr-card__avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--pr-pynk-soft);
+      color: var(--pr-pynk-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .85rem;
+      flex: none;
+    }
+    .pr-card__meta { flex: 1; min-width: 0; }
+    .pr-card__name {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--pr-bordeaux);
+      margin: 0;
+    }
+    .pr-card__date {
+      font-size: .75rem;
+      color: var(--pr-bordeaux-2);
+      margin: 0;
+    }
+
+    .pr-card__text {
+      font-size: .9rem;
+      line-height: 1.65;
+      color: var(--pr-bordeaux-2);
+      margin: 0;
+      flex: 1;
+    }
+    .pr-card__text em {
+      font-style: normal;
+      color: var(--pr-pynk-deep);
+      font-weight: 700;
+    }
+
+    .pr-footer {
+      text-align: center;
+      margin-top: 32px;
+    }
+    .pr-footer a {
+      font-size: .88rem;
+      color: var(--pr-bordeaux-2);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pr-footer a:hover { color: var(--pr-pynk); }
+
+    @media (max-width: 1024px) {
+      .pr-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .pynk-reviews { padding: 48px 16px; }
+      .pr-header { flex-direction: column; align-items: flex-start; padding: 20px; }
+      .pr-grid { grid-template-columns: 1fr; }
+      .pr-score__number { font-size: 2rem; }
+      .pr-card { padding: 20px; }
+    }
+  </style>
+
+  <!-- Section Head -->
+  <div class="pr-section-head">
+    <p class="pr-eyebrow">Was unsere Gäste sagen</p>
+    <h2 class="pr-title">Echte Stimmen, echte Liebe</h2>
+    <p class="pr-lead">Über 160 Google-Bewertungen von glücklichen Gästen — und wir geben jeden Tag unser Bestes, dass es so bleibt.</p>
+  </div>
+
+  <!-- Rating Header -->
+  <div class="pr-header">
+    <div class="pr-badge">
+      <!-- Google "G" logo -->
+      <svg class="pr-google-icon" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.97 23.97 0 0 0 0 24c0 3.77.9 7.35 2.56 10.52l7.97-5.93z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.93C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      <div class="pr-score">
+        <div class="pr-score__rating">
+          <span class="pr-score__number" id="prRating">4,7</span>
+          <span class="pr-score__max">von 5</span>
+        </div>
+        <div class="pr-stars" id="prStars">
+          <!-- generated by JS -->
+        </div>
+        <span class="pr-score__count" id="prCount">basierend auf 164 Google-Bewertungen</span>
+      </div>
+    </div>
+    <a class="pr-cta" href="https://search.google.com/local/writereview?placeid=ChIJn1kHmq-PsUcRDM92QaRnUwc" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M21.03 3.97a3.28 3.28 0 0 0-4.63 0l-1.12 1.12 4.63 4.63 1.12-1.12a3.28 3.28 0 0 0 0-4.63zM3 17.25V21.88h4.63l9.88-9.88-4.63-4.63L3 17.25z"/></svg>
+      Jetzt bewerten
+    </a>
+  </div>
+
+  <!-- Reviews Grid -->
+  <div class="pr-grid" id="prGrid">
+    <!-- Rendered by JS from REVIEWS array -->
+  </div>
+
+  <div class="pr-footer">
+    <a href="https://www.google.com/maps/place/Macaron+By+Pynk/@53.5676,9.9778,17z" target="_blank" rel="noopener noreferrer">
+      Alle Bewertungen auf Google Maps ansehen
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </a>
+  </div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ================================================================
+     MOCK DATA — Echte Google-Bewertungen
+     Später gegen Google Places API (New) austauschen:
+
+     async function fetchReviews() {
+       const res = await fetch(
+         'https://places.googleapis.com/v1/places/PLACE_ID?fields=reviews,rating,userRatingCount',
+         { headers: { 'X-Goog-Api-Key': 'YOUR_API_KEY' } }
+       );
+       const data = await res.json();
+       return {
+         rating: data.rating,
+         totalReviews: data.userRatingCount,
+         reviews: data.reviews.map(r => ({
+           name:   r.authorAttribution.displayName,
+           rating: r.rating,
+           date:   r.relativePublishTimeDescription,
+           text:   r.text?.text || ''
+         }))
+       };
+     }
+     ================================================================ */
+
+  const PLACE_DATA = {
+    rating: 4.7,
+    totalReviews: 164,
+    reviews: [
+      {
+        name: "Martijn K.",
+        rating: 5,
+        date: "September 2023",
+        text: "Super cute place, speaks perfect English and is super friendly. The cheesecake is royally vanilla and creamy in taste and texture. The <em>macarons are delightful</em>, the flavors are really bold. The pistachio tasted more like pistachio than pistachios!"
+      },
+      {
+        name: "Anna K.",
+        rating: 5,
+        date: "Juni 2024",
+        text: "Sehr freundliche Inhaberin, die auch individuelle Macaron-Bestellungen ermöglicht. Unter der Woche angenehm ruhig — perfekt zum Arbeiten. Die <em>Bärchen-Macarons sind ein Traum</em> und schmecken genauso gut wie sie aussehen."
+      },
+      {
+        name: "Rossma G.",
+        rating: 5,
+        date: "Oktober 2021",
+        text: "Beautiful place, <em>delicious desserts</em>, very good coffee and, as important as the rest, the attention makes you feel VIP. Absolut empfehlenswert für alle Macaron-Liebhaber!"
+      },
+      {
+        name: "Alessandro F.",
+        rating: 4,
+        date: "Februar 2024",
+        text: "Tolle Auswahl an Macarons und besonders die <em>Bärchen-Macarons mit Beeren-Füllung</em> sind fantastisch. Ein echtes Highlight in Hamburg — man merkt die Liebe zum Detail bei jedem Stück."
+      }
+    ]
+  };
+
+  /* ================================================================
+     RENDERING
+     ================================================================ */
+
+  function starSVG(filled) {
+    const fill = filled ? "#C9A24B" : "#E0D4BC";
+    return '<svg viewBox="0 0 20 20"><path fill="' + fill + '" d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z"/></svg>';
+  }
+
+  function starsHTML(n, cls) {
+    var s = '<div class="pr-stars' + (cls ? " " + cls : "") + '" aria-label="' + n + ' von 5 Sternen">';
+    for (var i = 0; i < 5; i++) s += starSVG(i < Math.round(n));
+    return s + "</div>";
+  }
+
+  function initials(name) {
+    return name.split(" ").map(function (w) { return w[0]; }).join("").toUpperCase();
+  }
+
+  function renderCard(r) {
+    return '<article class="pr-card">' +
+      '<div class="pr-card__head">' +
+        '<div class="pr-card__avatar">' + initials(r.name) + '</div>' +
+        '<div class="pr-card__meta">' +
+          '<p class="pr-card__name">' + r.name + '</p>' +
+          '<p class="pr-card__date">' + r.date + '</p>' +
+        '</div>' +
+      '</div>' +
+      starsHTML(r.rating, "pr-stars--sm") +
+      '<p class="pr-card__text">' + r.text + '</p>' +
+    '</article>';
+  }
+
+  // Header stars
+  var starsEl = document.getElementById("prStars");
+  if (starsEl) starsEl.innerHTML = starsHTML(PLACE_DATA.rating).replace('<div class="pr-stars"', '<span').replace("</div>", "</span>");
+
+  // Rating number
+  var ratingEl = document.getElementById("prRating");
+  if (ratingEl) ratingEl.textContent = PLACE_DATA.rating.toFixed(1).replace(".", ",");
+
+  // Count
+  var countEl = document.getElementById("prCount");
+  if (countEl) countEl.textContent = "basierend auf " + PLACE_DATA.totalReviews + " Google-Bewertungen";
+
+  // Grid
+  var grid = document.getElementById("prGrid");
+  if (grid) grid.innerHTML = PLACE_DATA.reviews.map(renderCard).join("");
+
+})();
+</script>
+<!-- WIDGET END -->
