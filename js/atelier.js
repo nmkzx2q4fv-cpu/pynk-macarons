@@ -1,0 +1,591 @@
+/* ============================================================
+   Pynk Atelier — Occasion routing + physics box builder
+   ------------------------------------------------------------
+   Architektur: strikt getrennt in
+     DATA   → MACARONS[], OCCASIONS{}   (frei erweiterbar)
+     LOGIC  → State + Rendering + Physik
+     UI     → atelier.html / atelier.css
+   Nutzt globale Helfer aus app.js: addToCart, toast, EUR,
+   reduceMotion, openDrawer
+   ============================================================ */
+(function () {
+  "use strict";
+
+  /* ============================================================
+     1) DATA — MACARON-SORTEN  (nur freigestellte .png!)
+        Neue Sorte = transparentes PNG in /img + ein Objekt hier.
+     ============================================================ */
+  const MACARONS = [
+    { id: "erdbeere",  name: "Erdbeere-Rose",      flavour: "erdbeere",  color: "#EF7DA0", price: 2.90, img: "img/macaron-pink.webp",   sensory: "zartschmelzend, blütenzart", occasions: ["hochzeit", "babyparty", "geschenk", "self"] },
+    { id: "vanille",   name: "Vanille-Mascarpone", flavour: "vanille",   color: "#EBD9B4", price: 2.90, img: "img/mac-cream.webp",      sensory: "cremig, samtig",             occasions: ["hochzeit", "firma", "babyparty", "self"] },
+    { id: "limette",   name: "Limette-Minze",      flavour: "limette",   color: "#7FD08C", price: 2.90, img: "img/mac-limette.webp",    sensory: "frisch, spritzig",           occasions: ["self", "firma", "geschenk"] },
+    { id: "schoko",    name: "Dunkle Schokolade",  flavour: "schokolade",color: "#9A6B4F", price: 2.90, img: "img/mac-schokolade.webp", sensory: "intensiv, seidig",           occasions: ["firma", "self", "geschenk"] },
+    { id: "kokos",     name: "Kokos-Traum",        flavour: "kokos",     color: "#A9E0D2", price: 2.90, img: "img/mac-kokos.webp",      sensory: "exotisch, sahnig",           occasions: ["babyparty", "hochzeit", "self"] },
+    { id: "wildberry", name: "Wild Berry",         flavour: "wildberry", color: "#C86FA8", price: 2.90, img: "img/mac-wildberry.webp",  sensory: "fruchtig, lebhaft",          occasions: ["geschenk", "babyparty", "self"] },
+    { id: "cookies",   name: "Cookies & Cream",    flavour: "cookies",   color: "#9C9690", price: 2.90, img: "img/mac-cookies.webp",    sensory: "knusprig, verspielt",        occasions: ["self", "firma", "geschenk"] },
+    { id: "baer",      name: "Pistazien-Bärchen",  flavour: "pistazie",  color: "#A9C77A", price: 3.90, img: "img/bear-green.webp",     sensory: "nussig, zum Knuddeln",       occasions: ["babyparty", "geschenk", "self"] }
+  ];
+
+  /* ============================================================
+     2) DATA — ANLÄSSE (Theming + Copy + Priorisierung)
+     ============================================================ */
+  const OCCASIONS = {
+    hochzeit:  { label: "Hochzeit",              cardSub: "Elegant in Weiß, Gold & Rosé", img: "img/hero-tower.jpg",   eyebrow: "Hochzeit",       title: "Ein Meisterwerk für euren großen Tag", lead: "Edle Töne, handbepinselte Schalen – abgestimmt auf Weiß, Gold und zartes Rosé.",         counterNoun: "Hochzeits-Macarons", magic: "Magic Fill für die Hochzeit",  priority: ["erdbeere", "vanille", "kokos"] },
+    babyparty: { label: "Babyparty & Reveal",    cardSub: "Zartes Pastell & süße Bärchen", img: "img/bear-hero.jpg",    eyebrow: "Babyparty",      title: "Süße Überraschung in Pastell",         lead: "Zarte Pastelltöne und kuschelige Bärchen – perfekt zum Verraten oder Feiern.",            counterNoun: "Babyparty-Macarons", magic: "Magic Fill für die Babyparty", priority: ["baer", "kokos", "erdbeere", "vanille"] },
+    firma:     { label: "Firmen-Events",         cardSub: "Logo-Druck & Corporate",        img: "img/b2b-meta.jpg",     eyebrow: "Firmen-Events",  title: "Markenmomente zum Vernaschen",         lead: "Edle, gedeckte Sorten – auf Wunsch mit eurem Logo essbar veredelt.",                       counterNoun: "Firmen-Macarons",    magic: "Magic Fill fürs Büro",         priority: ["vanille", "schoko", "cookies", "limette"] },
+    geschenk:  { label: "Geschenk & Geburtstag", cardSub: "Bunte Freude zum Schenken",     img: "img/gift-luxe.jpg",    eyebrow: "Geschenk",       title: "Ein Geschenk, das zergeht",            lead: "Bunt, fröhlich, unvergesslich – die schönste Art, Danke oder Happy Birthday zu sagen.",   counterNoun: "Geschenk-Macarons",  magic: "Magic Fill als Geschenk",      priority: ["wildberry", "erdbeere", "schoko", "baer"] },
+    self:      { label: "Just for me",           cardSub: "Ein Moment nur für dich",       img: "img/dessert-berry.jpg",eyebrow: "Just for me",    title: "Gönn dir ein kleines Meisterwerk",     lead: "Kein Anlass nötig. Such dir aus, was zartschmelzend deinen Tag rettet.",                   counterNoun: "Lieblings-Macarons", magic: "Überrasch mich",               priority: ["cookies", "schoko", "wildberry"] }
+  };
+  const BOX_PRICE = { 6: 18, 12: 34 };
+
+  /* ============================================================
+     3) STATE
+     ============================================================ */
+  const RM = (typeof reduceMotion !== "undefined") ? reduceMotion : matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const qs = (s, r = document) => r.querySelector(s);
+  const qsa = (s, r = document) => [...r.querySelectorAll(s)];
+  const byId = id => MACARONS.find(m => m.id === id);
+  const shuffle = a => { const x = a.slice(); for (let i = x.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0;[x[i], x[j]] = [x[j], x[i]]; } return x; };
+
+  const state = { occasion: "self", size: 6, slots: new Array(6).fill(null) };
+
+  /* ============================================================
+     4) OCCASION OVERLAY + THEMING
+     ============================================================ */
+  function buildOccasionCards() {
+    const grid = qs("#occGrid");
+    if (!grid) return;
+    grid.innerHTML = Object.entries(OCCASIONS).map(([id, o], i) => `
+      <button class="occ-card" data-occ="${id}" type="button" style="animation-delay:${0.15 + i * 0.08}s" aria-label="${o.label}">
+        <img src="${o.img}" alt="" loading="lazy">
+        <span class="occ-card__body"><h3>${o.label}</h3><span>${o.cardSub}</span></span>
+      </button>`).join("");
+  }
+
+  function applyOccasion(id) {
+    const o = OCCASIONS[id] || OCCASIONS.self;
+    state.occasion = id;
+    const root = qs("#atelier");
+    root.dataset.occasion = id;
+    qs("#atEyebrow").textContent = o.eyebrow;
+    qs("#atTitle").innerHTML = o.title;
+    qs("#atLead").textContent = o.lead;
+    qs("#magicLabel").textContent = o.magic;
+    renderGrid();
+    afterChange();
+  }
+
+  function openExperience(id) {
+    applyOccasion(id);
+    const main = qs("#atelier");
+    main.hidden = false;
+    const overlay = qs("#occOverlay");
+    overlay.classList.add("is-closing");
+    setTimeout(() => { overlay.style.display = "none"; }, RM ? 0 : 460);
+  }
+
+  function reopenOverlay() {
+    const overlay = qs("#occOverlay");
+    overlay.style.display = "";
+    overlay.classList.remove("is-closing");
+  }
+
+  /* ============================================================
+     5) MACARON GRID (occasion-priorisiert)
+     ============================================================ */
+  function sortedForOccasion() {
+    const o = OCCASIONS[state.occasion];
+    const prio = o.priority || [];
+    return MACARONS.slice().sort((a, b) => {
+      const am = a.occasions.includes(state.occasion), bm = b.occasions.includes(state.occasion);
+      if (am !== bm) return am ? -1 : 1;             // matching first
+      const ap = prio.indexOf(a.id), bp = prio.indexOf(b.id);
+      return (ap === -1 ? 99 : ap) - (bp === -1 ? 99 : bp); // then by priority list
+    });
+  }
+
+  function renderGrid() {
+    const grid = qs("#macGrid");
+    if (!grid) return;
+    const o = OCCASIONS[state.occasion];
+    grid.innerHTML = sortedForOccasion().map(m => {
+      const match = m.occasions.includes(state.occasion) && state.occasion !== "self";
+      return `
+      <button class="macaron-item${match ? " is-match" : ""}" data-id="${m.id}" type="button" aria-label="${m.name} zur Box hinzufügen">
+        <span class="macaron-item__match">Passt zu ${o.eyebrow}</span>
+        <img class="macaron-item__img" src="${m.img}" alt="${m.name}" loading="lazy">
+        <span class="macaron-item__name">${m.name}</span>
+        <span class="macaron-item__sensory">${m.sensory}</span>
+        <span class="macaron-item__plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>`;
+    }).join("");
+  }
+
+  /* ============================================================
+     6) BOX — slots, physics toss, counter, reward
+     ============================================================ */
+  function renderSlots() {
+    const wrap = qs("#pboxSlots");
+    if (!wrap) return;
+    wrap.style.gridTemplateColumns = `repeat(${state.size === 6 ? 3 : 4}, 1fr)`;
+    wrap.innerHTML = "";
+    for (let i = 0; i < state.size; i++) {
+      const slot = document.createElement("div");
+      slot.className = "pslot"; slot.dataset.idx = i;
+      const m = state.slots[i] && byId(state.slots[i]);
+      if (m) slot.innerHTML = `<img class="pslot__mac" src="${m.img}" alt="${m.name}" title="${m.name} – entfernen">`;
+      wrap.appendChild(slot);
+    }
+  }
+
+  function nextFree() { return state.slots.indexOf(null); }
+
+  // Render a placed macaron PNG into a slot (idempotent click-to-remove bind)
+  function renderSlotImg(slot, macId, pop) {
+    const m = byId(macId);
+    slot.innerHTML = `<img class="pslot__mac${pop ? " placed" : ""}" src="${m.img}" alt="${m.name}" title="${m.name} – entfernen">`;
+    const img = slot.querySelector(".pslot__mac");
+    img._wired = true;
+    img.addEventListener("click", () => removeFromBox(+slot.dataset.idx));
+  }
+
+  // 7-keyframe WAA parabola: launch-decel → apex-float → gravity-accel → impact-squash → bounce → settle → rest.
+  // Placement is synchronous (see placeInSlot); flight is pure decorative flourish.
+  function flightTo(srcRect, slot, macId, onLand) {
+    const m = byId(macId);
+    const t = slot.getBoundingClientRect();
+    const size = t.width * 0.92;
+    const sx = srcRect.left + srcRect.width / 2 - size / 2;
+    const sy = srcRect.top + srcRect.height / 2 - size / 2;
+    const ex = t.left + t.width / 2 - size / 2;
+    const ey = t.top + t.height / 2 - size / 2;
+    const dx = ex - sx;
+    const apexX = sx + dx * 0.45 + (Math.random() * 30 - 15);
+    const apexY = Math.min(sy, ey) - Math.max(120, Math.abs(ey - sy) * 0.55);
+    const ratio = Math.min(srcRect.width / size, 1.5);
+    const spin = +(Math.random() * 40 - 20).toFixed(1);
+    const tilt = +(Math.random() * 6 - 3).toFixed(1);
+
+    const clone = document.createElement("img");
+    clone.className = "flight"; clone.src = m.img; clone.alt = "";
+    clone.style.width = size + "px"; clone.style.left = "0"; clone.style.top = "0";
+    qs("#flightLayer").appendChild(clone);
+
+    let settled = false;
+    const dur = 820 + (Math.random() * 100 | 0);
+    const finish = () => {
+      if (settled) return; settled = true; clone.remove();
+      slot.classList.add("is-impacted");
+      setTimeout(() => slot.classList.remove("is-impacted"), 420);
+      if (onLand) onLand();
+    };
+    clone.animate([
+      { transform: `translate(${sx}px,${sy}px) scale(${ratio}) rotate(0deg)`,
+        offset: 0, easing: "cubic-bezier(.18,.89,.32,1)" },
+      { transform: `translate(${apexX}px,${apexY}px) scale(1) rotate(${spin * 0.5}deg)`,
+        offset: 0.36, easing: "cubic-bezier(.55,.055,.675,.19)" },
+      { transform: `translate(${ex}px,${ey - 6}px) scale(1.01) rotate(${spin}deg)`,
+        offset: 0.72, easing: "linear" },
+      { transform: `translate(${ex}px,${ey + 2}px) scaleX(1.12) scaleY(0.88) rotate(${tilt}deg)`,
+        offset: 0.79 },
+      { transform: `translate(${ex}px,${ey - 4}px) scaleX(0.97) scaleY(1.04) rotate(${tilt * 0.4}deg)`,
+        offset: 0.88, easing: "cubic-bezier(.25,.46,.45,.94)" },
+      { transform: `translate(${ex}px,${ey + 1}px) scaleX(1.02) scaleY(0.98) rotate(${tilt * 0.15}deg)`,
+        offset: 0.94 },
+      { transform: `translate(${ex}px,${ey}px) scale(1) rotate(0deg)`,
+        offset: 1.0 }
+    ], { duration: dur, fill: "both" }).onfinish = finish;
+    setTimeout(finish, dur + 80);
+  }
+
+  // Render the macaron into its (already reserved) slot instantly, then fly a
+  // decorative clone on top. Placement NEVER waits on a timer/animation.
+  function placeInSlot(slotIdx, macId, srcRect) {
+    const slot = qs(`.pslot[data-idx="${slotIdx}"]`);
+    if (!slot) return;
+    renderSlotImg(slot, macId, true);
+    const visible = slot.offsetParent !== null;
+    if (!RM && srcRect && !document.hidden && visible) flightTo(srcRect, slot, macId);
+  }
+
+  function addToBox(macId, sourceEl) {
+    const idx = nextFree();
+    if (idx === -1) { if (typeof toast === "function") toast(`Deine ${state.size}er-Box ist voll`); return false; }
+    state.slots[idx] = macId;                 // reserve synchronously → counter/reward correct now
+    placeInSlot(idx, macId, sourceEl ? sourceEl.getBoundingClientRect() : null);
+    afterChange();
+    return true;
+  }
+
+  function removeFromBox(idx) {
+    const slot = qs(`.pslot[data-idx="${idx}"]`);
+    const macId = state.slots[idx];
+    if (macId == null) return;
+    const img = slot && slot.querySelector(".pslot__mac");
+    state.slots[idx] = null;
+    if (!RM && img && !document.hidden) {
+      const r = img.getBoundingClientRect();
+      const drift = (Math.random() * 60 - 30).toFixed(1);
+      const spin = (Math.random() * 90 - 45).toFixed(1);
+      const c = document.createElement("img");
+      c.className = "flight"; c.src = byId(macId).img; c.alt = "";
+      c.style.width = r.width + "px"; c.style.left = "0"; c.style.top = "0";
+      qs("#flightLayer").appendChild(c);
+      let s = false; const fin = () => { if (s) return; s = true; c.remove(); };
+      c.animate([
+        { transform: `translate(${r.left}px,${r.top}px) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
+        { transform: `translate(${r.left}px,${r.top - 12}px) scaleX(0.94) scaleY(1.08) rotate(0deg)`, opacity: 1, offset: 0.15 },
+        { transform: `translate(${r.left + +drift}px,${r.top + 200}px) scale(0.7) rotate(${spin}deg)`, opacity: 0, offset: 1 }
+      ], { duration: 420, easing: "cubic-bezier(.4,.0,.9,.4)", fill: "both" }).onfinish = fin;
+      setTimeout(fin, 500);
+    }
+    if (slot) slot.innerHTML = "";
+    afterChange();
+  }
+
+  function magicFill() {
+    let pool = MACARONS.filter(m => m.occasions.includes(state.occasion)).map(m => m.id);
+    if (!pool.length) pool = MACARONS.map(m => m.id);
+    const ordered = shuffle(pool);
+    const empties = state.slots.map((v, i) => v === null ? i : -1).filter(i => i !== -1);
+    const boxRect = qs("#pbox").getBoundingClientRect();
+    empties.forEach((slotIdx, k) => {
+      const macId = ordered[k % ordered.length];
+      state.slots[slotIdx] = macId;
+      const slot = qs(`.pslot[data-idx="${slotIdx}"]`);
+      if (slot) renderSlotImg(slot, macId, true);
+      if (!RM && !document.hidden) {
+        const delay = k * 105 + (Math.random() * 45 | 0);
+        setTimeout(() => {
+          const spread = boxRect.width * 1.2;
+          const rainRect = {
+            left: boxRect.left - spread * 0.1 + Math.random() * spread,
+            top: -90 - (Math.random() * 120 | 0),
+            width: 60, height: 60
+          };
+          flightTo(rainRect, slot, macId);
+        }, delay);
+      }
+    });
+    afterChange();
+  }
+
+  function reroll() {
+    const filled = state.slots.map((v, i) => v !== null ? i : -1).filter(i => i !== -1);
+    if (!filled.length) { magicFill(); return; }
+    filled.forEach((idx, k) => setTimeout(() => removeFromBox(idx), k * 65));
+    setTimeout(magicFill, filled.length * 65 + 280);
+  }
+
+  function clearBox() {
+    const filled = state.slots.map((v, i) => v !== null ? i : -1).filter(i => i !== -1);
+    filled.forEach((idx, k) => setTimeout(() => removeFromBox(idx), k * 55));
+  }
+
+  /* counter + reward */
+  function updateCounter() {
+    const o = OCCASIONS[state.occasion];
+    const filled = state.slots.filter(Boolean).length;
+    const free = state.size - filled;
+    const el = qs("#boxCounter");
+    if (el) el.innerHTML = free > 0
+      ? `Noch <strong>${free}</strong> ${free === 1 ? "Platz" : "Plätze"} frei für deine ${o.counterNoun}`
+      : `Deine ${o.counterNoun}-Box ist komplett ✨`;
+  }
+
+  function afterChange() {
+    renderSlotsLight();
+    updateCounter();
+    const filled = state.slots.filter(Boolean).length;
+    const full = filled === state.size;
+    const pbox = qs("#pbox");
+    const checkout = qs("#boxCheckout");
+    pbox.classList.toggle("is-full", full);
+    if (checkout) {
+      checkout.disabled = filled === 0;
+      checkout.classList.toggle("ready", full);
+      checkout.textContent = filled === 0 ? "Box füllen, um fortzufahren"
+        : full ? `Zur Kasse · ${EUR(BOX_PRICE[state.size])}`
+        : `Weiter mit ${filled} Macaron${filled === 1 ? "" : "s"}`;
+    }
+    const magicLabel = qs("#magicLabel");
+    if (magicLabel) {
+      if (full) magicLabel.textContent = "Neu Mischen ↻";
+      else magicLabel.textContent = (OCCASIONS[state.occasion] || OCCASIONS.self).magic;
+    }
+    updateTracker(filled, full);
+    updateMobileBar(filled, full);
+  }
+
+  /* ============================================================
+     LIVE TRACKER (only if #boxTracker exists in DOM)
+     ============================================================ */
+  let _prevTrackerKeys = "";
+  function updateTracker(filled, full) {
+    const list = qs("#trackerList");
+    if (!list) return;
+    const countEl = qs("#trackerCount");
+    const priceEl = qs("#trackerPrice");
+    if (countEl) countEl.textContent = `${filled} / ${state.size}`;
+    if (priceEl) priceEl.textContent = filled > 0 ? EUR(BOX_PRICE[state.size]) : "0,00 €";
+
+    const counts = {};
+    state.slots.forEach(id => { if (id) counts[id] = (counts[id] || 0) + 1; });
+    const keys = Object.entries(counts).map(([k, v]) => k + v).join(",");
+    const changed = keys !== _prevTrackerKeys;
+    _prevTrackerKeys = keys;
+
+    if (!Object.keys(counts).length) {
+      list.innerHTML = '<li class="box-tracker__empty">Noch leer – tippe eine Sorte an</li>';
+      return;
+    }
+    list.innerHTML = Object.entries(counts).map(([id, qty]) => {
+      const m = byId(id);
+      return `<li class="box-tracker__item${changed ? " is-new" : ""}" style="--dot:${m.color}">
+        <span class="box-tracker__dot" style="background:${m.color}"></span>
+        <span class="box-tracker__name">${m.name}</span>
+        <span class="box-tracker__qty">${qty}×</span>
+      </li>`;
+    }).join("");
+    if (changed) {
+      setTimeout(() => qsa(".box-tracker__item.is-new", list).forEach(el => el.classList.remove("is-new")), 520);
+    }
+  }
+
+  /* ============================================================
+     MOBILE STICKY BAR (only if #mobileBar exists in DOM)
+     ============================================================ */
+  function initMobileBar() {
+    const bar = qs("#mobileBar");
+    if (!bar) return;
+    const expandBtn = qs("#mobileExpand", bar);
+    const magicBtn = qs("#mobileMagic", bar);
+    const clearBtn = qs("#mobileClear", bar);
+    const mCheckout = qs("#mobileCheckout", bar);
+
+    // --- inject M3 modal-bottom-sheet chrome: scrim + drag handle ---
+    let scrim = qs(".sheet-scrim");
+    if (!scrim) {
+      scrim = document.createElement("div");
+      scrim.className = "sheet-scrim";
+      document.body.appendChild(scrim);
+    }
+    let handle = qs(".mobile-bar__handle", bar);
+    if (!handle) {
+      handle = document.createElement("button");
+      handle.type = "button";
+      handle.className = "mobile-bar__handle";
+      handle.setAttribute("aria-label", "Auswahl-Übersicht öffnen oder schließen");
+      bar.insertBefore(handle, bar.firstChild);
+    }
+    bar.setAttribute("role", "dialog");
+    bar.setAttribute("aria-label", "Deine Box-Auswahl");
+
+    let savedOverflow = "";
+    const isOpen = () => bar.classList.contains("is-expanded");
+    function openSheet() {
+      if (isOpen()) return;
+      bar.classList.add("is-expanded");
+      document.body.classList.add("is-sheet-open");
+      bar.setAttribute("aria-modal", "true");
+      expandBtn && expandBtn.setAttribute("aria-expanded", "true");
+      savedOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";   // scroll-lock behind sheet
+    }
+    function closeSheet() {
+      if (!isOpen()) return;
+      bar.classList.remove("is-expanded");
+      document.body.classList.remove("is-sheet-open");
+      bar.removeAttribute("aria-modal");
+      bar.style.removeProperty("--sheet-drag");
+      expandBtn && expandBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = savedOverflow;
+    }
+    const toggleSheet = () => (isOpen() ? closeSheet() : openSheet());
+
+    if (expandBtn) { expandBtn.setAttribute("aria-expanded", "false"); expandBtn.addEventListener("click", toggleSheet); }
+    handle.addEventListener("click", toggleSheet);
+    scrim.addEventListener("click", closeSheet);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+
+    if (magicBtn) magicBtn.addEventListener("click", () => {
+      state.slots.filter(Boolean).length === state.size ? reroll() : magicFill();
+    });
+    if (clearBtn) clearBtn.addEventListener("click", clearBox);
+    if (mCheckout) mCheckout.addEventListener("click", checkout);
+
+    // --- drag-to-dismiss on the handle (touch + pointer) ---
+    let startY = 0, dy = 0, dragging = false;
+    handle.addEventListener("pointerdown", e => {
+      if (RM) return;
+      dragging = true; startY = e.clientY; dy = 0;
+      if (!isOpen()) openSheet();            // grabbing the peek bar opens it
+      bar.classList.add("is-dragging");
+      bar.style.willChange = "transform";
+      handle.setPointerCapture && handle.setPointerCapture(e.pointerId);
+    });
+    handle.addEventListener("pointermove", e => {
+      if (!dragging) return;
+      dy = Math.max(0, e.clientY - startY);  // downward only
+      bar.style.setProperty("--sheet-drag", dy + "px");
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      bar.classList.remove("is-dragging");
+      bar.style.willChange = "";             // free GPU memory after drag
+      if (dy > 90) closeSheet();             // past threshold → dismiss
+      else bar.style.removeProperty("--sheet-drag"); // snap back
+    };
+    handle.addEventListener("pointerup", endDrag);
+    handle.addEventListener("pointercancel", endDrag);
+
+    renderMobileSlots();
+  }
+
+  function renderMobileSlots() {
+    const slotsWrap = qs("#mobileSlots");
+    if (!slotsWrap) return;
+    slotsWrap.innerHTML = "";
+    for (let i = 0; i < state.size; i++) {
+      const dot = document.createElement("div");
+      dot.className = "mobile-bar__slot";
+      dot.dataset.idx = i;
+      slotsWrap.appendChild(dot);
+    }
+  }
+
+  function updateMobileBar(filled, full) {
+    const bar = qs("#mobileBar");
+    if (!bar) return;
+    const countEl = qs("#mobileCount", bar);
+    const priceEl = qs("#mobilePrice", bar);
+    const mCheckout = qs("#mobileCheckout", bar);
+    const trackerList = qs("#mobileTrackerList", bar);
+
+    if (countEl) countEl.textContent = `${filled} / ${state.size}`;
+    if (priceEl) priceEl.textContent = filled > 0 ? EUR(BOX_PRICE[state.size]) : "0,00 €";
+
+    qsa(".mobile-bar__slot", bar).forEach((dot, i) => {
+      const macId = state.slots[i];
+      const wasFilled = dot.classList.contains("is-filled");
+      if (macId) {
+        dot.style.background = byId(macId).color;
+        dot.classList.add("is-filled");
+        if (!wasFilled) { dot.classList.add("is-new"); setTimeout(() => dot.classList.remove("is-new"), 380); }
+      } else {
+        dot.style.background = "";
+        dot.classList.remove("is-filled");
+      }
+    });
+
+    if (mCheckout) {
+      mCheckout.disabled = filled === 0;
+      mCheckout.classList.toggle("ready", full);
+      mCheckout.textContent = filled === 0 ? "Box füllen, um fortzufahren"
+        : full ? `Zur Kasse · ${EUR(BOX_PRICE[state.size])}`
+        : `Weiter mit ${filled} Macaron${filled === 1 ? "" : "s"}`;
+    }
+
+    if (trackerList) {
+      const counts = {};
+      state.slots.forEach(id => { if (id) counts[id] = (counts[id] || 0) + 1; });
+      if (!Object.keys(counts).length) {
+        trackerList.innerHTML = '<li class="box-tracker__empty">Noch leer</li>';
+      } else {
+        trackerList.innerHTML = Object.entries(counts).map(([id, qty]) => {
+          const m = byId(id);
+          return `<li class="box-tracker__item"><span class="box-tracker__dot" style="background:${m.color}"></span><span class="box-tracker__name">${m.name}</span><span class="box-tracker__qty">${qty}×</span></li>`;
+        }).join("");
+      }
+    }
+  }
+
+  // (re)bind click-to-remove on placed macarons (idempotent)
+  function renderSlotsLight() {
+    qsa("#pboxSlots .pslot").forEach(slot => {
+      const idx = +slot.dataset.idx;
+      const img = slot.querySelector(".pslot__mac");
+      if (img && !img._wired) {
+        img._wired = true;
+        img.addEventListener("click", () => removeFromBox(idx));
+      }
+    });
+  }
+
+  function setSize(n) {
+    state.size = n;
+    const old = state.slots;
+    state.slots = new Array(n).fill(null);
+    for (let i = 0; i < Math.min(n, old.length); i++) state.slots[i] = old[i];
+    renderSlots(); renderMobileSlots(); renderSlotsLight(); afterChange();
+  }
+
+  /* checkout */
+  function checkout() {
+    const filled = state.slots.filter(Boolean);
+    if (!filled.length) return;
+    const o = OCCASIONS[state.occasion];
+    const counts = {};
+    filled.forEach(id => { const n = byId(id).name; counts[n] = (counts[n] || 0) + 1; });
+    const meta = `${o.label} · ` + Object.entries(counts).map(([n, c]) => `${c}× ${n}`).join(", ");
+    if (typeof addToCart === "function") {
+      addToCart({ key: "atelier-" + Date.now(), name: `${state.size}er Box · ${o.label}`, meta, price: BOX_PRICE[state.size], thumb: `<img src="img/macaron-pink.webp" alt="">` });
+      if (typeof toast === "function") toast("Box in den Warenkorb gelegt");
+      if (typeof window.openDrawer === "function") window.openDrawer();
+    }
+  }
+
+  /* ============================================================
+     7) WIRING
+     ============================================================ */
+  function wire() {
+    buildOccasionCards();
+
+    // occasion choose (overlay cards + skip)
+    document.addEventListener("click", e => {
+      const occ = e.target.closest("[data-occ]");
+      if (occ && qs("#occOverlay").contains(occ)) openExperience(occ.dataset.occ);
+    });
+    qs("#occChange").addEventListener("click", reopenOverlay);
+
+    // grid → add to box
+    qs("#macGrid").addEventListener("click", e => {
+      const item = e.target.closest(".macaron-item");
+      if (!item) return;
+      addToBox(item.dataset.id, item.querySelector(".macaron-item__img"));
+    });
+
+    // size toggle
+    qsa(".box-size button").forEach(b => b.addEventListener("click", () => {
+      qsa(".box-size button").forEach(x => { x.classList.remove("is-active"); x.setAttribute("aria-checked", "false"); });
+      b.classList.add("is-active"); b.setAttribute("aria-checked", "true");
+      setSize(+b.dataset.size);
+    }));
+
+    qs("#magicFill").addEventListener("click", () => {
+      state.slots.filter(Boolean).length === state.size ? reroll() : magicFill();
+    });
+    qs("#boxClear").addEventListener("click", clearBox);
+    qs("#boxCheckout").addEventListener("click", checkout);
+
+    // initial render
+    renderSlots();
+    initMobileBar();
+    applyOccasion(state.occasion);
+
+    // deep-link: atelier.html?occ=hochzeit → direkt in den Anlass starten (Overlay überspringen)
+    const occParam = new URLSearchParams(location.search).get("occ");
+    if (occParam && OCCASIONS[occParam]) openExperience(occParam);
+
+    // optional smooth scroll
+    if (!RM && window.Lenis) {
+      const lenis = new window.Lenis({ lerp: .1 });
+      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
+  else wire();
+})();

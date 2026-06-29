@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Shop · Pynk Macarons</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="img/Firmenlogo.jpg" />
+  <link rel="apple-touch-icon" href="img/Firmenlogo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#D81277" />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://macaronbypynk.de/shop.html" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Macarons by Pynk" />
+  <meta property="og:title" content="Shop · Pynk Macarons" />
+  <meta property="og:description" content="Über 20 Macaron-Sorten, Bärchen-Macarons, Törtchen und Geschenkboxen online bestellen. Oder bau dir deine eigene Box." />
+  <meta property="og:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta property="og:url" content="https://macaronbypynk.de/shop.html" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Shop · Pynk Macarons" />
+  <meta name="twitter:description" content="Über 20 Macaron-Sorten, Bärchen-Macarons, Törtchen und Geschenkboxen online bestellen. Oder bau dir deine eigene Box." />
+  <meta name="twitter:image" content="https://macaronbypynk.de/img/Firmenlogo.jpg" />
+  <meta name="description" content="Über 20 Macaron-Sorten, Bärchen-Macarons, Törtchen und Geschenkboxen online bestellen. Oder bau dir deine eigene Box." />
+  <link rel="stylesheet" href="fonts/fonts.css" />
+  <link rel="stylesheet" href="styles/m3-tokens.min.css?v=20260628d" />
+  <link rel="stylesheet" href="styles/main.min.css?v=20260628d" />
+</head>
+<body data-page="shop">
+  <a class="skip-link" href="#sortiment">Zum Sortiment springen</a>
+
+  <header class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--plain" style="justify-content:center">Frisch gebacken</p>
+      <h1 class="h2">Unser Sortiment</h1>
+      <p class="lead">Jede Sorte als 15er-Box, fertige Mischboxen oder deine eigene Mischung – alles frisch aus Hamburg.</p>
+    </div>
+  </header>
+
+  <!-- PYNK MYSTERY BOX -->
+  <section class="section section--blush" id="mystery">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Schnell &amp; bunt</p>
+        <h2 class="h2">Fertige Mischboxen</h2>
+        <p class="lead">Bunt gemischt von uns – die schnellste Art zum Genießen oder Verschenken. Oder stell dir unten deine eigene Box zusammen.</p>
+      </div>
+      <div class="mystery-grid">
+        <article class="mystery-card reveal">
+          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mischbox mit 6 Macarons" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mischbox · 6er</h3>
+            <p>6 bunt gemischte Macarons</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">14,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="14" type="button">In den Warenkorb</button>
+            </div>
+          </div>
+        </article>
+        <article class="mystery-card is-featured reveal">
+          <span class="mystery-card__badge">Bestseller</span>
+          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mischbox mit 12 Macarons" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mischbox · 12er</h3>
+            <p>12 bunt gemischte Macarons</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">26,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="26" type="button">In den Warenkorb</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SORTIMENT -->
+  <section class="section section--tight" id="sortiment">
+    <div class="wrap">
+      <div class="toolbar" role="tablist" aria-label="Sortiment filtern">
+        <button class="filter is-active" role="tab" aria-selected="true" data-filter="all">Alle</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="box" id="boxen">15er-Boxen</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Extras</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="gutschein" id="gutschein">Gutschein</button>
+      </div>
+      <div class="grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <!-- BOX BUILDER -->
+  <section class="section section--blush" id="box">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Deine Mischbox</p>
+        <h2 class="h2">Stell dir deine Box zusammen</h2>
+        <p class="lead">Wähle eine Größe und füll deine Box mit jeder Sorte, die du magst. Perfekt zum Verschenken.</p>
+      </div>
+      <div class="builder">
+        <div class="builder__panel reveal">
+          <div class="sizes" role="radiogroup" aria-label="Boxgröße wählen">
+            <button class="size is-active" role="radio" aria-checked="true" data-size="6">
+              <span class="size__count">6er</span><span class="size__price">14 €</span></button>
+            <button class="size" role="radio" aria-checked="false" data-size="12">
+              <span class="size__count">12er</span><span class="size__price">26 €</span></button>
+          </div>
+          <p class="hint">Tippe eine Sorte an, um sie in die Box zu legen. Zum Entfernen tippe auf den Macaron in der Box.</p>
+          <div class="palette" id="palette" aria-label="Sorten zum Hinzufügen"></div>
+        </div>
+        <div class="boxside reveal">
+          <div class="pinkbox" id="pinkbox" aria-label="Deine Box">
+            <div class="pinkbox__lid"><span class="pinkbox__brand">Pynk <em>Macaron</em></span></div>
+            <div class="boxslots" id="boxSlots" role="status" aria-live="polite"></div>
+          </div>
+          <div class="boxfoot">
+            <p class="boxfoot__count"><span id="boxCount">0</span> / <span id="boxMax">6</span> gefüllt</p>
+            <button class="btn btn--primary" id="addBoxBtn" disabled>Box in den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.min.js?v=20260628d"></script>
+  <script>
+    // deep-link category filter (#boxen / #gutschein)
+    (function(){
+      var h=location.hash.replace('#','');
+      var map={boxen:'box',gutschein:'gutschein'};
+      if(map[h]){ var b=document.querySelector('.filter[data-filter="'+map[h]+'"]'); if(b){ b.click(); document.getElementById('sortiment').scrollIntoView(); } }
+    })();
+  </script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/gsap-premium.min.js?v=20260628d" defer></script>
+</body>
+</html>

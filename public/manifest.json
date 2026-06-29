@@ -1,0 +1,17 @@
+{
+  "name": "Macarons by Pynk",
+  "short_name": "Pynk",
+  "description": "Handgemachte Macarons aus Hamburg – online bestellen oder im Café genießen.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FBF6F0",
+  "theme_color": "#D81277",
+  "icons": [
+    {
+      "src": "img/Firmenlogo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
