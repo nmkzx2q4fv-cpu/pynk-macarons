@@ -270,17 +270,6 @@ function injectChrome(){
         }).join("")}
       </nav>
       <div class="nav__actions">
-        <div class="cafe-pin" id="cafePin">
-          <button class="nav__icon" id="cafePinBtn" aria-label="Café-Infos: Adresse & Öffnungszeiten" aria-expanded="false" aria-haspopup="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-          </button>
-          <div class="cafe-pop" id="cafePop" hidden role="dialog" aria-label="Café-Infos">
-            <strong>Macaron by Pynk</strong>
-            <p>${CONFIG.address}</p>
-            <p>${CONFIG.hours}</p>
-            <a class="btn btn--primary btn--sm btn--block" href="cafe.html">Zum Café &amp; Route</a>
-          </div>
-        </div>
         <div class="lang-toggle" role="group" data-i18n-aria="a11y.lang" aria-label="Sprache wählen">
           <button class="lang-toggle__btn" data-lang="de" type="button" aria-pressed="true">DE</button>
           <button class="lang-toggle__btn" data-lang="en" type="button" aria-pressed="false">EN</button>
@@ -478,7 +467,6 @@ function injectChrome(){
   wireDrawer();
   wireConsent();
   wireLang();
-  wireCafePin();
   setLang(LANG);
 
   // Scroll-to-top button (long pages)
@@ -518,15 +506,6 @@ function wireConsent(){
   saveBtn.addEventListener("click",()=>store({necessary:true,stats:$("#ccStats").checked,marketing:$("#ccMark").checked,ts:Date.now()}));
 }
 
-function wireCafePin(){
-  const wrap=$("#cafePin"), btn=$("#cafePinBtn"), pop=$("#cafePop");
-  if(!wrap||!btn||!pop) return;
-  const close=()=>{ pop.hidden=true; btn.setAttribute("aria-expanded","false"); };
-  const open=()=>{ pop.hidden=false; btn.setAttribute("aria-expanded","true"); };
-  btn.addEventListener("click",e=>{ e.stopPropagation(); pop.hidden?open():close(); });
-  document.addEventListener("click",e=>{ if(!wrap.contains(e.target)) close(); });
-  document.addEventListener("keydown",e=>{ if(e.key==="Escape") close(); });
-}
 
 function wireNav(hasHero){
   const nav=$(".nav"), toggle=$("#navToggle"), links=$("#navLinks");
