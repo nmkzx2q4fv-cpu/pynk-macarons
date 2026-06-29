@@ -31,60 +31,47 @@
 <body data-page="shop">
   <a class="skip-link" href="#sortiment">Zum Sortiment springen</a>
 
-  <header class="pagehead">
+  <!-- CHOICE HERO -->
+  <section class="shop-hero" id="shopHero">
     <div class="wrap">
-      <p class="eyebrow eyebrow--plain" style="justify-content:center">Frisch gebacken</p>
-      <h1 class="h2">Unser Sortiment</h1>
-      <p class="lead">Jede Sorte als 15er-Box, fertige Mischboxen oder deine eigene Mischung – alles frisch aus Hamburg.</p>
-    </div>
-  </header>
+      <div class="shop-hero__head">
+        <p class="eyebrow eyebrow--plain" style="justify-content:center">Deine Box · Dein Geschmack</p>
+        <h1 class="h2">Wie soll deine Box aussehen?</h1>
+        <p class="lead">Wähle deinen Weg – wir backen frisch in Hamburg.</p>
+      </div>
 
-  <!-- PYNK MYSTERY BOX -->
-  <section class="section section--blush" id="mystery">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <p class="eyebrow">Schnell &amp; bunt</p>
-        <h2 class="h2">Fertige Mischboxen</h2>
-        <p class="lead">Bunt gemischt von uns – die schnellste Art zum Genießen oder Verschenken. Oder stell dir unten deine eigene Box zusammen.</p>
-      </div>
-      <div class="mystery-grid">
-        <article class="mystery-card reveal">
-          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mischbox mit 6 Macarons" loading="lazy" /></div>
-          <div class="mystery-card__body">
-            <h3>Mischbox · 6er</h3>
-            <p>6 bunt gemischte Macarons</p>
-            <div class="mystery-card__foot">
-              <span class="mystery-card__price">14,00 €</span>
-              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="14" type="button">In den Warenkorb</button>
-            </div>
+      <div class="choice-grid">
+        <button class="choice-card reveal" data-choice="pure" type="button">
+          <div class="choice-card__media">
+            <img src="img/mac-pistazie.jpg" alt="Sortenreine Box" />
           </div>
-        </article>
-        <article class="mystery-card is-featured reveal">
-          <span class="mystery-card__badge">Bestseller</span>
-          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mischbox mit 12 Macarons" loading="lazy" /></div>
-          <div class="mystery-card__body">
-            <h3>Mischbox · 12er</h3>
-            <p>12 bunt gemischte Macarons</p>
-            <div class="mystery-card__foot">
-              <span class="mystery-card__price">26,00 €</span>
-              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="26" type="button">In den Warenkorb</button>
-            </div>
+          <div class="choice-card__body">
+            <span class="choice-card__step">1</span>
+            <h2 class="choice-card__title">Eine Sorte</h2>
+            <p class="choice-card__desc">Wähle deinen Lieblingsgeschmack – wir füllen die ganze Box damit.</p>
+            <span class="choice-card__cta">Sorte wählen <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </div>
-        </article>
+        </button>
+        <button class="choice-card choice-card--mix reveal" data-choice="mix" type="button">
+          <div class="choice-card__media choice-card__media--multi">
+            <img src="img/mac-erdbeere.jpg" alt="" class="choice-card__mac choice-card__mac--1" />
+            <img src="img/mac-matcha.jpg" alt="" class="choice-card__mac choice-card__mac--2" />
+            <img src="img/bear-pink.jpg" alt="" class="choice-card__mac choice-card__mac--3" />
+            <img src="img/mac-lavendel.jpg" alt="Eigene Mischung" class="choice-card__mac choice-card__mac--4" />
+          </div>
+          <div class="choice-card__body">
+            <span class="choice-card__step">2</span>
+            <h2 class="choice-card__title">Eigene Mischung</h2>
+            <p class="choice-card__desc">Mix aus über 20 Sorten &amp; Bärchen – genau so, wie du es magst.</p>
+            <span class="choice-card__cta">Box zusammenstellen <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+        </button>
       </div>
-    </div>
-  </section>
 
-  <!-- SORTIMENT -->
-  <section class="section section--tight" id="sortiment">
-    <div class="wrap">
-      <div class="toolbar" role="tablist" aria-label="Sortiment filtern">
-        <button class="filter is-active" role="tab" aria-selected="true" data-filter="all">Alle</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="box" id="boxen">15er-Boxen</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Extras</button>
-        <button class="filter" role="tab" aria-selected="false" data-filter="gutschein" id="gutschein">Gutschein</button>
+      <div class="choice-quick reveal">
+        <span>Keine Lust zu wählen?</span>
+        <a href="#mystery" class="choice-quick__link">Fertige Mischbox bestellen →</a>
       </div>
-      <div class="grid" id="productGrid"></div>
     </div>
   </section>
 
@@ -143,6 +130,55 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- FERTIGE MISCHBOXEN -->
+  <section class="section" id="mystery">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow">Schnell &amp; bunt</p>
+        <h2 class="h2">Fertige Mischboxen</h2>
+        <p class="lead">Bunt gemischt von uns – die schnellste Art zum Genießen oder Verschenken.</p>
+      </div>
+      <div class="mystery-grid">
+        <article class="mystery-card reveal">
+          <div class="mystery-card__media"><img src="img/gift-luxe.jpg" alt="Mischbox mit 6 Macarons" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mischbox · 6er</h3>
+            <p>6 bunt gemischte Macarons</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">14,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="6" data-mystery-price="14" type="button">In den Warenkorb</button>
+            </div>
+          </div>
+        </article>
+        <article class="mystery-card is-featured reveal">
+          <span class="mystery-card__badge">Bestseller</span>
+          <div class="mystery-card__media"><img src="img/box-bears.jpg" alt="Mischbox mit 12 Macarons" loading="lazy" /></div>
+          <div class="mystery-card__body">
+            <h3>Mischbox · 12er</h3>
+            <p>12 bunt gemischte Macarons</p>
+            <div class="mystery-card__foot">
+              <span class="mystery-card__price">26,00 €</span>
+              <button class="btn btn--primary btn--sm" data-mystery="12" data-mystery-price="26" type="button">In den Warenkorb</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SORTIMENT -->
+  <section class="section section--tight" id="sortiment">
+    <div class="wrap">
+      <div class="toolbar" role="tablist" aria-label="Sortiment filtern">
+        <button class="filter is-active" role="tab" aria-selected="true" data-filter="all">Alle</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="box" id="boxen">15er-Boxen</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="addon">Extras</button>
+        <button class="filter" role="tab" aria-selected="false" data-filter="gutschein" id="gutschein">Gutschein</button>
+      </div>
+      <div class="grid" id="productGrid"></div>
     </div>
   </section>
 
