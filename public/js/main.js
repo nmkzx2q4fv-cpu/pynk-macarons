@@ -180,14 +180,25 @@ const PRODUCTS = [
   {id:GIFT_ID, cat:"gift", noShop:true, name:"Exklusiver Überraschungs-Macaron", flavour:"wildberry", price:0, img:"img/mac-wildberry.webp", desc:"Unser Geheim-Macaron – gibt es nur als Geschenk ab 50 € Bestellwert."}
 ];
 
-// Macaron-Tower — Stufen mit Festpreis (Platzhalter)
+// Macaron-Tower — 13 Stufen, ein Geschmack pro Stufe
 const TOWER = {
   id:"tower",
   tiers:[
-    {teller:3, price:120, label:"3 Teller", desc:"ca. 50 Macarons · für ~25 Gäste"},
-    {teller:4, price:180, label:"4 Teller", desc:"ca. 80 Macarons · für ~40 Gäste"},
-    {teller:5, price:240, label:"5 Teller", desc:"ca. 120 Macarons · für ~60 Gäste"}
-  ]
+    {stufe:1,  stk:3,  label:"Stufe 1",  desc:"3 Macarons · Krönung"},
+    {stufe:2,  stk:5,  label:"Stufe 2",  desc:"5 Macarons"},
+    {stufe:3,  stk:7,  label:"Stufe 3",  desc:"7 Macarons"},
+    {stufe:4,  stk:9,  label:"Stufe 4",  desc:"9 Macarons"},
+    {stufe:5,  stk:12, label:"Stufe 5",  desc:"12 Macarons"},
+    {stufe:6,  stk:14, label:"Stufe 6",  desc:"14 Macarons"},
+    {stufe:7,  stk:16, label:"Stufe 7",  desc:"16 Macarons"},
+    {stufe:8,  stk:18, label:"Stufe 8",  desc:"18 Macarons"},
+    {stufe:9,  stk:20, label:"Stufe 9",  desc:"20 Macarons"},
+    {stufe:10, stk:22, label:"Stufe 10", desc:"22 Macarons"},
+    {stufe:11, stk:22, label:"Stufe 11", desc:"22 Macarons"},
+    {stufe:12, stk:22, label:"Stufe 12", desc:"22 Macarons"},
+    {stufe:13, stk:22, label:"Stufe 13", desc:"22 Macarons · Basis"}
+  ],
+  totalMacarons: function(n){ return this.tiers.slice(0,n).reduce((s,t)=>s+t.stk,0); }
 };
 
 const macaronHTML = c => `<span class="macaron" style="--mc:${c}" aria-hidden="true"><span class="macaron__shell macaron__shell--top"></span><span class="macaron__filling"></span><span class="macaron__shell macaron__shell--bot"></span></span>`;
@@ -197,7 +208,16 @@ const macaronHTML = c => `<span class="macaron" style="--mc:${c}" aria-hidden="t
    ============================================================ */
 const NAVLINKS = [
   {href:"shop.html", label:"Shop", key:"shop"},
-  {href:"events.html", label:"Events", key:"events"},
+  {href:"events.html", label:"Anlässe", key:"events", sub:[
+    {href:"events.html?occ=Hochzeit#anfrage", label:"Hochzeit", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></svg>'},
+    {href:"events.html?occ=Geburtstag#anfrage", label:"Geburtstag", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>'},
+    {href:"events.html?occ=Babyshower#anfrage", label:"Baby Reveal & Shower", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>'},
+    {href:"events.html?occ=Taufe#anfrage", label:"Taufe", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20"/><path d="M2 12h20"/></svg>'},
+    {href:"events.html?occ=Jubilaeum#anfrage", label:"Jubiläum", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'},
+    {href:"events.html?occ=Firmen-Event#anfrage", label:"Firmen-Event", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>'},
+    {href:"events.html?occ=Valentinstag#anfrage", label:"Valentinstag", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></svg>'},
+    {href:"events.html#anfrage", label:"Sonderwunsch", icon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>'}
+  ]},
   {href:"cafe.html", label:"Café", key:"cafe"},
   {href:"partner.html", label:"Partner", key:"partner"}
 ];
@@ -233,7 +253,21 @@ function injectChrome(){
         <span>Macaron <em>by pynk</em></span>
       </a>
       <nav class="nav__links" id="navLinks" aria-label="Hauptnavigation">
-        ${NAVLINKS.map(l=>`<a href="${l.href}"${l.key===page?' aria-current="page"':''} data-i18n="nav.${l.key}">${l.label}</a>`).join("")}
+        ${NAVLINKS.map(l=>{
+          if(l.sub){
+            return `<div class="nav__dropdown">
+              <a href="${l.href}" class="nav__dropdown-trigger"${l.key===page?' aria-current="page"':''} data-i18n="nav.${l.key}">${l.label}
+                <svg class="nav__dd-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </a>
+              <div class="nav__dropdown-menu">
+                <div class="nav__dropdown-inner">
+                  ${l.sub.map(s=>`<a href="${s.href}" class="nav__dd-item">${s.icon||""}<span>${s.label}</span></a>`).join("")}
+                </div>
+              </div>
+            </div>`;
+          }
+          return `<a href="${l.href}"${l.key===page?' aria-current="page"':''} data-i18n="nav.${l.key}">${l.label}</a>`;
+        }).join("")}
       </nav>
       <div class="nav__actions">
         <div class="cafe-pin" id="cafePin">
@@ -335,24 +369,55 @@ function injectChrome(){
       <div class="drawer__scrim" id="drawerScrim"></div>
       <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Warenkorb">
         <div class="drawer__head">
-          <h2 data-i18n="cart.title">Dein Warenkorb</h2>
+          <div class="drawer__head-left">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <h2 data-i18n="cart.title">Dein Warenkorb</h2>
+            <span class="drawer__count" id="drawerCount"></span>
+          </div>
           <button class="drawer__close" id="drawerClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </div>
+
+        <div class="drawer__ship-bar" id="shipProgress" hidden>
+          <div class="drawer__ship-inner">
+            <p class="drawer__ship-label" id="shipLabel"></p>
+            <div class="drawer__ship-track"><span class="drawer__ship-fill" id="shipBar"></span></div>
+            <div class="drawer__ship-milestones">
+              <span class="drawer__milestone" data-at="39">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 4h13v11H1z"/><path d="M14 8h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></svg>
+                Gratis-Versand
+              </span>
+              <span class="drawer__milestone" data-at="50">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                Geschenk
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div class="drawer__body" id="cartItems"></div>
+
+        <div class="drawer__cross" id="cartCrossSell" hidden>
+          <p class="drawer__cross-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            Kunden kaufen auch
+          </p>
+          <div class="drawer__cross-items" id="crossSellItems"></div>
+        </div>
+
         <div class="drawer__foot">
-          <div class="ship-progress" id="shipProgress" hidden>
-            <p class="ship-progress__label" id="shipLabel"></p>
-            <div class="ship-progress__track"><span class="ship-progress__bar" id="shipBar"></span></div>
-            <p class="ship-progress__gift" id="giftLine" hidden></p>
+          <div class="drawer__total">
+            <span data-i18n="cart.subtotal">Zwischensumme</span>
+            <strong id="cartTotal">0,00 €</strong>
           </div>
-          <div class="upsell" id="cartUpsell" hidden>
-            <img src="img/mac-erdbeere.jpg" width="48" height="48" alt="Pynk Crunch" style="border-radius:8px;object-fit:cover">
-            <div class="upsell__body"><strong>Perfekt dazu</strong><p>Pynk Crunch · Macaron-Topping · 6,90 €</p></div>
-            <button class="btn btn--gold btn--sm" id="upsellAdd" type="button">+ Dazu</button>
+          <div class="drawer__trust-row">
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Sichere Bestellung</span>
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> Inkl. MwSt.</span>
           </div>
-          <div class="drawer__total"><span data-i18n="cart.subtotal">Zwischensumme</span><strong id="cartTotal">0,00 €</strong></div>
-          <p class="drawer__note" data-i18n="cart.note">Alle Preise inkl. MwSt. · Versand ab 39 € kostenlos · Abholung gratis</p>
-          <a class="btn btn--primary btn--block" id="toCheckout" href="checkout.html" data-i18n="cart.checkout">Zur Kasse</a>
+          <a class="btn btn--primary btn--block drawer__checkout-btn" id="toCheckout" href="checkout.html" data-i18n="cart.checkout">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            Zur Kasse
+          </a>
+          <p class="drawer__note" data-i18n="cart.note">Versand ab 39 € kostenlos · Abholung gratis</p>
           <label class="drawer__news" id="cartNews">
             <input type="checkbox" id="cartNewsCheck" />
             <span>Ja, ich möchte süße Post – neue Sorten & Aktionen per Newsletter.</span>
@@ -533,19 +598,35 @@ function updateCart(){
 
   const n=cartCount(), badge=$("#cartBadge");
   if(badge){ badge.textContent=n; badge.hidden=n===0; badge.classList.remove("pop"); void badge.offsetWidth; if(n)badge.classList.add("pop"); }
+
+  const drawerCount=$("#drawerCount");
+  if(drawerCount) drawerCount.textContent=n>0?`${n} Artikel`:"";
+
   const items=$("#cartItems");
   if(items){
     if(!cart.length){
-      items.innerHTML=`<div class="drawer__empty"><svg viewBox="0 0 24 24" width="54" height="54" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p>${tr("cart.empty")}</p></div>`;
+      items.innerHTML=`<div class="drawer__empty">
+        <div class="drawer__empty-icon">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <p class="drawer__empty-title">Dein Warenkorb ist leer</p>
+        <p class="drawer__empty-sub">Zeit für ein paar Macarons?</p>
+        <a href="shop.html" class="btn btn--primary btn--sm">Zum Shop</a>
+      </div>`;
     } else {
-      items.innerHTML=cart.map(i=>`
-        <div class="citem">
+      items.innerHTML=cart.map((i,idx)=>`
+        <div class="citem${i.gift?' citem--gift':''}" style="animation-delay:${idx*40}ms">
           <div class="citem__media">${i.thumb||""}</div>
           <div class="citem__info">
             <div class="citem__name">${i.name}</div>
             ${i.meta?`<div class="citem__meta">${i.meta}</div>`:""}
-            <div class="qty"><button data-dec="${i.key}" aria-label="Weniger">−</button><span>${i.qty}</span><button data-inc="${i.key}" aria-label="Mehr">+</button></div>
-            <button class="citem__remove" data-rm="${i.key}">${tr("cart.remove")}</button>
+            ${i.gift?'<span class="citem__gift-badge">Geschenk</span>':''}
+            <div class="citem__actions">
+              <div class="qty"><button data-dec="${i.key}" aria-label="Weniger">−</button><span>${i.qty}</span><button data-inc="${i.key}" aria-label="Mehr">+</button></div>
+              <button class="citem__remove" data-rm="${i.key}">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
           </div>
           <div class="citem__price">${EUR(i.price*i.qty)}</div>
         </div>`).join("");
@@ -554,7 +635,7 @@ function updateCart(){
   const total=cartTotal();
   const tot=$("#cartTotal"); if(tot) tot.textContent=EUR(total);
 
-  // Free-shipping progress + automatic gift
+  // Free-shipping progress
   const prog=$("#shipProgress");
   if(prog){
     if(!cart.length){ prog.hidden=true; }
@@ -564,21 +645,50 @@ function updateCart(){
       const bar=$("#shipBar"); if(bar) bar.style.width=pct+"%";
       const label=$("#shipLabel");
       if(label){
-        label.innerHTML = total>=FREE_SHIP
-          ? "🎉 <strong>Gratis-Versand</strong> freigeschaltet!"
-          : `Noch <strong>${EUR(FREE_SHIP-total)}</strong> bis zum Gratis-Versand`;
+        if(total>=GIFT_AT){
+          label.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <strong>Gratis-Versand</strong> + <strong>Geschenk</strong> freigeschaltet!';
+        } else if(total>=FREE_SHIP){
+          label.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <strong>Gratis-Versand</strong> freigeschaltet! Noch ' + EUR(GIFT_AT-total) + ' bis zum Geschenk';
+        } else {
+          label.innerHTML='Noch <strong>' + EUR(FREE_SHIP-total) + '</strong> bis zum kostenlosen Versand';
+        }
       }
-      const gift=$("#giftLine");
-      if(gift){
-        if(total>=GIFT_AT){ gift.hidden=false; gift.innerHTML="🎁 <strong>Geschenk inklusive</strong> – liegt deiner Box bei."; }
-        else { gift.hidden=false; gift.innerHTML=`🎁 Noch ${EUR(GIFT_AT-total)} bis zum Gratis-Geschenk`; }
-      }
+      $$(".drawer__milestone").forEach(m=>{
+        const at=+m.dataset.at;
+        m.classList.toggle("is-reached", total>=at);
+      });
+    }
+  }
+
+  // Cross-sell: show random products not in cart
+  const crossSell=$("#cartCrossSell"), crossItems=$("#crossSellItems");
+  if(crossSell && crossItems){
+    if(!cart.length){ crossSell.hidden=true; }
+    else {
+      const inCart=new Set(cart.map(i=>i.key));
+      const available=PRODUCTS.filter(p=>p.crossSell && !inCart.has("p-"+p.id));
+      const shopItems=PRODUCTS.filter(p=>p.cat==="box" && !p.custom && !inCart.has("p-"+p.id));
+      const pool=[...available];
+      while(pool.length<3 && shopItems.length){ pool.push(shopItems.splice(Math.floor(Math.random()*shopItems.length),1)[0]); }
+      const show=pool.slice(0,3);
+      if(show.length){
+        crossSell.hidden=false;
+        crossItems.innerHTML=show.map(p=>`
+          <div class="cross-item">
+            <img src="${p.img}" width="52" height="52" alt="${p.name}" loading="lazy">
+            <div class="cross-item__info">
+              <span class="cross-item__name">${p.name}</span>
+              <span class="cross-item__price">${EUR(p.price)}</span>
+            </div>
+            <button class="cross-item__add" data-cross="${p.id}" type="button" aria-label="${p.name} hinzufügen">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>`).join("");
+      } else { crossSell.hidden=true; }
     }
   }
 
   const co=$("#toCheckout"); if(co){ co.classList.toggle("is-disabled",!cart.length); }
-  const upsell=$("#cartUpsell");
-  if(upsell) upsell.hidden = !cart.length || cart.some(i=>i.key==="p-crunch");
   const fs=$("#formSummary"); if(fs) renderFormSummary();
   if($("#coItems")) renderCheckout();
 }
@@ -595,6 +705,15 @@ function wireDrawer(){
     const inc=e.target.closest("[data-inc]"),dec=e.target.closest("[data-dec]"),rm=e.target.closest("[data-rm]");
     if(inc)changeQty(inc.dataset.inc,1); if(dec)changeQty(dec.dataset.dec,-1); if(rm)removeItem(rm.dataset.rm);
   });
+  // Cross-sell clicks
+  document.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-cross]");
+    if(!btn) return;
+    const p=PRODUCTS.find(x=>x.id===btn.dataset.cross);
+    if(!p) return;
+    addToCart({key:"p-"+p.id,name:p.name,meta:({box:"15er-Box",addon:"Add-on",gutschein:"Gutschein"})[p.cat]||"",price:p.price,thumb:`<img src="${p.img}" alt="">`});
+    toast(p.name+" hinzugefügt");
+  });
   // Newsletter opt-in (persist choice)
   const news=$("#cartNewsCheck");
   if(news){
@@ -602,6 +721,20 @@ function wireDrawer(){
     news.addEventListener("change",()=>{ try{ localStorage.setItem("pynk_news", news.checked?"1":"0"); }catch(e){} if(news.checked && typeof toast==="function") toast("Danke! Du bekommst süße Post."); });
   }
   window.openDrawer=open;
+}
+
+function wireDropdowns(){
+  $$(".nav__dropdown").forEach(dd=>{
+    const trigger=dd.querySelector(".nav__dropdown-trigger");
+    const menu=dd.querySelector(".nav__dropdown-menu");
+    if(!trigger||!menu) return;
+    let hoverTimeout;
+    dd.addEventListener("mouseenter",()=>{clearTimeout(hoverTimeout); dd.classList.add("is-open");});
+    dd.addEventListener("mouseleave",()=>{hoverTimeout=setTimeout(()=>dd.classList.remove("is-open"),200);});
+    trigger.addEventListener("click",e=>{
+      if(window.innerWidth<=860){ e.preventDefault(); dd.classList.toggle("is-open"); }
+    });
+  });
 }
 
 /* fly-to-cart */
@@ -924,9 +1057,13 @@ function coPricing(){
 }
 function renderCheckout(){
   const list=$("#coItems"); if(!list) return;
+  const countEl=$("#coCount");
   if(!cart.length){
-    list.innerHTML=`<p class="co-empty">Dein Warenkorb ist leer. <a href="shop.html">Zum Shop →</a></p>`;
+    list.innerHTML=`<div class="co-empty"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Dein Warenkorb ist leer.</p><a href="shop.html">Zum Shop →</a></div>`;
+    if(countEl) countEl.textContent="0";
   } else {
+    const totalQty=cart.reduce((s,i)=>s+i.qty,0);
+    if(countEl) countEl.textContent=totalQty+" Artikel";
     list.innerHTML=cart.map(i=>`<div class="co-line"><span class="co-line__name">${i.qty}× ${i.name}${i.meta?`<small>${i.meta}</small>`:""}</span><span class="co-line__price">${EUR(i.price*i.qty)}</span></div>`).join("");
   }
   const p=coPricing(), set=(id,v)=>{const e=$("#"+id); if(e)e.textContent=v;};
@@ -1070,6 +1207,7 @@ function wireRipples(){
    ============================================================ */
 document.addEventListener("DOMContentLoaded",()=>{
   injectChrome();
+  wireDropdowns();
   updateCart();
   renderProducts();
   wireGrid();
@@ -1080,7 +1218,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   wireNewsletter();
   initCheckout();
   wirePDP();
-  wireUpsell();
   wireMystery();
   wireCheckoutExtras();
   observeReveals();
