@@ -911,35 +911,209 @@ function wirePDP(){
 }
 
 /* ============================================================
-   BOX BUILDER
+   BOX KONFIGURATOR (6er / 15er, Sortenrein + Eigene Mischung)
    ============================================================ */
-let boxSize=6, boxPrice=14, boxItems=[];
-const BOX_PRICES={6:14,12:26};
-function buildPalette(){
-  const pal=$("#palette"); if(!pal)return;
-  const keys=["erdbeere","himbeere","pistazie","matcha","limette","zitrone","mango","vanille","lavendel","kokos","schokolade","karamell","latte","wildberry"];
-  pal.innerHTML=keys.map(k=>`<button class="chip" data-flav="${k}"><span class="chip__dot" style="background:${FC[k]}"></span>${FLAVOURS[k]}</button>`).join("");
-}
-function renderSlots(){
-  const slots=$("#boxSlots"); if(!slots)return;
-  slots.style.gridTemplateColumns=`repeat(${boxSize===6?3:4},1fr)`;
-  slots.innerHTML="";
-  for(let i=0;i<boxSize;i++){
-    const d=document.createElement("div"); d.className="slot";
-    if(boxItems[i]){ d.classList.add("slot--filled","drop"); d.innerHTML=macaronHTML(FC[boxItems[i]]); d.dataset.idx=i; d.setAttribute("role","button"); d.setAttribute("aria-label",FLAVOURS[boxItems[i]]+" entfernen"); }
-    slots.appendChild(d);
+const BOX_PRICES = {6:14, 15:29};
+
+const CFG_ITEMS = [
+  ...BOX_FLAVOURS.map(b => ({
+    key:b.flavour, name:FLAVOURS[b.flavour]||b.name, img:b.img, color:FC[b.flavour], type:"macaron"
+  })),
+  {key:"bear-pink",     name:"Bärchen Rosa",     img:"img/bear-pink.jpg",     color:"#EF7DA0", type:"bear"},
+  {key:"bear-green",    name:"Bärchen Grün",     img:"img/bear-green.webp",   color:"#A9C77A", type:"bear"},
+  {key:"bear-lavender", name:"Bärchen Lavendel", img:"img/bear-lavender.jpg", color:"#BFA0D6", type:"bear"},
+  {key:"bear-blue",     name:"Bärchen Blau",     img:"img/bear-blue.jpg",     color:"#A7D4E6", type:"bear"}
+];
+
+let cfgMode = "pure";
+let cfgSize = 6;
+let cfgItems = [];
+let cfgPureFlavour = null;
+
+function cfgGetPrice(){ return BOX_PRICES[cfgSize]; }
+
+function cfgRenderSlots(){
+  const grid = $("#cfgSlots"); if(!grid) return;
+  grid.setAttribute("data-slots", cfgSize);
+  grid.innerHTML = "";
+  for(let i = 0; i < cfgSize; i++){
+    const d = document.createElement("div");
+    d.className = "cfg-slot";
+    if(cfgItems[i]){
+      const it = CFG_ITEMS.find(c => c.key === cfgItems[i]);
+      if(it){
+        d.classList.add("cfg-slot--filled","drop");
+        d.innerHTML = `<img src="${it.img}" alt="${it.name}" loading="lazy">`;
+        d.dataset.idx = i;
+        d.setAttribute("role","button");
+        d.setAttribute("aria-label", it.name + " entfernen");
+      }
+    }
+    grid.appendChild(d);
   }
-  $("#boxCount").textContent=boxItems.length;
-  $("#boxMax").textContent=boxSize;
-  $("#addBoxBtn").disabled=boxItems.length===0;
+  $("#cfgCount").textContent = cfgItems.length;
+  $("#cfgMax").textContent = cfgSize;
+  $("#cfgTotal").textContent = EUR(cfgGetPrice());
+  const addBtn = $("#cfgAddBtn");
+  if(addBtn) addBtn.disabled = cfgItems.length === 0;
 }
+
+function cfgRenderFlavors(){
+  const container = $("#cfgFlavors"); if(!container) return;
+  const flavors = CFG_ITEMS.filter(c => c.type === "macaron");
+  container.innerHTML = flavors.map(f => `
+    <button class="cfg-flav${cfgPureFlavour === f.key ? ' is-active':''}" data-flav="${f.key}" type="button">
+      <div class="cfg-flav__img"><img src="${f.img}" alt="${f.name}" loading="lazy"></div>
+      <span class="cfg-flav__name"><span class="cfg-flav__dot" style="background:${f.color}"></span>${f.name}</span>
+    </button>
+  `).join("");
+}
+
+function cfgRenderPalette(){
+  const container = $("#cfgPalette"); if(!container) return;
+  container.innerHTML = CFG_ITEMS.map(c => `
+    <button class="cfg-chip" data-chip="${c.key}" type="button">
+      <div class="cfg-chip__img"><img src="${c.img}" alt="${c.name}" loading="lazy"></div>
+      <span class="cfg-chip__label">${c.name}</span>
+    </button>
+  `).join("");
+}
+
+function cfgSelectPure(flavKey){
+  cfgPureFlavour = flavKey;
+  cfgItems = Array(cfgSize).fill(flavKey);
+  $$(".cfg-flav").forEach(b => b.classList.toggle("is-active", b.dataset.flav === flavKey));
+  cfgRenderSlots();
+}
+
+function cfgSwitchSize(size){
+  cfgSize = size;
+  $$(".cfg-size").forEach(b => {
+    const on = +b.dataset.size === size;
+    b.classList.toggle("is-active", on);
+    b.setAttribute("aria-checked", String(on));
+  });
+  if(cfgMode === "pure" && cfgPureFlavour){
+    cfgItems = Array(cfgSize).fill(cfgPureFlavour);
+  } else {
+    if(cfgItems.length > cfgSize) cfgItems = cfgItems.slice(0, cfgSize);
+  }
+  cfgRenderSlots();
+}
+
+function cfgSwitchMode(mode){
+  cfgMode = mode;
+  $$(".cfg-tab").forEach(b => {
+    const on = b.dataset.cfgTab === mode;
+    b.classList.toggle("is-active", on);
+    b.setAttribute("aria-selected", String(on));
+  });
+  const purePanel = $("#cfgPure"), mixPanel = $("#cfgMix");
+  if(mode === "pure"){
+    if(purePanel) purePanel.hidden = false;
+    if(mixPanel) mixPanel.hidden = true;
+    if(cfgPureFlavour) cfgSelectPure(cfgPureFlavour);
+    else { cfgItems = []; cfgRenderSlots(); }
+  } else {
+    if(purePanel) purePanel.hidden = true;
+    if(mixPanel) mixPanel.hidden = false;
+    cfgPureFlavour = null;
+    cfgItems = [];
+    cfgRenderSlots();
+  }
+}
+
+function wireConfigurator(){
+  if(!$("#cfgSlots")) return;
+
+  cfgRenderFlavors();
+  cfgRenderPalette();
+  cfgRenderSlots();
+
+  $$("[data-cfg-tab]").forEach(b => b.addEventListener("click", () => cfgSwitchMode(b.dataset.cfgTab)));
+
+  $$("[data-size]").forEach(b => b.addEventListener("click", () => cfgSwitchSize(+b.dataset.size)));
+
+  const flavContainer = $("#cfgFlavors");
+  if(flavContainer) flavContainer.addEventListener("click", e => {
+    const btn = e.target.closest("[data-flav]"); if(!btn) return;
+    cfgSelectPure(btn.dataset.flav);
+  });
+
+  const palContainer = $("#cfgPalette");
+  if(palContainer) palContainer.addEventListener("click", e => {
+    const btn = e.target.closest("[data-chip]"); if(!btn) return;
+    if(cfgItems.length >= cfgSize){ toast(`Die ${cfgSize}er-Box ist voll`); return; }
+    cfgItems.push(btn.dataset.chip);
+    cfgRenderSlots();
+  });
+
+  $("#cfgSlots").addEventListener("click", e => {
+    const s = e.target.closest(".cfg-slot--filled"); if(!s) return;
+    const idx = +s.dataset.idx;
+    cfgItems.splice(idx, 1);
+    if(cfgMode === "pure"){ cfgPureFlavour = null; cfgRenderFlavors(); }
+    cfgRenderSlots();
+  });
+
+  const addBtn = $("#cfgAddBtn");
+  if(addBtn) addBtn.addEventListener("click", () => {
+    if(!cfgItems.length) return;
+    const counts = {};
+    cfgItems.forEach(k => counts[k] = (counts[k]||0) + 1);
+    const meta = Object.entries(counts).map(([k,n]) => {
+      const it = CFG_ITEMS.find(c => c.key === k);
+      return `${n}× ${it ? it.name : k}`;
+    }).join(", ");
+    const label = cfgMode === "pure"
+      ? `${cfgSize}er Box · ${CFG_ITEMS.find(c=>c.key===cfgPureFlavour)?.name||"Sortenrein"}`
+      : `${cfgSize}er Box (eigene Mischung)`;
+    const thumbIt = CFG_ITEMS.find(c => c.key === cfgItems[0]);
+    flyToCart($("#cfgBox"));
+    addToCart({
+      key: "cfg-" + Date.now(),
+      name: label,
+      meta: meta,
+      price: cfgGetPrice(),
+      thumb: thumbIt ? `<img src="${thumbIt.img}" alt="">` : macaronHTML("#D81277")
+    });
+    toast(label + " hinzugefügt");
+    if(typeof openDrawer === "function") openDrawer();
+    cfgItems = [];
+    if(cfgMode === "pure"){ cfgPureFlavour = null; cfgRenderFlavors(); }
+    cfgRenderSlots();
+  });
+}
+
+/* Legacy builder compat (homepage gravity builder) */
 function wireBuilder(){
-  if(!$("#boxSlots"))return;
+  if($("#cfgSlots")){ wireConfigurator(); return; }
+  if(!$("#boxSlots")) return;
+  const boxPrices = {6:14, 12:26};
+  let boxSize=6, boxPrice=14, boxItems=[];
+  function buildPalette(){
+    const pal=$("#palette"); if(!pal)return;
+    const keys=["erdbeere","himbeere","pistazie","matcha","limette","zitrone","mango","vanille","lavendel","kokos","schokolade","karamell","latte","wildberry"];
+    pal.innerHTML=keys.map(k=>`<button class="chip" data-flav="${k}"><span class="chip__dot" style="background:${FC[k]}"></span>${FLAVOURS[k]}</button>`).join("");
+  }
+  function renderSlots(){
+    const slots=$("#boxSlots"); if(!slots)return;
+    slots.style.gridTemplateColumns=`repeat(${boxSize===6?3:4},1fr)`;
+    slots.innerHTML="";
+    for(let i=0;i<boxSize;i++){
+      const d=document.createElement("div"); d.className="slot";
+      if(boxItems[i]){ d.classList.add("slot--filled","drop"); d.innerHTML=macaronHTML(FC[boxItems[i]]); d.dataset.idx=i; d.setAttribute("role","button"); d.setAttribute("aria-label",FLAVOURS[boxItems[i]]+" entfernen"); }
+      slots.appendChild(d);
+    }
+    $("#boxCount").textContent=boxItems.length;
+    $("#boxMax").textContent=boxSize;
+    $("#addBoxBtn").disabled=boxItems.length===0;
+  }
   buildPalette();
   $$(".size").forEach(b=>b.addEventListener("click",()=>{
     $$(".size").forEach(x=>{x.classList.remove("is-active");x.setAttribute("aria-checked","false");});
     b.classList.add("is-active"); b.setAttribute("aria-checked","true");
-    boxSize=+b.dataset.size; boxPrice=BOX_PRICES[boxSize]; if(boxItems.length>boxSize)boxItems=boxItems.slice(0,boxSize); renderSlots();
+    boxSize=+b.dataset.size; boxPrice=boxPrices[boxSize]; if(boxItems.length>boxSize)boxItems=boxItems.slice(0,boxSize); renderSlots();
   }));
   $("#palette").addEventListener("click",e=>{ const c=e.target.closest("[data-flav]"); if(!c)return; if(boxItems.length>=boxSize){toast(`Die ${boxSize}er-Box ist voll`);return;} boxItems.push(c.dataset.flav); renderSlots(); });
   $("#boxSlots").addEventListener("click",e=>{ const s=e.target.closest(".slot--filled"); if(!s)return; boxItems.splice(+s.dataset.idx,1); renderSlots(); });
